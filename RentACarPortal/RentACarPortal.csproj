@@ -7,14 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Update="Views\Fleet\Index.cshtml">
+    <Content Update="Views\Home\Index.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Home\" />
+    <None Include="wwwroot\css\styles.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Fleet\" />
   </ItemGroup>
 
 </Project>
