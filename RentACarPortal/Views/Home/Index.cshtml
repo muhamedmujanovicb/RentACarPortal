@@ -15,14 +15,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="~/css/styles.css" rel="stylesheet">
 </head>
 <body>
 
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/Home/Index">
                 <span class="brand-icon"><i class="bi bi-car-front-fill"></i></span>
                 <span class="brand-text">FleetDrive</span>
             </a>
@@ -39,15 +39,12 @@
                         <a class="nav-link" href="#overview">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#fleet">Our Fleet</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                 </ul>
                 <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-outline-primary btn-sm px-4">Log In</a>
-                    <a href="#" class="btn btn-primary btn-sm px-4">Sign Up</a>
+                    <a href="/Login/LoginForm" class="btn btn-outline-primary btn-sm px-4">Log In</a>
+                    <a href="/SignUp/SignUpForm" class="btn btn-primary btn-sm px-4">Sign Up</a>
                 </div>
             </div>
         </div>
