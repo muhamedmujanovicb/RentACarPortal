@@ -17,8 +17,4 @@
     <None Include="wwwroot\css\styles.css" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Fleet\" />
-  </ItemGroup>
-
 </Project>

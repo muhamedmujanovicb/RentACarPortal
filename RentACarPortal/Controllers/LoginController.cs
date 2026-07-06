@@ -19,7 +19,7 @@ namespace RentACarPortal.Controllers
 
             if (matchingUser != null || (username == "admin" && password == "123"))
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = username }); ;
             }
 
             ViewBag.ErrorMessage = "Invalid username or password";
