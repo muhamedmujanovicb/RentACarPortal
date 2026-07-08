@@ -14,12 +14,24 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult ProcessLogin(string username, string password)
         {
+            if (username == "admin" && password == "123")
+            {
+                return RedirectToAction("Dashboard", "Fleet", new { loggedInUser = "Admin" });
+            }
+
             var matchingUser = SignUpController.MockUserDatabase
         .FirstOrDefault(u => u.Username == username && u.Password == password);
 
-            if (matchingUser != null || (username == "admin" && password == "123"))
+            if (matchingUser != null)
             {
-                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = username }); ;
+                if (matchingUser.IsAdmin)
+                {
+                    return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingUser.Username });
+                }
+                else
+                {
+                    return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = matchingUser.Username });
+                }
             }
 
             ViewBag.ErrorMessage = "Invalid username or password";

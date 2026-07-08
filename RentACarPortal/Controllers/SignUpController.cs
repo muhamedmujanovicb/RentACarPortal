@@ -14,9 +14,9 @@ namespace RentACarPortal.Controllers
         public static List<RentACarPortal.Models.User> MockUserDatabase = new List<RentACarPortal.Models.User>();
 
         [HttpPost]
-        public IActionResult ProcessSignUp(string username, string password)
+        public IActionResult ProcessSignUp(string username, string password, bool isAdmin)
         {
-            var newUser = new RentACarPortal.Models.User(username, password, false);
+            var newUser = new RentACarPortal.Models.User(username, password, isAdmin);
             MockUserDatabase.Add(newUser);
 
             return RedirectToAction("LoginForm", "Login");
