@@ -9,6 +9,7 @@
         public string Model { get; set; } = string.Empty;
         public int Year { get; set; }
         public int NumberOfSeats { get; set; }
+        public bool IsDiesel { get; set; }
         public double FuelEfficiency { get; set; }
         public double FuelTankSize { get; set; }
         public string TypeOfVehicle { get; set; }

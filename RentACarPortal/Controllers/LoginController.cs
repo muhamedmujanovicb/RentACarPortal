@@ -16,7 +16,7 @@ namespace RentACarPortal.Controllers
         {
             if (username == "admin" && password == "123")
             {
-                return RedirectToAction("Dashboard", "Fleet", new { loggedInUser = "Admin" });
+                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = "Admin" });
             }
 
             var matchingUser = SignUpController.MockUserDatabase

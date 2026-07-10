@@ -583,3 +583,80 @@ body {
         gap: 1rem;
     }
 }
+
+/* =========================================
+   Recommendor Form Layouts (Spacious UI)
+   ========================================= */
+
+.form-section-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.25rem; 
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+}
+
+.form-section-header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.form-section-icon {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.form-section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 0.25rem;
+}
+
+.form-section-header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select, .input-group-text {
+    padding: 0.75rem 1rem; 
+    font-size: 0.95rem;
+    border-color: var(--border);
+}
+
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        border-color: var(--primary);
+    }
+
+.recommendor-actions {
+    text-align: right;
+    margin-top: 1rem;
+    padding-top: 2rem;
+}
+
+.btn-recommend {
+    padding: 0.85rem 2rem;
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 10px;
+}

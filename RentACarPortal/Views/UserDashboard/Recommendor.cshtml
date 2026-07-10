@@ -1,0 +1,316 @@
+﻿@{
+    ViewData["Title"] = "Recommendor";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendor — FleetDrive</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="~/css/styles.css" rel="stylesheet" asp-append-version="true">
+</head>
+<body class="dashboard-body">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+                <span class="brand-icon"><i class="bi bi-car-front-fill"></i></span>
+                <span class="brand-text">FleetDrive</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="user-dashboard.html">My Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="recommendor.html">Recommendor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="dashboard-user d-none d-md-inline">
+                        <i class="bi bi-person-circle me-1"></i> User
+                    </span>
+                    <a href="login.html" class="btn btn-outline-primary btn-sm px-4">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Recommendor -->
+    <main class="dashboard-page">
+        <div class="container">
+
+            <header class="dashboard-header">
+                <div>
+                    <span class="section-label">Vehicle Recommendor</span>
+                    <h1 class="dashboard-title">Find Your Ideal Vehicle</h1>
+                    <p class="dashboard-subtitle">Tell us about your preferences and trip details to get a tailored recommendation.</p>
+                </div>
+                <div class="dashboard-header-badge">
+                    <i class="bi bi-stars"></i>
+                </div>
+            </header>
+
+            <form class="recommendor-form" action="#" method="post">
+
+                <!-- Rental Firm Selection -->
+                <div class="form-section-card mb-4">
+                    <div class="form-section-header">
+                        <div class="form-section-icon icon-contract">
+                            <i class="bi bi-building"></i>
+                        </div>
+                        <div>
+                            <h2>Rental Firm</h2>
+                            <p>Select your preferred car rental company</p>
+                        </div>
+                    </div>
+                    <div class="form-section-body">
+                        <div class="mb-0">
+                            <label for="rentalFirm" class="form-label">Company</label>
+                            <select class="form-select" id="rentalFirm" name="rentalFirm" required>
+                                <option value="global-auto" selected>Global Auto</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Vehicle Related -->
+                    <div class="col-lg-6">
+                        <div class="form-section-card h-100">
+                            <div class="form-section-header">
+                                <div class="form-section-icon icon-fleet">
+                                    <i class="bi bi-car-front"></i>
+                                </div>
+                                <div>
+                                    <h2>Vehicle Related</h2>
+                                    <p>Your preferred vehicle features and requirements</p>
+                                </div>
+                            </div>
+
+                            <div class="form-section-body">
+                                <div class="mb-3">
+                                    <label for="seats" class="form-label">Number of Seats</label>
+                                    <input type="number" class="form-control" id="seats" name="seats"
+                                           min="2" max="9" placeholder="e.g. 5" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="fuelConsumption" class="form-label">Target Fuel Consumption (L/100km)</label>
+                                    <input type="number" class="form-control" id="fuelConsumption" name="fuelConsumption"
+                                           min="0" step="0.1" placeholder="e.g. 5.5" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="dailyRate" class="form-label">Preferred Daily Rental Rate</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+                                        <input type="number" class="form-control" id="dailyRate" name="dailyRate"
+                                               min="0" step="1" placeholder="e.g. 45" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Children Safety</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="childrenSafety" name="childrenSafety">
+                                        <label class="form-check-label" for="childrenSafety">Requires children safety features</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="driveTerrain" class="form-label">Drive Terrain Type</label>
+                                    <select class="form-select" id="driveTerrain" name="driveTerrain" required>
+                                        <option value="" disabled selected>Select drivetrain</option>
+                                        <option value="2wd">2WD — front or rear wheel drive</option>
+                                        <option value="awd">AWD — all-wheel drive</option>
+                                        <option value="4wd">4WD — four-wheel drive</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="bootSpace" class="form-label">Boot Space</label>
+                                    <select class="form-select" id="bootSpace" name="bootSpace" required>
+                                        <option value="" disabled selected>Select boot size</option>
+                                        <option value="small">Small</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="big">Big</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">GPS</label>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="hasGps" name="hasGps">
+                                        <label class="form-check-label" for="hasGps">Needs built-in GPS navigation</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-0">
+                                    <label class="form-label">AC Type</label>
+                                    <div class="d-flex gap-3 flex-wrap">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="acType" id="acSingle" value="single" required>
+                                            <label class="form-check-label" for="acSingle">Single zone</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="acType" id="acDual" value="dual">
+                                            <label class="form-check-label" for="acDual">Dual zone</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trip Related -->
+                    <div class="col-lg-6">
+                        <div class="form-section-card h-100">
+                            <div class="form-section-header">
+                                <div class="form-section-icon icon-recommendor">
+                                    <i class="bi bi-signpost-split"></i>
+                                </div>
+                                <div>
+                                    <h2>Trip Related</h2>
+                                    <p>Details about your journey and travel conditions</p>
+                                </div>
+                            </div>
+
+                            <div class="form-section-body">
+                                <div class="mb-3">
+                                    <label for="terrainType" class="form-label">Expected Terrain</label>
+                                    <select class="form-select" id="terrainType" name="terrainType" required>
+                                        <option value="" disabled selected>Select terrain type</option>
+                                        <option value="city">City streets</option>
+                                        <option value="highway">Highway</option>
+                                        <option value="offroad">Off-road mountains</option>
+                                        <option value="snow">Snow</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="tripDuration" class="form-label">Trip Duration (Days)</label>
+                                    <input type="number" class="form-control" id="tripDuration" name="tripDuration"
+                                           min="1" placeholder="e.g. 7" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="passengerCount" class="form-label">Passenger Count</label>
+                                    <input type="number" class="form-control" id="passengerCount" name="passengerCount"
+                                           min="1" max="9" placeholder="e.g. 4" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Passengers</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="hasChildren" name="hasChildren">
+                                        <label class="form-check-label" for="hasChildren">Has children as passengers</label>
+                                    </div>
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" id="hasElderly" name="hasElderly">
+                                        <label class="form-check-label" for="hasElderly">Has elderly as passengers</label>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="distance" class="form-label">Distance Expected to Travel (km)</label>
+                                    <input type="number" class="form-control" id="distance" name="distance"
+                                           min="1" placeholder="e.g. 500" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="budget" class="form-label">Total Budget</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-currency-euro"></i></span>
+                                        <input type="number" class="form-control" id="budget" name="budget"
+                                               min="0" step="1" placeholder="Enter your total budget" required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="weather" class="form-label">Weather Forecast for the Region</label>
+                                    <select class="form-select" id="weather" name="weather" required>
+                                        <option value="" disabled selected>Select expected weather</option>
+                                        <option value="sunny">Sunny</option>
+                                        <option value="heavy-rains">Heavy rains</option>
+                                        <option value="blizzard">Blizzard</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Cost of Fuel in the Country</label>
+                                    <div class="row g-2">
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Diesel</span>
+                                                <input type="number" class="form-control" id="fuelDiesel" name="fuelDiesel"
+                                                       min="0" step="0.01" placeholder="per liter" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text">Petrol</span>
+                                                <input type="number" class="form-control" id="fuelPetrol" name="fuelPetrol"
+                                                       min="0" step="0.01" placeholder="per liter" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-0">
+                                    <label for="highwayCosts" class="form-label">Highway Costs</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-sign-turn-right"></i></span>
+                                        <input type="number" class="form-control" id="highwayCosts" name="highwayCosts"
+                                               min="0" step="0.01" placeholder="Enter expected highway toll costs" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendor-actions">
+                    <button type="submit" class="btn btn-primary btn-recommend">
+                        <i class="bi bi-stars me-2"></i>Get Recommendation
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </main>
+
+    <footer class="footer py-4 mt-auto">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="footer-brand"><i class="bi bi-car-front-fill me-2"></i>FleetDrive</span>
+                    <span class="text-muted ms-2">&copy; 2026 FleetDrive. All rights reserved.</span>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="footer-link me-3">Privacy Policy</a>
+                    <a href="#" class="footer-link me-3">Terms of Service</a>
+                    <a href="#" class="footer-link">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
