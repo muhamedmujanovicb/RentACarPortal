@@ -1,10 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Models;
+using RentACarPortal.Data;
+using System.Linq;
 
 namespace RentACarPortal.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly AppDbContext _context;
+
+        public LoginController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult LoginForm()
         {
@@ -14,17 +23,11 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult ProcessLogin(string username, string password)
         {
-            if (username == "admin" && password == "123")
-            {
-                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = "Admin" });
-            }
-
-            var matchingUser = SignUpController.MockUserDatabase
-        .FirstOrDefault(u => u.Username == username && u.Password == password);
+            var matchingUser = _context.Users.FirstOrDefault(u=> u.Username == username && u.Password == password);
 
             if (matchingUser != null)
             {
-                if (matchingUser.IsAdmin)
+                if(matchingUser.IsAdmin)
                 {
                     return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingUser.Username });
                 }

@@ -1,5 +1,5 @@
 ﻿@{
-	ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Dashboard";
 }
 
 <!DOCTYPE html>
@@ -17,6 +17,7 @@
 </head>
 <body class="dashboard-body">
 
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
@@ -63,7 +64,7 @@
 
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
-                    <a href="fleet-management.html" class="dashboard-card">
+                    <a href="@Url.Action("FleetManager", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
                         <div class="dashboard-card-icon icon-fleet">
                             <i class="bi bi-truck"></i>
                         </div>
@@ -102,13 +103,13 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="user-management.html" class="dashboard-card">
-                        <div class="dashboard-card-icon icon-users">
-                            <i class="bi bi-people"></i>
+                    <a href="fleet-overview.html" class="dashboard-card">
+                        <div class="dashboard-card-icon icon-overview">
+                            <i class="bi bi-grid"></i>
                         </div>
                         <div class="dashboard-card-content">
-                            <h3>User Management</h3>
-                            <p>Manage customer accounts, roles, permissions, and access levels.</p>
+                            <h3>Fleet Overview</h3>
+                            <p>Get a comprehensive, high-level view of all vehicles and their current statuses.</p>
                         </div>
                         <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>
                     </a>

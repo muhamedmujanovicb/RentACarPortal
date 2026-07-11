@@ -1,23 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RentACarPortal.Data;
 using RentACarPortal.Models;
 
 namespace RentACarPortal.Controllers
 {
     public class SignUpController : Controller
     {
+        private readonly AppDbContext _context;
+
+        public SignUpController(AppDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpGet]
         public IActionResult SignUpForm()
         {
             return View();
         }
 
-        public static List<RentACarPortal.Models.User> MockUserDatabase = new List<RentACarPortal.Models.User>();
-
         [HttpPost]
-        public IActionResult ProcessSignUp(string username, string password, bool isAdmin)
+        public IActionResult ProcessSignUp(User newUser)
         {
-            var newUser = new RentACarPortal.Models.User(username, password, isAdmin);
-            MockUserDatabase.Add(newUser);
+            _context.Users.Add(newUser);
+            _context.SaveChanges();
 
             return RedirectToAction("LoginForm", "Login");
         }

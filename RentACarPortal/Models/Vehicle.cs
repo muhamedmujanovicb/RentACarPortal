@@ -3,6 +3,8 @@
     public class Vehicle
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
 
 
         public string Make { get; set; } = string.Empty;
@@ -26,6 +28,8 @@
         public bool HasInsurance { get; set; }
         public string Status { get; set; } = "Available";
         public string RegisterNumberOfVehicle { get; set; }
+
+        public Vehicle() { }
     }
    
 }
