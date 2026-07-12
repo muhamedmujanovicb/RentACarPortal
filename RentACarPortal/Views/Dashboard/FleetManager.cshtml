@@ -66,6 +66,7 @@
             </header>
 
             <form class="recommendor-form" asp-controller="FleetManager" asp-action="NewVehicle" method="post">
+                <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
 
                 <div class="row g-4">
                     <!-- Vehicle Related Section -->
