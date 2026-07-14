@@ -54,7 +54,6 @@
   <!-- Fleet Overview -->
   <main class="dashboard-page">
     <div class="container">
-            <p>Debug: Model count is @Model.Count</p>
 
       <header class="dashboard-header">
         <div>
@@ -68,25 +67,75 @@
       </header>
 
       <div class="row g-4">
-
-                <div class="row g-4">
                     @foreach (var vehicle in Model)
                     {
                         <div class="col-lg-6 col-xl-4">
                             <div class="form-section-card h-100 d-flex flex-column" style="padding: 1.75rem;">
-                                <h3 class="fw-bold mb-1 fs-5 text-dark">
-                                    @vehicle.Make @vehicle.Model
-                                    <span class="text-muted fw-normal ms-1 fs-6">@vehicle.Year</span>
-                                </h3>
-                                <div class="d-flex gap-2 align-items-center mt-2">
-                                    <span class="badge bg-primary text-white text-uppercase">@vehicle.TypeOfVehicle</span>
-                                    <span class="badge bg-light text-dark border font-monospace">@vehicle.RegisterNumberOfVehicle</span>
+                                <!-- Header -->
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                        <h3 class="fw-bold mb-1 fs-5 text-dark">@vehicle.Make @vehicle.Model <span class="text-muted fw-normal ms-1 fs-6">@vehicle.Year</span></h3>
+                                        <div class="d-flex gap-2 align-items-center mt-2">
+                                            <span class="badge bg-primary text-white text-uppercase" style="letter-spacing: 0.05em;">@vehicle.TypeOfVehicle</span>
+                                            <span class="badge bg-light text-dark border font-monospace">@vehicle.RegisterNumberOfVehicle</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <h4 class="text-primary fw-bold mb-0">€@vehicle.DailyRate</h4>
+                                        <span class="text-muted small">/day</span>
+                                    </div>
                                 </div>
 
-                                <div class="text-end">
-                                    <h4 class="text-primary fw-bold mb-0">€@vehicle.DailyRate</h4>
-                                    <span class="text-muted small">/day</span>
+                                <hr class="text-muted opacity-25 mb-3 mt-1">
+
+                                <!-- Specs Grid -->
+                                <div class="row g-3 mb-4 flex-grow-1">
+                                    <div class="col-6 d-flex align-items-center gap-2">
+                                        <i class="bi bi-people text-primary fs-5"></i>
+                                        <div>
+                                            <div class="small fw-semibold text-dark">@vehicle.NumberOfSeats Seats</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center gap-2">
+                                        <i class="bi bi-fuel-pump text-primary fs-5"></i>
+                                        <div>
+                                            <div class="small fw-semibold text-dark">
+                                            <span class="badge bg-info">
+                                                @(vehicle.IsDiesel ? "Diesel" : "Petrol")
+                                            </span>
+                                            </div>
+                                            <div class="text-muted" style="font-size: 0.75rem;">@vehicle.FuelTankSize L Tank &bull; @(vehicle.FuelEfficiency/10) L/100km</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center gap-2">
+                                        <i class="bi bi-bezier2 text-primary fs-5"></i>
+                                        <div>
+                                            <div class="small fw-semibold text-dark">@vehicle.DriveTerrain</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center gap-2">
+                                        <i class="bi bi-fan text-primary fs-5"></i>
+                                        <div>
+                                            <div class="small fw-semibold text-dark">@vehicle.ACtype</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 d-flex align-items-center gap-2">
+                                        <i class="bi bi-box-seam text-primary fs-5"></i>
+                                        <div>
+                                            <div class="small fw-semibold text-dark">@vehicle.BootSpace Boot</div>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <!-- Features -->
+                            <div class="d-flex flex-wrap gap-2 pt-3 border-top mt-auto">
+
+                                <td>@(vehicle.HasInsurance ? "Active Insurance ||" : "Inactive Insurance ||")</td>
+
+                                <td>@(vehicle.HasChildrenSafety ? "CSF available ||" : "CSF not available ||")</td>
+
+                                <td>@(vehicle.HasNavigation ? "NAV available" : "NAV not available")</td>
+                            </div>
                             </div>
                         </div>
                     }

@@ -102,16 +102,19 @@
                     </a>
                 </div>
 
-                <a href="@Url.Action("FleetOverview", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card"></a>
-                    <div class="dashboard-card-icon icon-overview">
-                        <i class="bi bi-grid"></i>
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <a href="@Url.Action("FleetOverview", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                            <div class="dashboard-card-icon icon-overview">
+                                <i class="bi bi-grid"></i>
+                            </div>
+                            <div class="dashboard-card-content">
+                                <h3>Fleet Overview</h3>
+                                <p>Get a comprehensive, high-level view of all vehicles and their current statuses.</p>
+                            </div>
+                            <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>
+                        </a>
                     </div>
-                    <div class="dashboard-card-content">
-                        <h3>Fleet Overview</h3>
-                        <p>Get a comprehensive, high-level view of all vehicles and their current statuses.</p>
-                    </div>
-                    <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>
-                </a>
 
                 <div class="col-md-6 col-lg-4">
                     <a href="contract-history.html" class="dashboard-card">
