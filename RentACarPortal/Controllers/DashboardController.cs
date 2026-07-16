@@ -33,20 +33,17 @@ namespace RentACarPortal.Controllers
         [HttpGet]
         public IActionResult FleetOverview(string loggedInUser)
         {
-            Console.WriteLine($"DEBUG: Looking for user: '{loggedInUser}'");
-
             var user = _context.Users.Include(u => u.Vehicles).FirstOrDefault(u => u.Username == loggedInUser);
-            if (user == null)
-            {
-                Console.WriteLine("DEBUG: User not found!");
-            }
-            else
-            {
-                Console.WriteLine($"DEBUG: Found user {user.Username} with {user.Vehicles.Count} vehicles");
-            }
-
+            
             ViewBag.Username = loggedInUser;
             return View(user?.Vehicles.ToList()??new List<Vehicle>());
+        }
+
+        [HttpGet]
+        public IActionResult ContractCreator(string loggedInUser)
+        {
+            ViewBag.Username = loggedInUser;
+            return View("ContractCreator");
         }
     }
 }

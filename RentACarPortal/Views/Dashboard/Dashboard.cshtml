@@ -90,12 +90,12 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="contract-management.html" class="dashboard-card">
+                    <a href="@Url.Action("ContractCreator", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
                         <div class="dashboard-card-icon icon-contract">
                             <i class="bi bi-file-earmark-text"></i>
                         </div>
                         <div class="dashboard-card-content">
-                            <h3>Contract Management</h3>
+                            <h3>Contract Creator</h3>
                             <p>Create, edit, and oversee active rental contracts and agreements.</p>
                         </div>
                         <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>

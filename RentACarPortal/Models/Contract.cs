@@ -3,11 +3,14 @@
     public class Contract
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
+
         public string RentalStation { get; set; }
         public string TypeOfVehicle { get; set; }
         public string RegisterNumberOfVehicle { get; set; }
         public string RentDriver { get; set; }
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public string Telephone { get; set; }
         public string PassportNumber { get; set; }
         public string PlaceOfIssue { get; set; }
@@ -25,10 +28,8 @@
         public string FuelRecieved { get; set; }
         public string FuelReturned { get; set; }
         public double FullTankSizeLiquid { get; set; }
-        public DateOnly ExtendedTo { get; set; }
         public double Deposit { get; set; }
         public string Comment { get; set; }
-        public Vehicle ReplacementVehicle { get; set; }
         public string Remarks { get; set; }
     }
 }
