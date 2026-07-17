@@ -45,5 +45,14 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
             return View("ContractCreator");
         }
+
+        [HttpGet]
+        public IActionResult ContractHistory(string loggedInUser)
+        {
+            var user = _context.Users.Include(u => u.Contracts).FirstOrDefault(u => u.Username == loggedInUser);
+
+            ViewBag.Username = loggedInUser;
+            return View(user?.Contracts.ToList() ?? new List<Contract>());
+        }
     }
 }

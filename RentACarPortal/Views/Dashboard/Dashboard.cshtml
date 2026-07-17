@@ -117,7 +117,7 @@
                     </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="contract-history.html" class="dashboard-card">
+                        <a href="@Url.Action("ContractHistory", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
                         <div class="dashboard-card-icon icon-history">
                             <i class="bi bi-clock-history"></i>
                         </div>
