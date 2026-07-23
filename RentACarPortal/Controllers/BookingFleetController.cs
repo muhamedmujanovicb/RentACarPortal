@@ -20,12 +20,10 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = companyName;
 
-            // 1. Find the company safely (ignoring case)
             var company = _context.Users
                 .Include(u => u.Vehicles)
                 .FirstOrDefault(u => u.Username.ToLower() == companyName.ToLower());
 
-            // 2. Fallback: If no vehicles match "Available", let's pull all vehicles for this company to test
             var availableVehicles = company?.Vehicles
                 .ToList() ?? new List<Vehicle>();
 

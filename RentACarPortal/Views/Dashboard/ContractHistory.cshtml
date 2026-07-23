@@ -112,12 +112,10 @@
 
                             <!-- Status -->
                             <div class="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-end gap-2">
-                                <!-- Display current status -->
                                 <span class="badge @(contract.Status == "Active" ? "bg-success-subtle text-success" : (contract.Status == "Completed" ? "bg-secondary-subtle text-secondary" : "bg-danger-subtle text-danger")) border px-3 py-2 rounded-pill">
                                     @contract.Status
                                 </span>
 
-                                <!-- Buttons only show if status is Active -->
                                 @if (contract.Status == "Active")
                                 {
                                     <form asp-controller="ContractHistory" asp-action="UpdateStatus" method="post" class="d-flex gap-1">
