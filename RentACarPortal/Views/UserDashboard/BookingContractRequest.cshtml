@@ -52,7 +52,7 @@
             </div>
 
             <!-- Form -->
-            <form action="/Contracts/SubmitRequest" method="POST">
+            <form asp-controller="BookingContractRequest" asp-action="SubmitRequest" method="post">
                 
                 <!-- Section 1: Driver Information -->
                 <div class="form-section-card">
@@ -144,6 +144,10 @@
 
                 <!-- Submit Button -->
                 <div class="recommendor-actions">
+                    <input type="hidden" name="vehicleId" value="@Context.Request.Query["vehicleId"]" />
+                    <input type="hidden" name="loggedInUser" value="@Context.Request.Query["loggedInUser"]" />
+                    <input type="hidden" name="selectedCompany" value="@Context.Request.Query["selectedCompany"]" />
+
                     <button type="submit" class="btn btn-primary btn-recommend">
                         <i class="fas fa-paper-plane me-2"></i> Send Contract Request
                     </button>

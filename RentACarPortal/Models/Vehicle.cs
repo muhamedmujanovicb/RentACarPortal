@@ -20,9 +20,7 @@
         public string BootSpace { get; set; }
         public string ACtype { get; set; }
         public bool HasNavigation { get; set; }
-
-
-
+        public DateTime? HoldExpiresAt { get; set; }
 
         public double DailyRate { get; set; }
         public bool HasInsurance { get; set; }

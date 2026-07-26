@@ -1,10 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using RentACarPortal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RentACarPortal.Data.AppDbContext>(options => options.UseSqlite("Data Source=fleetdrive.db"));
+builder.Services.AddScoped<BookingManager>();
+builder.Services.AddScoped<NotificationManager>();
 
 var app = builder.Build();
 
