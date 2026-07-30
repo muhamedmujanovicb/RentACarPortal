@@ -6,6 +6,7 @@
         public int VehicleId { get; set; }
         public string Username { get; set; }
         public string CompanyId { get; set; }
+        public Vehicle Vehicle { get; set; }
 
         public string DriverFullName { get; set; }
         public DateOnly DateOfBirth { get; set; }

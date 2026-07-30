@@ -25,7 +25,8 @@ namespace RentACarPortal.Controllers
                 .FirstOrDefault(u => u.Username.ToLower() == companyName.ToLower());
 
             var availableVehicles = company?.Vehicles
-                .ToList() ?? new List<Vehicle>();
+                    .Where(v => v.Status != "Pending") 
+                    .ToList() ?? new List<Vehicle>();
 
             return View("~/Views/UserDashboard/BookingFleet.cshtml", availableVehicles);
         }

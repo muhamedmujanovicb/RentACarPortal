@@ -19,8 +19,49 @@ namespace RentACarPortal.Controllers
         public IActionResult Dashboard(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
+            
+            var currentUser = _context.Users.FirstOrDefault(u => u.Username == loggedInUser);
 
-            return View();
+            if (currentUser == null)
+            {
+                return View(new List<BookingContractRequest>());
+            }
+
+            var currentTime = DateTime.Now;
+
+            var expiredVehicles = _context.Vehicles
+                .Where(v => v.HoldExpiresAt != null && v.HoldExpiresAt <= currentTime && v.UserId == currentUser.Id)
+                .ToList();
+
+            if (expiredVehicles.Any())
+            {
+                var vehicleIds = expiredVehicles.Select(v => v.Id).ToList();
+
+                var expiredRequests = _context.BookingContractRequests
+                    .Where(r => vehicleIds.Contains(r.VehicleId))
+                    .ToList();
+
+                foreach (var vehicle in expiredVehicles)
+                {
+                    vehicle.Status = "Available";
+                    vehicle.HoldExpiresAt = null;
+                }
+
+                if (expiredRequests.Any())
+                {
+                    _context.BookingContractRequests.RemoveRange(expiredRequests);
+                }
+
+                _context.SaveChanges();
+            }
+
+            var validRequests = _context.BookingContractRequests
+                .Include(r => r.Vehicle)
+                .Where(r => r.CompanyId == loggedInUser) 
+                .OrderByDescending(r => r.Id)
+                .ToList();
+
+            return View(validRequests);
         }
 
         [HttpGet]

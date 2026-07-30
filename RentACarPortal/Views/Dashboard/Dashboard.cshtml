@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<RentACarPortal.Models.BookingContractRequest>
+@{
     ViewData["Title"] = "Dashboard";
 }
 
@@ -62,6 +63,49 @@
                 </div>
             </header>
 
+            <!-- Notifications Section -->
+            <section class="notifications-section mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h2 class="h5 fw-bold mb-0 text-dark">Pending Requests</h2>
+                    <span class="badge bg-primary rounded-pill">@(Model?.Count() ?? 0) New</span>
+                </div>
+
+                <div class="row g-3">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var request in Model)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="notification-card">
+                                    <div class="notification-icon">
+                                        <i class="bi bi-person-lines-fill"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <h6>Contract Request</h6>
+                                        <p class="mb-1">Client: <strong>@request.Username</strong></p>
+                                        @if (request.Vehicle != null)
+                                        {
+                                            <p class="text-muted small mb-2">Vehicle: @request.Vehicle.Make @request.Vehicle.Model</p>
+                                        }
+                                        <a href="@Url.Action("ViewRequest", "Dashboard", new { id = request.Id })" class="btn btn-sm btn-outline-primary w-100 mt-1">View Contract Request</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="col-12">
+                            <div class="alert alert-light text-muted border text-center py-3">
+                                No active pending contract requests.
+                            </div>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- Main Modules -->
+            <h2 class="h5 fw-bold mb-3 text-dark">Modules</h2>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
                     <a href="@Url.Action("FleetManager", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
@@ -102,22 +146,21 @@
                     </a>
                 </div>
 
-                <div class="row g-4">
-                    <div class="col-md-6 col-lg-4">
-                        <a href="@Url.Action("FleetOverview", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
-                            <div class="dashboard-card-icon icon-overview">
-                                <i class="bi bi-grid"></i>
-                            </div>
-                            <div class="dashboard-card-content">
-                                <h3>Fleet Overview</h3>
-                                <p>Get a comprehensive, high-level view of all vehicles and their current statuses.</p>
-                            </div>
-                            <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>
-                        </a>
-                    </div>
+                <div class="col-md-6 col-lg-4">
+                    <a href="@Url.Action("FleetOverview", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                        <div class="dashboard-card-icon icon-overview">
+                            <i class="bi bi-grid"></i>
+                        </div>
+                        <div class="dashboard-card-content">
+                            <h3>Fleet Overview</h3>
+                            <p>Get a comprehensive, high-level view of all vehicles and their current statuses.</p>
+                        </div>
+                        <span class="dashboard-card-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+                </div>
 
                 <div class="col-md-6 col-lg-4">
-                        <a href="@Url.Action("ContractHistory", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("ContractHistory", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
                         <div class="dashboard-card-icon icon-history">
                             <i class="bi bi-clock-history"></i>
                         </div>
