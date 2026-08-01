@@ -87,7 +87,9 @@
                                         {
                                             <p class="text-muted small mb-2">Vehicle: @request.Vehicle.Make @request.Vehicle.Model</p>
                                         }
-                                        <a href="@Url.Action("ViewRequest", "Dashboard", new { id = request.Id })" class="btn btn-sm btn-outline-primary w-100 mt-1">View Contract Request</a>
+                                        <a href="@Url.Action("ContractRequestDetails", "Dashboard", new { id = request.Id, loggedInUser = ViewBag.Username })" class="btn btn-sm btn-outline-primary">
+                                            View Contract Request
+                                        </a>
                                     </div>
                                 </div>
                             </div>

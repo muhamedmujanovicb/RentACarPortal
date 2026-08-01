@@ -17,6 +17,9 @@
         public string PassportNumber { get; set; }
         public string PlaceOfIssue { get; set; }
         public DateOnly DateOfIssue { get; set; }
+        public DateOnly RentStartDate { get; set; }
+        public int RentLenght { get; set; }
+        public double TotalPrice { get; set; }
         public string Notes { get; set; }
     }
 }

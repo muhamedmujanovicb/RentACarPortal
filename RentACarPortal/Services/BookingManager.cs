@@ -36,7 +36,11 @@ namespace RentACarPortal.Services
             string passportNumber,
             string placeOfIssue,
             DateOnly dateOfIssue,
-            string notes)
+            string notes,
+            DateOnly rentStartDate,
+            int rentLength,
+            double totalPrice
+            )
         {
             var contractRequest = new BookingContractRequest
             {
@@ -52,7 +56,10 @@ namespace RentACarPortal.Services
                 PassportNumber = passportNumber,
                 PlaceOfIssue = placeOfIssue,
                 DateOfIssue = dateOfIssue,
-                Notes = notes
+                Notes = notes,
+                RentStartDate = rentStartDate,
+                RentLenght = rentLength,
+                TotalPrice = totalPrice
             };
 
             _context.BookingContractRequests.Add(contractRequest);

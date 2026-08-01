@@ -95,5 +95,22 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
             return View(user?.Contracts.ToList() ?? new List<Contract>());
         }
+
+        [HttpGet]
+        public IActionResult ContractRequestDetails(int id, string loggedInUser)
+        {
+            ViewBag.Username = loggedInUser;
+
+            var request = _context.BookingContractRequests
+                .Include(r => r.Vehicle)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return View("ContractRequestDetails", request);
+        }
     }
 }

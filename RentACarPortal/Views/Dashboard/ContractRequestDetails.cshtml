@@ -1,4 +1,5 @@
-﻿@{
+﻿@model RentACarPortal.Models.BookingContractRequest
+@{
     ViewData["Title"] = "Review Contract Request";
 }
 
@@ -60,6 +61,34 @@
                 <p class="text-muted">Review the submitted client details and requested vehicle before making a decision.</p>
             </div>
 
+            <!-- Rental Information & Pricing Section -->
+            <div class="form-section-card">
+                <div class="form-section-header">
+                    <div class="form-section-icon icon-rental-detail">
+                        <i class="bi bi-calendar-range"></i>
+                    </div>
+                    <div>
+                        <h2>Rental Period & Pricing</h2>
+                        <p>Specified dates, duration length, and total calculated cost.</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Rental Start Date</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.RentStartDate.ToString("dd MMM yyyy")</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Rental Duration</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.RentLenght Days</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Total Calculated Cost</span>
+                        <span class="d-block text-primary fw-bold fs-5">$@Model.TotalPrice.ToString("N2")</span>
+                    </div>
+                </div>
+            </div>
+
             <!-- Client Information Section -->
             <div class="form-section-card">
                 <div class="form-section-header">
@@ -75,41 +104,41 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Driver Full Name</span>
-                        <span class="d-block text-dark fw-medium fs-5">Marcus Johnson</span>
+                        <span class="d-block text-dark fw-medium fs-5">@Model.DriverFullName</span>
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Date of Birth</span>
-                        <span class="d-block text-dark fw-medium fs-6">14 Aug 1985</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.DateOfBirth.ToString("dd MMM yyyy")</span>
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Personal ID Number</span>
-                        <span class="d-block text-dark fw-medium fs-6">982736451029</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.PersonalIdNumber</span>
                     </div>
 
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Telephone</span>
-                        <span class="d-block text-dark fw-medium fs-6">+1 (555) 123-4567</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.Telephone</span>
                     </div>
                     <div class="col-md-8">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Home Address</span>
-                        <span class="d-block text-dark fw-medium fs-6">1234 Elm Street, Springfield, IL 62701</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.Address</span>
                     </div>
 
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Driving License Number</span>
-                        <span class="d-block text-dark fw-medium fs-6">D-8374928-11</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.DrivingLicenseNumber</span>
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Passport Number</span>
-                        <span class="d-block text-dark fw-medium fs-6">P29384756</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.PassportNumber</span>
                     </div>
                     <div class="col-md-2">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Date of Issue</span>
-                        <span class="d-block text-dark fw-medium fs-6">10 May 2021</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.DateOfIssue.ToString("dd MMM yyyy")</span>
                     </div>
                     <div class="col-md-2">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Place of Issue</span>
-                        <span class="d-block text-dark fw-medium fs-6">Chicago, IL</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.PlaceOfIssue</span>
                     </div>
                 </div>
             </div>
@@ -127,7 +156,7 @@
                 </div>
                 <div class="p-3 bg-light rounded border">
                     <p class="mb-0 text-dark">
-                        "I will be arriving at the terminal around 2:00 PM and would appreciate it if the vehicle could be ready for immediate pickup. Please ensure a child seat is included if possible."
+                        @Model.Notes
                     </p>
                 </div>
             </div>
@@ -150,7 +179,7 @@
                     </div>
                     <div>
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Vehicle Selection</span>
-                        <span class="d-block text-dark fw-bold fs-4">2024 Toyota Camry</span>
+                        <span class="d-block text-dark fw-bold fs-4">@(Model.Vehicle != null ? $"{Model.Vehicle.Make} {Model.Vehicle.Model}" : "No vehicle assigned")</span>
                         <span class="badge bg-success mt-1">Available in Fleet</span>
                     </div>
                 </div>
@@ -158,15 +187,17 @@
 
             <!-- Action Buttons -->
             <div class="d-flex align-items-center justify-content-end gap-3 mt-2 mb-5">
-                <form method="post" action="/Dashboard/DeclineRequest">
-                    <input type="hidden" name="requestId" value="123" />
+                <form method="post" action="/ContractRequestDetails/DeclineRequest">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
                     <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-x-circle me-2"></i> Decline
                     </button>
                 </form>
 
-                <form method="post" action="/Dashboard/AcceptRequest">
-                    <input type="hidden" name="requestId" value="123" />
+                <form method="post" action="/ContractRequestDetails/AcceptRequest">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
                     <button type="submit" class="btn btn-success btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-check-circle me-2"></i> Accept
                     </button>

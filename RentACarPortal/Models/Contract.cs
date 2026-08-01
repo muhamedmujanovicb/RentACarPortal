@@ -7,6 +7,7 @@
         public User User { get; set; }
         public string Status { get; set; } = "Active";
 
+        public string DriverFullName { get; set; }
         public string RentalStation { get; set; }
         public string TypeOfVehicle { get; set; }
         public string RegisterNumberOfVehicle { get; set; }
