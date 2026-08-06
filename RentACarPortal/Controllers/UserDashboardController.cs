@@ -24,6 +24,13 @@ namespace RentACarPortal.Controllers
         [HttpGet]
         public IActionResult Recommendor()
         {
+            var allUsers = _context.Users.ToList();
+
+            ViewBag.Companies = allUsers
+                .Where(u => u.IsAdmin)
+                .Select(u => u.Username)
+                .ToList();
+
             return View("Recommendor");
         }
 

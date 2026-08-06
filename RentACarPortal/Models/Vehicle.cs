@@ -26,6 +26,7 @@
         public bool HasInsurance { get; set; }
         public string Status { get; set; } = "Available";
         public string RegisterNumberOfVehicle { get; set; }
+        public int Score { get; set; }
 
         public Vehicle() { }
     }

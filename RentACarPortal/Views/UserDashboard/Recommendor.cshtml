@@ -65,7 +65,7 @@
                 </div>
             </header>
 
-            <form class="recommendor-form" action="#" method="post">
+            <form class="recommendor-form" asp-controller="Recommendor" asp-action="GetRecommendation" method="post">
 
                 <!-- Rental Firm Selection -->
                 <div class="form-section-card mb-4">
@@ -82,7 +82,14 @@
                         <div class="mb-0">
                             <label for="rentalFirm" class="form-label">Company</label>
                             <select class="form-select" id="rentalFirm" name="rentalFirm" required>
-                                <option value="global-auto" selected>Global Auto</option>
+                                <option value="" disabled selected>Select rental firm</option>
+                                @if (ViewBag.Companies != null)
+                                {
+                                    @foreach (var company in ViewBag.Companies)
+                                    {
+                                        <option value="@company">@company</option>
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
@@ -257,14 +264,14 @@
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <span class="input-group-text">Diesel</span>
-                                                <input type="number" class="form-control" id="fuelDiesel" name="fuelDiesel"
+                                                <input type="number" class="form-control" id="fuelCost" name="fuelCost"
                                                        min="0" step="0.01" placeholder="per liter" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="input-group">
                                                 <span class="input-group-text">Petrol</span>
-                                                <input type="number" class="form-control" id="fuelPetrol" name="fuelPetrol"
+                                                <input type="number" class="form-control" id="fuelCost" name="fuelCost"
                                                        min="0" step="0.01" placeholder="per liter" required>
                                             </div>
                                         </div>
