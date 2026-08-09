@@ -112,5 +112,13 @@ namespace RentACarPortal.Controllers
 
             return View("ContractRequestDetails", request);
         }
+
+        [HttpGet]
+        public IActionResult Statistics(string loggedInUser)
+        {
+            ViewBag.Username = loggedInUser;
+
+            return RedirectToAction("Index", "Statistics", new { loggedInUser });
+        }
     }
 }
