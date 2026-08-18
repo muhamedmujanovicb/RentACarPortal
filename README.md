@@ -7,7 +7,7 @@ FleetDrive is a web application designed to help rent-a-car businesses manage th
 * **Backend**
   - C#, ASP.NET, Entity Framework Core
 * **Database**
-  - Localized DB with SQL Lite LINQ usage
+  - Localized DB with SQL Lite
 * **Frontend**
   - Bootstrap 5, HTML5, CSS3, JavaScript
 * **IDE**
