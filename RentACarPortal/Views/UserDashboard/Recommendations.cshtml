@@ -22,7 +22,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom fixed-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+            <a class="navbar-brand d-flex align-items-center gap-2">
                 <span class="brand-icon"><i class="bi bi-car-front-fill"></i></span>
                 <span class="brand-text">FleetDrive</span>
             </a>
@@ -33,14 +33,14 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="user-dashboard.html">Dashboard</a>
+                        <a class="nav-link active">Recommendations</a>
                     </li>
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     <span class="dashboard-user d-none d-md-inline">
-                        <i class="bi bi-person-circle me-1"></i> User
+                        <i class="bi bi-person-circle me-1"></i> @(ViewBag.Username ?? "Admin")
                     </span>
-                    <a href="login.html" class="btn btn-outline-primary btn-sm px-4">Log Out</a>
+                    <a href="/UserDashboard/UserDashboard" class="btn btn-outline-primary btn-sm px-4">Back to dashboard</a>
                 </div>
             </div>
         </div>
