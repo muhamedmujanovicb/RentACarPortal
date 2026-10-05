@@ -19,14 +19,14 @@ The application relies on a relational database structured around three core ent
   - Stores fleet details
 * **Contracts**
   - Manages rental agreements, linking clients to specific vehicles, alongside rental periods and driver details
-* **Users**
-  - Handles authentication and ownership scoping for fleet items
+* **Clients**
+  - Handles authentication for users
+* **Companies**
+  - Handles authentication and ownership for fleet groups
 
- There are also secondary entities
- * **Booking Contract Requests**
-    - Designed to package information for constructing a `Contract`
+ There is also a secondary assistance entity
 *  **Vehicle Recommendations**
-    - Passes user input data to the vehicle recommender algorithm
+    - Passes user input data to the vehicle recommendor algorithm
       
 ## Application Structure
 * **Controllers**
