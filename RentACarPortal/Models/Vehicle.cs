@@ -2,11 +2,12 @@
 {
     public class Vehicle
     {
+        //IMPORTANT ATTRIBUTES
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
 
-
+        //VEHICLE SPECIFIC ATTRIBUTES
         public string Make { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;
         public int Year { get; set; }
@@ -22,11 +23,11 @@
         public bool HasNavigation { get; set; }
         public DateTime? HoldExpiresAt { get; set; }
 
+        //VEHICLE BUSINESS ATTRIBUTES
         public double DailyRate { get; set; }
         public bool HasInsurance { get; set; }
         public string Status { get; set; } = "Available";
         public string RegisterNumberOfVehicle { get; set; }
-        public int Score { get; set; }
 
         public Vehicle() { }
     }

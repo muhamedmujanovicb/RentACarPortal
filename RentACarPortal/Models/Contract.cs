@@ -2,11 +2,14 @@
 {
     public class Contract
     {
+        //IMPORTANT ATTRIBUTES
         public int Id { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int ClientId { get; set; }
+        public Client Client { get; set; }
         public string Status { get; set; } = "Active";
 
+
+        //OTHER ATTRIBUTES
         public string DriverFullName { get; set; }
         public string RentalStation { get; set; }
         public string TypeOfVehicle { get; set; }
@@ -18,8 +21,8 @@
         public string PlaceOfIssue { get; set; }
         public DateOnly DateOfIssue { get; set; }
         public DateOnly DateOfBirth { get; set; }
-        public int PersonalNumber { get; set; }
-        public int DrivingLicenseNumber { get; set; }
+        public string PersonalNumber { get; set; }
+        public string DrivingLicenseNumber { get; set; }
         public DateOnly RentalStartDate { get; set; }
         public TimeOnly RentalStartTime { get; set; }
         public string RentalStartPlace { get; set; }

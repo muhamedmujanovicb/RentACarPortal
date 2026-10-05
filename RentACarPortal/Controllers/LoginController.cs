@@ -23,20 +23,25 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult ProcessLogin(string username, string password)
         {
-            var matchingUser = _context.Users.FirstOrDefault(u=> u.Username == username && u.Password == password);
+            // Check if it's a Company account 
+            var matchingCompany = _context.Companies
+                .FirstOrDefault(c => c.Username == username && c.Password == password);
 
-            if (matchingUser != null)
+            if (matchingCompany != null)
             {
-                if(matchingUser.IsAdmin)
-                {
-                    return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingUser.Username });
-                }
-                else
-                {
-                    return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = matchingUser.Username });
-                }
+                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingCompany.Username });
             }
 
+            // Check if it's a Client account 
+            var matchingClient = _context.Clients
+                .FirstOrDefault(cl => cl.Username == username && cl.Password == password);
+
+            if (matchingClient != null)
+            {
+                return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = matchingClient.Username });
+            }
+
+            // If neither matches, show error
             ViewBag.ErrorMessage = "Invalid username or password";
             return View("LoginForm");
         }
