@@ -14,7 +14,7 @@ FleetDrive is a web application designed to help rent-a-car businesses manage th
   - Visual Studio Community, DB Browser for SQL Lite
 
 ## Database Architecture
-The application relies on a relational database structured around three core entities linked via foreign keys and shared reference properties:
+The application relies on a relational database structured around four core entities linked via foreign keys and shared reference properties:
 * **Vehicles**
   - Stores fleet details
 * **Contracts**
