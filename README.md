@@ -36,13 +36,15 @@ The application relies on a relational database structured around three core ent
 * **Views**
   - Razor templates utilizing Bootstrap components for a responsive UI, featuring custom-built dashboards and analytics charts
  
-## Key Modules & Services
+## Key Modules
 * **Fleet & Contract Services**
   - Core components managing data flow, validation, and relational integrity between vehicle registrations and client contracts
 * **Recommendation Algorithm**
   - A custom matching module that evaluates user preferences against available fleet inventory, filtering and scoring vehicles to provide personalized rental suggestions
 * **Interactive Statistics Dashboard**
   - Pulls aggregated contract data to render real-time visualizations covering fleet utilization rates, revenue generation by vehicle type, rental popularity, and average rental durations
+* **Simple booking system**
+  - Allows the client user to easily create a vehicle booking request through a well constructed forms pipeline
 
 ## Conclusion
 This project provided hands-on experience implementing architectural patterns, building custom LINQ joins for complex relational data, and integrating client-side charting libraries into an MVC pipeline. Building this project was a practical exercise in moving past theory and implementing core backend patterns firsthand. Specifically, it allowed me to put into practice:
