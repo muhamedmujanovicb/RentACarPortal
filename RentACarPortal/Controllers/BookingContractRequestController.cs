@@ -53,7 +53,7 @@ namespace RentACarPortal.Controllers
 
             _bookingManager.ProcessBookingRequest(vehicleId, loggedInUser);
 
-            _bookingManager.CreateBookingRequest(
+            _bookingManager.CreateContractRequest(
                 vehicleId,
                 loggedInUser,
                 selectedCompany,
@@ -69,10 +69,10 @@ namespace RentACarPortal.Controllers
                 notes,
                 rentStartDate,
                 rentLength,
-                (double)totalPrice
-                );
+                totalPrice
+            );
 
-                return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = loggedInUser });
+            return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = loggedInUser });
         }
     }
 }

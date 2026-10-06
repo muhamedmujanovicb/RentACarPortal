@@ -24,11 +24,8 @@ namespace RentACarPortal.Controllers
         [HttpGet]
         public IActionResult Recommendor()
         {
-            var allUsers = _context.Users.ToList();
-
-            ViewBag.Companies = allUsers
-                .Where(u => u.IsAdmin)
-                .Select(u => u.Username)
+            ViewBag.Companies = _context.Clients
+                .Select(c => c.Username)
                 .ToList();
 
             return View("Recommendor");
@@ -39,7 +36,7 @@ namespace RentACarPortal.Controllers
         {
             ViewBag.Username = loggedInUser ?? "Admin";
 
-            var companies = _context.Users.Where(u => u.IsAdmin).ToList();
+            var companies = _context.Clients.ToList();
 
             return View("BookingCompanies", companies);
         }

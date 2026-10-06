@@ -20,12 +20,12 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = companyName;
 
-            var company = _context.Users
-                .Include(u => u.Vehicles)
-                .FirstOrDefault(u => u.Username.ToLower() == companyName.ToLower());
+            var company = _context.Companies
+                .Include(c => c.Vehicles)
+                .FirstOrDefault(c => c.Username.ToLower() == companyName.ToLower());
 
             var availableVehicles = company?.Vehicles
-                    .Where(v => v.Status != "Pending") 
+                    .Where(v => v.Status != "Pending")
                     .ToList() ?? new List<Vehicle>();
 
             return View("~/Views/UserDashboard/BookingFleet.cshtml", availableVehicles);

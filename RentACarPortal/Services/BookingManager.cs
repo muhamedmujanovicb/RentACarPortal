@@ -23,7 +23,7 @@ namespace RentACarPortal.Services
             }
         }
 
-        public void CreateBookingRequest(
+        public void CreateContractRequest(
             int vehicleId,
             string loggedInUser,
             string selectedCompany,
@@ -40,29 +40,34 @@ namespace RentACarPortal.Services
             DateOnly rentStartDate,
             int rentLength,
             double totalPrice
-            )
+        )
         {
-            var contractRequest = new BookingContractRequest
+            var user = _context.Clients.FirstOrDefault(u => u.Username == loggedInUser);
+            var vehicle = _context.Vehicles.Find(vehicleId);
+
+            var newContract = new Contract
             {
-                VehicleId = vehicleId,
-                Username = loggedInUser,
-                CompanyId = selectedCompany,
-                DriverFullName = driverFullName,
-                DateOfBirth = dateOfBirth,
-                PersonalIdNumber = personalIdNumber,
-                Telephone = telephone,
+                ClientId = user != null ? user.Id : 0,
+                RegisterNumberOfVehicle = vehicle != null ? vehicle.RegisterNumberOfVehicle : vehicleId.ToString(),
+                TypeOfVehicle = vehicle != null ? vehicle.Model : "Unknown",
+                RentDriver = driverFullName,
                 Address = address,
-                DrivingLicenseNumber = drivingLicenseNumber,
+                Telephone = telephone,
                 PassportNumber = passportNumber,
                 PlaceOfIssue = placeOfIssue,
                 DateOfIssue = dateOfIssue,
-                Notes = notes,
-                RentStartDate = rentStartDate,
-                RentLenght = rentLength,
-                TotalPrice = totalPrice
+                DateOfBirth = dateOfBirth,
+                PersonalNumber = personalIdNumber,
+                DrivingLicenseNumber = drivingLicenseNumber,
+                RentalStartDate = rentStartDate,
+                RentalEndDate = rentStartDate.AddDays(rentLength),
+                RentalStartPlace = placeOfIssue,
+                RentalEndPlace = placeOfIssue,
+                Comment = notes,
+                Status = "Pending"
             };
 
-            _context.BookingContractRequests.Add(contractRequest);
+            _context.Contracts.Add(newContract);
             _context.SaveChanges();
         }
     }
