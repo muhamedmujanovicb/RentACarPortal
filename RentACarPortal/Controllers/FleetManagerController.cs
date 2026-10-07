@@ -15,18 +15,19 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpGet]
-        public IActionResult FleetManager()
+        public IActionResult FleetManager(string loggedInUser)
         {
-            return View();
+            ViewBag.Username = loggedInUser;
+            return View(); 
         }
 
         [HttpPost]
         public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle")] Vehicle newVehicle, string loggedInUser)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Username == loggedInUser);
+            var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
             if (user != null)
             {
-                newVehicle.UserId = user.Id;
+                newVehicle.CompanyId = user.Id;
                 _context.Vehicles.Add(newVehicle);
                 _context.SaveChanges();
             }

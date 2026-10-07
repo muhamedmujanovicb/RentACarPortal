@@ -36,7 +36,7 @@ namespace RentACarPortal.Controllers
         {
             ViewBag.Username = loggedInUser ?? "Admin";
 
-            var companies = _context.Clients.ToList();
+            var companies = _context.Companies.ToList();
 
             return View("BookingCompanies", companies);
         }

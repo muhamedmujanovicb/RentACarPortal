@@ -4,37 +4,41 @@
     {
         //IMPORTANT ATTRIBUTES
         public int Id { get; set; }
-        public int ClientId { get; set; }
-        public Client Client { get; set; }
+        public int? ClientId { get; set; }
+        public Client? Client { get; set; }
         public string Status { get; set; } = "Active";
+        public int? VehicleId { get; set; }
+        public Vehicle? Vehicle { get; set; }
+        public int? CompanyId { get; set; }
+        public Company? Company { get; set; }
 
 
         //OTHER ATTRIBUTES
-        public string DriverFullName { get; set; }
-        public string RentalStation { get; set; }
-        public string TypeOfVehicle { get; set; }
-        public string RegisterNumberOfVehicle { get; set; }
-        public string RentDriver { get; set; }
-        public string Address { get; set; }
-        public string Telephone { get; set; }
-        public string PassportNumber { get; set; }
-        public string PlaceOfIssue { get; set; }
+        public string DriverFullName { get; set; } = string.Empty;
+        public string RentalStation { get; set; } = string.Empty;
+        public string TypeOfVehicle { get; set; } = string.Empty;
+        public string RegisterNumberOfVehicle { get; set; } = string.Empty;
+        public string RentDriver { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public string Telephone { get; set; } = string.Empty;
+        public string PassportNumber { get; set; } = string.Empty;
+        public string PlaceOfIssue { get; set; } = string.Empty;
         public DateOnly DateOfIssue { get; set; }
         public DateOnly DateOfBirth { get; set; }
-        public string PersonalNumber { get; set; }
-        public string DrivingLicenseNumber { get; set; }
+        public string PersonalNumber { get; set; } = string.Empty;
+        public string DrivingLicenseNumber { get; set; } = string.Empty;
         public DateOnly RentalStartDate { get; set; }
         public TimeOnly RentalStartTime { get; set; }
-        public string RentalStartPlace { get; set; }
+        public string RentalStartPlace { get; set; } = string.Empty;
         public DateOnly RentalEndDate { get; set; }
         public TimeOnly RentalEndTime { get; set; }
-        public string RentalEndPlace { get; set; }
+        public string RentalEndPlace { get; set; } = string.Empty;
         public bool Insurance { get; set; }
-        public string FuelRecieved { get; set; }
-        public string FuelReturned { get; set; }
+        public string FuelRecieved { get; set; } = string.Empty;
+        public string FuelReturned { get; set; } = string.Empty;
         public double FullTankSizeLiquid { get; set; }
         public double Deposit { get; set; }
-        public string Comment { get; set; }
-        public string Remarks { get; set; }
+        public string Comment { get; set; } = string.Empty;
+        public string Remarks { get; set; } = string.Empty;
     }
 }

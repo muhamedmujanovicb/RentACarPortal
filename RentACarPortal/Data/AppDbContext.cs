@@ -10,7 +10,6 @@ namespace RentACarPortal.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<Contract> Contracts { get; set; }
-        public DbSet<BookingContractRequest> BookingContractRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -5,7 +5,7 @@
         //IMPORTANT ATTRIBUTES
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public Company Company { get; set; }
+        public Company? Company { get; set; }
 
         //VEHICLE SPECIFIC ATTRIBUTES
         public string Make { get; set; } = string.Empty;
@@ -15,11 +15,11 @@
         public bool IsDiesel { get; set; }
         public double FuelEfficiency { get; set; }
         public double FuelTankSize { get; set; }
-        public string TypeOfVehicle { get; set; }
+        public string TypeOfVehicle { get; set; } = string.Empty;
         public bool HasChildrenSafety { get; set; }
-        public string DriveTerrain { get; set; }
-        public string BootSpace { get; set; }
-        public string ACtype { get; set; }
+        public string DriveTerrain { get; set; } = string.Empty;
+        public string BootSpace { get; set; } = string.Empty;
+        public string ACtype { get; set; } = string.Empty;
         public bool HasNavigation { get; set; }
         public DateTime? HoldExpiresAt { get; set; }
 
@@ -27,7 +27,7 @@
         public double DailyRate { get; set; }
         public bool HasInsurance { get; set; }
         public string Status { get; set; } = "Available";
-        public string RegisterNumberOfVehicle { get; set; }
+        public string RegisterNumberOfVehicle { get; set; } = string.Empty;
 
         public Vehicle() { }
     }

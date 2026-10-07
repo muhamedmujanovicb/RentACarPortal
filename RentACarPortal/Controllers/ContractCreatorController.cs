@@ -24,10 +24,11 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult NewContract([Bind("RentalStation,TypeOfVehicle,RegisterNumberOfVehicle,RentDriver,Address,Telephone,PassportNumber,PlaceOfIssue,DateOfIssue,DateOfBirth,PersonalNumber,DrivingLicenseNumber,RentalStartDate,RentalStartTime,RentalStartPlace,RentalEndDate,RentalEndTime,RentalEndPlace,Insurance,FuelRecieved,FuelReturned,FullTankSizeLiquid,Deposit,Comment,Remarks")] Contract newContract, string loggedInUser)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Username == loggedInUser);
+            var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
             if (user != null)
             {
-                newContract.UserId = user.Id;
+                newContract.CompanyId = user.Id;
+                newContract.RentalStation = loggedInUser;
                 _context.Contracts.Add(newContract);
                 _context.SaveChanges();
             }
