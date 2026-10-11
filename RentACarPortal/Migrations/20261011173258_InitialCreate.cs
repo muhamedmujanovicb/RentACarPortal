@@ -1,0 +1,855 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
+namespace RentACarPortal.Migrations
+{
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Companies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Username = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Companies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleMake",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleMake", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VehicleModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    MakeId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VehicleModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_VehicleModel_VehicleMake_MakeId",
+                        column: x => x.MakeId,
+                        principalTable: "VehicleMake",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CompanyId = table.Column<int>(type: "INTEGER", nullable: false),
+                    VehicleMakeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    VehicleModelId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Year = table.Column<int>(type: "INTEGER", nullable: false),
+                    NumberOfSeats = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsDiesel = table.Column<bool>(type: "INTEGER", nullable: false),
+                    FuelEfficiency = table.Column<double>(type: "REAL", nullable: false),
+                    FuelTankSize = table.Column<double>(type: "REAL", nullable: false),
+                    VehicleTypeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    HasChildrenSafety = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DriveTerrain = table.Column<string>(type: "TEXT", nullable: false),
+                    BootSpace = table.Column<string>(type: "TEXT", nullable: false),
+                    ACtype = table.Column<string>(type: "TEXT", nullable: false),
+                    HasNavigation = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HoldExpiresAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    DailyRate = table.Column<double>(type: "REAL", nullable: false),
+                    HasInsurance = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    RegisterNumberOfVehicle = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_VehicleMake_VehicleMakeId",
+                        column: x => x.VehicleMakeId,
+                        principalTable: "VehicleMake",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_VehicleModel_VehicleModelId",
+                        column: x => x.VehicleModelId,
+                        principalTable: "VehicleModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_VehicleType_VehicleTypeId",
+                        column: x => x.VehicleTypeId,
+                        principalTable: "VehicleType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contracts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClientId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: false),
+                    VehicleId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CompanyId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DriverFullName = table.Column<string>(type: "TEXT", nullable: false),
+                    RentalStation = table.Column<string>(type: "TEXT", nullable: false),
+                    TypeOfVehicle = table.Column<string>(type: "TEXT", nullable: false),
+                    RegisterNumberOfVehicle = table.Column<string>(type: "TEXT", nullable: false),
+                    RentDriver = table.Column<string>(type: "TEXT", nullable: false),
+                    Address = table.Column<string>(type: "TEXT", nullable: false),
+                    Telephone = table.Column<string>(type: "TEXT", nullable: false),
+                    PassportNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    PlaceOfIssue = table.Column<string>(type: "TEXT", nullable: false),
+                    DateOfIssue = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    DateOfBirth = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    PersonalNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    DrivingLicenseNumber = table.Column<string>(type: "TEXT", nullable: false),
+                    RentalStartDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    RentalStartTime = table.Column<TimeOnly>(type: "TEXT", nullable: false),
+                    RentalStartPlace = table.Column<string>(type: "TEXT", nullable: false),
+                    RentalEndDate = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    RentalEndTime = table.Column<TimeOnly>(type: "TEXT", nullable: false),
+                    RentalEndPlace = table.Column<string>(type: "TEXT", nullable: false),
+                    Insurance = table.Column<bool>(type: "INTEGER", nullable: false),
+                    FuelRecieved = table.Column<string>(type: "TEXT", nullable: false),
+                    FuelReturned = table.Column<string>(type: "TEXT", nullable: false),
+                    FullTankSizeLiquid = table.Column<double>(type: "REAL", nullable: false),
+                    Deposit = table.Column<double>(type: "REAL", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: false),
+                    Remarks = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Contracts_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Contracts_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Contracts_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "VehicleMake",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Audi" },
+                    { 2, "BMW" },
+                    { 3, "Citroen" },
+                    { 4, "Fiat" },
+                    { 5, "Ford" },
+                    { 6, "Mercedes-Benz" },
+                    { 7, "Opel" },
+                    { 8, "Peugeot" },
+                    { 9, "Renault" },
+                    { 10, "Škoda" },
+                    { 11, "Toyota" },
+                    { 12, "Volkswagen" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "VehicleType",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Limuzina / Sedan" },
+                    { 2, "Malo auto / Hatchback" },
+                    { 3, "Karavan" },
+                    { 4, "SUV / Terenac" },
+                    { 5, "Monovolumen / Minivan" },
+                    { 6, "Kombi" },
+                    { 7, "Kabriolet" },
+                    { 8, "Coupe" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "VehicleModel",
+                columns: new[] { "Id", "MakeId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 1, "80" },
+                    { 2, 1, "90" },
+                    { 3, 1, "100" },
+                    { 4, 1, "200" },
+                    { 5, 1, "A1" },
+                    { 6, 1, "A2" },
+                    { 7, 1, "A3" },
+                    { 8, 1, "A4" },
+                    { 9, 1, "A5" },
+                    { 10, 1, "A6" },
+                    { 11, 1, "A7" },
+                    { 12, 1, "A8" },
+                    { 13, 1, "Allroad" },
+                    { 14, 1, "Cabriolet" },
+                    { 15, 1, "Coupe" },
+                    { 16, 1, "e-tron" },
+                    { 17, 1, "e-tron GT" },
+                    { 18, 1, "Q2" },
+                    { 19, 1, "Q3" },
+                    { 20, 1, "Q4 e-tron" },
+                    { 21, 1, "Q5" },
+                    { 22, 1, "Q7" },
+                    { 23, 1, "Q8" },
+                    { 24, 1, "Quattro" },
+                    { 25, 1, "R8" },
+                    { 26, 1, "RS3" },
+                    { 27, 1, "RS4" },
+                    { 28, 1, "RS5" },
+                    { 29, 1, "RS6" },
+                    { 30, 1, "RS7" },
+                    { 31, 1, "RSQ3" },
+                    { 32, 1, "RSQ8" },
+                    { 33, 1, "S3" },
+                    { 34, 1, "S4" },
+                    { 35, 1, "S5" },
+                    { 36, 1, "S6" },
+                    { 37, 1, "S7" },
+                    { 38, 1, "S8" },
+                    { 39, 1, "SQ5" },
+                    { 40, 1, "SQ7" },
+                    { 41, 1, "SQ8" },
+                    { 42, 1, "TT" },
+                    { 43, 1, "TT RS" },
+                    { 44, 1, "TTS" },
+                    { 45, 1, "V8" },
+                    { 46, 2, "114" },
+                    { 47, 2, "116" },
+                    { 48, 2, "118" },
+                    { 49, 2, "120" },
+                    { 50, 2, "123" },
+                    { 51, 2, "125" },
+                    { 52, 2, "128" },
+                    { 53, 2, "130" },
+                    { 54, 2, "135" },
+                    { 55, 2, "214 Active Tourer" },
+                    { 56, 2, "214 Gran Tourer" },
+                    { 57, 2, "216" },
+                    { 58, 2, "216 Active Tourer" },
+                    { 59, 2, "216 Gran Tourer" },
+                    { 60, 2, "218" },
+                    { 61, 2, "218 Active Tourer" },
+                    { 62, 2, "218 Gran Tourer" },
+                    { 63, 2, "220" },
+                    { 64, 2, "220 Active Tourer" },
+                    { 65, 2, "220 Gran Tourer" },
+                    { 66, 2, "223 Active Tourer" },
+                    { 67, 2, "225" },
+                    { 68, 2, "225 Active Tourer" },
+                    { 69, 2, "228" },
+                    { 70, 2, "230" },
+                    { 71, 2, "315" },
+                    { 72, 2, "316" },
+                    { 73, 2, "318" },
+                    { 74, 2, "318 Gran Turismo" },
+                    { 75, 2, "320" },
+                    { 76, 2, "320 Gran Turismo" },
+                    { 77, 2, "323" },
+                    { 78, 2, "324" },
+                    { 79, 2, "325" },
+                    { 80, 2, "325 Gran Turismo" },
+                    { 81, 2, "328" },
+                    { 82, 2, "328 Gran Turismo" },
+                    { 83, 2, "330" },
+                    { 84, 2, "330 Gran Turismo" },
+                    { 85, 2, "335" },
+                    { 86, 2, "335 Gran Turismo" },
+                    { 87, 2, "340" },
+                    { 88, 2, "340 Gran Turismo" },
+                    { 89, 2, "ActiveHybrid 3" },
+                    { 90, 2, "418" },
+                    { 91, 2, "418 Gran Coupe" },
+                    { 92, 2, "420" },
+                    { 93, 2, "420 Gran Coupe" },
+                    { 94, 2, "425" },
+                    { 95, 2, "425 Gran Coupe" },
+                    { 96, 2, "428" },
+                    { 97, 2, "428 Gran Coupe" },
+                    { 98, 2, "430" },
+                    { 99, 2, "430 Gran Coupe" },
+                    { 100, 2, "435" },
+                    { 101, 2, "435 Gran Coupe" },
+                    { 102, 2, "440" },
+                    { 103, 2, "440 Gran Coupe" },
+                    { 104, 2, "518" },
+                    { 105, 2, "520" },
+                    { 106, 2, "520 Gran Turismo" },
+                    { 107, 2, "523" },
+                    { 108, 2, "524" },
+                    { 109, 2, "525" },
+                    { 110, 2, "528" },
+                    { 111, 2, "530" },
+                    { 112, 2, "530 Gran Turismo" },
+                    { 113, 2, "535" },
+                    { 114, 2, "535 Gran Turismo" },
+                    { 115, 2, "540" },
+                    { 116, 2, "545" },
+                    { 117, 2, "550" },
+                    { 118, 2, "550 Gran Turismo" },
+                    { 119, 2, "ActiveHybrid 5" },
+                    { 120, 2, "620 Gran Turismo" },
+                    { 121, 2, "628" },
+                    { 122, 2, "630" },
+                    { 123, 2, "630 Gran Turismo" },
+                    { 124, 2, "633" },
+                    { 125, 2, "635" },
+                    { 126, 2, "640" },
+                    { 127, 2, "640 Gran Coupe" },
+                    { 128, 2, "640 Gran Turismo" },
+                    { 129, 2, "645" },
+                    { 130, 2, "650" },
+                    { 131, 2, "650 Gran Coupe" },
+                    { 132, 2, "725" },
+                    { 133, 2, "728" },
+                    { 134, 2, "730" },
+                    { 135, 2, "732" },
+                    { 136, 2, "735" },
+                    { 137, 2, "740" },
+                    { 138, 2, "745" },
+                    { 139, 2, "750" },
+                    { 140, 2, "760" },
+                    { 141, 2, "ActiveHybrid 7" },
+                    { 142, 2, "840" },
+                    { 143, 2, "850" },
+                    { 144, 2, "X1" },
+                    { 145, 2, "X2" },
+                    { 146, 2, "X3" },
+                    { 147, 2, "X4" },
+                    { 148, 2, "X5" },
+                    { 149, 2, "X6" },
+                    { 150, 2, "X7" },
+                    { 151, 2, "ActiveHybrid X6" },
+                    { 152, 2, "Z1" },
+                    { 153, 2, "Z3" },
+                    { 154, 2, "Z4" },
+                    { 155, 2, "Z8" },
+                    { 156, 2, "i3" },
+                    { 157, 2, "i4" },
+                    { 158, 2, "i5" },
+                    { 159, 2, "i7" },
+                    { 160, 2, "i8" },
+                    { 161, 2, "iX" },
+                    { 162, 2, "iX1" },
+                    { 163, 2, "iX2" },
+                    { 164, 2, "iX3" },
+                    { 165, 2, "M2" },
+                    { 166, 2, "M3" },
+                    { 167, 2, "M4" },
+                    { 168, 2, "M5" },
+                    { 169, 2, "M6" },
+                    { 170, 2, "M8" },
+                    { 171, 2, "XM" },
+                    { 172, 2, "2002" },
+                    { 173, 3, "AX" },
+                    { 174, 3, "Berlingo" },
+                    { 175, 3, "BX" },
+                    { 176, 3, "C-Crosser" },
+                    { 177, 3, "C-Elysee" },
+                    { 178, 3, "C-Zero" },
+                    { 179, 3, "C1" },
+                    { 180, 3, "C2" },
+                    { 181, 3, "C3" },
+                    { 182, 3, "C3 Aircross" },
+                    { 183, 3, "C3 Picasso" },
+                    { 184, 3, "C4" },
+                    { 185, 3, "C4 Aircross" },
+                    { 186, 3, "C4 Cactus" },
+                    { 187, 3, "C4 Picasso" },
+                    { 188, 3, "C4 SpaceTourer" },
+                    { 189, 3, "C4 X" },
+                    { 190, 3, "C5" },
+                    { 191, 3, "C5 Aircross" },
+                    { 192, 3, "C5 X" },
+                    { 193, 3, "C6" },
+                    { 194, 3, "C8" },
+                    { 195, 3, "Evasion" },
+                    { 196, 3, "Jumper" },
+                    { 197, 3, "Jumpy" },
+                    { 198, 3, "Nemo" },
+                    { 199, 3, "Saxo" },
+                    { 200, 3, "SpaceTourer" },
+                    { 201, 3, "Xsara" },
+                    { 202, 3, "Xsara Picasso" },
+                    { 203, 3, "ZX" },
+                    { 204, 3, "Drugi modeli Citroen" },
+                    { 205, 4, "124 Spider" },
+                    { 206, 4, "126" },
+                    { 207, 4, "127" },
+                    { 208, 4, "128" },
+                    { 209, 4, "500" },
+                    { 210, 4, "500L" },
+                    { 211, 4, "500X" },
+                    { 212, 4, "Albea" },
+                    { 213, 4, "Argenta" },
+                    { 214, 4, "Barchetta" },
+                    { 215, 4, "Brava" },
+                    { 216, 4, "Bravo" },
+                    { 217, 4, "Cinquecento" },
+                    { 218, 4, "Coupe" },
+                    { 219, 4, "Croma" },
+                    { 220, 4, "Doblo" },
+                    { 221, 4, "Ducato" },
+                    { 222, 4, "Fiorino" },
+                    { 223, 4, "Fullback" },
+                    { 224, 4, "Grande Punto" },
+                    { 225, 4, "Idea" },
+                    { 226, 4, "Linea" },
+                    { 227, 4, "Marea" },
+                    { 228, 4, "Multipla" },
+                    { 229, 4, "Palio" },
+                    { 230, 4, "Panda" },
+                    { 231, 4, "Punto" },
+                    { 232, 4, "Qubo" },
+                    { 233, 4, "Regata" },
+                    { 234, 4, "Scudo" },
+                    { 235, 4, "Sedici" },
+                    { 236, 4, "Seicento" },
+                    { 237, 4, "Stilo" },
+                    { 238, 4, "Talento" },
+                    { 239, 4, "Tempra" },
+                    { 240, 4, "Tipo" },
+                    { 241, 4, "Ulysse" },
+                    { 242, 4, "Uno" },
+                    { 243, 4, "X1/9" },
+                    { 244, 4, "Drugi modeli Fiat" },
+                    { 245, 5, "Aerostar" },
+                    { 246, 5, "B-Max" },
+                    { 247, 5, "Bronco" },
+                    { 248, 5, "C-Max" },
+                    { 249, 5, "Capri" },
+                    { 250, 5, "Connect" },
+                    { 251, 5, "Courier" },
+                    { 252, 5, "Custom" },
+                    { 253, 5, "Edge" },
+                    { 254, 5, "Escape" },
+                    { 255, 5, "Escort" },
+                    { 256, 5, "Excursion" },
+                    { 257, 5, "Expedition" },
+                    { 258, 5, "Explorer" },
+                    { 259, 5, "F-150" },
+                    { 260, 5, "F-250" },
+                    { 261, 5, "F-350" },
+                    { 262, 5, "Fiesta" },
+                    { 263, 5, "Flex" },
+                    { 264, 5, "Focus" },
+                    { 265, 5, "Fusion" },
+                    { 266, 5, "Galaxy" },
+                    { 267, 5, "Granada" },
+                    { 268, 5, "GT" },
+                    { 269, 5, "Ka" },
+                    { 270, 5, "Kuga" },
+                    { 271, 5, "Maverick" },
+                    { 272, 5, "Mondeo" },
+                    { 273, 5, "Mustang" },
+                    { 274, 5, "Orion" },
+                    { 275, 5, "Probe" },
+                    { 276, 5, "Puma" },
+                    { 277, 5, "Ranger" },
+                    { 278, 5, "S-Max" },
+                    { 279, 5, "Scorpio" },
+                    { 280, 5, "Sierra" },
+                    { 281, 5, "StreetKA" },
+                    { 282, 5, "Thunderbird" },
+                    { 283, 5, "Tourneo" },
+                    { 284, 5, "Transit" },
+                    { 285, 5, "Windstar" },
+                    { 286, 5, "Drugi modeli Ford" },
+                    { 287, 6, "190" },
+                    { 288, 6, "A-klasa" },
+                    { 289, 6, "AMG GT" },
+                    { 290, 6, "B-klasa" },
+                    { 291, 6, "C-klasa" },
+                    { 292, 6, "Citan" },
+                    { 293, 6, "CL" },
+                    { 294, 6, "CLA" },
+                    { 295, 6, "CLC" },
+                    { 296, 6, "CLK" },
+                    { 297, 6, "CLS" },
+                    { 298, 6, "E-klasa" },
+                    { 299, 6, "EQC" },
+                    { 300, 6, "EQE" },
+                    { 301, 6, "EQS" },
+                    { 302, 6, "EQV" },
+                    { 303, 6, "G-klasa" },
+                    { 304, 6, "GL" },
+                    { 305, 6, "GLA" },
+                    { 306, 6, "GLB" },
+                    { 307, 6, "GLC" },
+                    { 308, 6, "GLE" },
+                    { 309, 6, "GLK" },
+                    { 310, 6, "GLS" },
+                    { 311, 6, "M-klasa" },
+                    { 312, 6, "Maybach" },
+                    { 313, 6, "R-klasa" },
+                    { 314, 6, "S-klasa" },
+                    { 315, 6, "SL" },
+                    { 316, 6, "SLC" },
+                    { 317, 6, "SLK" },
+                    { 318, 6, "SLR" },
+                    { 319, 6, "SLS" },
+                    { 320, 6, "Sprinter" },
+                    { 321, 6, "T-klasa" },
+                    { 322, 6, "Vaneo" },
+                    { 323, 6, "Vario" },
+                    { 324, 6, "Viano" },
+                    { 325, 6, "Vito" },
+                    { 326, 6, "X-klasa" },
+                    { 327, 6, "Drugi modeli Mercedes-Benz" },
+                    { 328, 7, "Adam" },
+                    { 329, 7, "Agila" },
+                    { 330, 7, "Ampera" },
+                    { 331, 7, "Antara" },
+                    { 332, 7, "Ascona" },
+                    { 333, 7, "Astra" },
+                    { 334, 7, "Calibra" },
+                    { 335, 7, "Campo" },
+                    { 336, 7, "Cascada" },
+                    { 337, 7, "Corsa" },
+                    { 338, 7, "Crossland" },
+                    { 339, 7, "Frontera" },
+                    { 340, 7, "Grandland" },
+                    { 341, 7, "GT" },
+                    { 342, 7, "Insignia" },
+                    { 343, 7, "Kadett" },
+                    { 344, 7, "Manta" },
+                    { 345, 7, "Meriva" },
+                    { 346, 7, "Mokka" },
+                    { 347, 7, "Monterey" },
+                    { 348, 7, "Movano" },
+                    { 349, 7, "Omega" },
+                    { 350, 7, "Rekord" },
+                    { 351, 7, "Senator" },
+                    { 352, 7, "Signum" },
+                    { 353, 7, "Sintra" },
+                    { 354, 7, "Speedster" },
+                    { 355, 7, "Tigra" },
+                    { 356, 7, "Vectra" },
+                    { 357, 7, "Vivaro" },
+                    { 358, 7, "Zafira" },
+                    { 359, 7, "Drugi modeli Opel" },
+                    { 360, 8, "1007" },
+                    { 361, 8, "106" },
+                    { 362, 8, "107" },
+                    { 363, 8, "108" },
+                    { 364, 8, "2008" },
+                    { 365, 8, "205" },
+                    { 366, 8, "206" },
+                    { 367, 8, "207" },
+                    { 368, 8, "208" },
+                    { 369, 8, "3008" },
+                    { 370, 8, "306" },
+                    { 371, 8, "307" },
+                    { 372, 8, "308" },
+                    { 373, 8, "4007" },
+                    { 374, 8, "4008" },
+                    { 375, 8, "405" },
+                    { 376, 8, "406" },
+                    { 377, 8, "407" },
+                    { 378, 8, "5008" },
+                    { 379, 8, "508" },
+                    { 380, 8, "605" },
+                    { 381, 8, "607" },
+                    { 382, 8, "806" },
+                    { 383, 8, "807" },
+                    { 384, 8, "Bipper" },
+                    { 385, 8, "Boxer" },
+                    { 386, 8, "Expert" },
+                    { 387, 8, "Partner" },
+                    { 388, 8, "Rifter" },
+                    { 389, 8, "RCZ" },
+                    { 390, 8, "Traveller" },
+                    { 391, 8, "Drugi modeli Peugeot" },
+                    { 392, 9, "Alaskan" },
+                    { 393, 9, "Alpine" },
+                    { 394, 9, "Arkana" },
+                    { 395, 9, "Austral" },
+                    { 396, 9, "Avantime" },
+                    { 397, 9, "Captur" },
+                    { 398, 9, "Caravelle" },
+                    { 399, 9, "Clio" },
+                    { 400, 9, "Espace" },
+                    { 401, 9, "Express" },
+                    { 402, 9, "Fluence" },
+                    { 403, 9, "Fuego" },
+                    { 404, 9, "Grand Espace" },
+                    { 405, 9, "Grand Kangoo" },
+                    { 406, 9, "Grand Modus" },
+                    { 407, 9, "Grand Scenic" },
+                    { 408, 9, "Kadjar" },
+                    { 409, 9, "Kangoo" },
+                    { 410, 9, "Koleos" },
+                    { 411, 9, "Laguna" },
+                    { 412, 9, "Latitude" },
+                    { 413, 9, "Mascott" },
+                    { 414, 9, "Master" },
+                    { 415, 9, "Megane" },
+                    { 416, 9, "Modus" },
+                    { 417, 9, "Nevada" },
+                    { 418, 9, "R 11" },
+                    { 419, 9, "R 19" },
+                    { 420, 9, "R 21" },
+                    { 421, 9, "R 25" },
+                    { 422, 9, "R 4" },
+                    { 423, 9, "R 5" },
+                    { 424, 9, "R 9" },
+                    { 425, 9, "Rapid" },
+                    { 426, 9, "Safrane" },
+                    { 427, 9, "Scenic" },
+                    { 428, 9, "Spider" },
+                    { 429, 9, "Symbol" },
+                    { 430, 9, "Talisman" },
+                    { 431, 9, "Trafic" },
+                    { 432, 9, "Twingo" },
+                    { 433, 9, "Vel Satis" },
+                    { 434, 9, "Wind" },
+                    { 435, 9, "Zoe" },
+                    { 436, 9, "Drugi modeli Renault" },
+                    { 437, 10, "105" },
+                    { 438, 10, "120" },
+                    { 439, 10, "130" },
+                    { 440, 10, "Citigo" },
+                    { 441, 10, "Enyaq" },
+                    { 442, 10, "Fabia" },
+                    { 443, 10, "Favorit" },
+                    { 444, 10, "Felicia" },
+                    { 445, 10, "Kamiq" },
+                    { 446, 10, "Karoq" },
+                    { 447, 10, "Kodiaq" },
+                    { 448, 10, "Octavia" },
+                    { 449, 10, "Rapid" },
+                    { 450, 10, "Roomster" },
+                    { 451, 10, "Scala" },
+                    { 452, 10, "Superb" },
+                    { 453, 10, "Yeti" },
+                    { 454, 10, "Drugi modeli Škoda" },
+                    { 455, 11, "4-Runner" },
+                    { 456, 11, "Alphard" },
+                    { 457, 11, "Auris" },
+                    { 458, 11, "Avensis" },
+                    { 459, 11, "Avensis Verso" },
+                    { 460, 11, "Aygo" },
+                    { 461, 11, "Aygo X" },
+                    { 462, 11, "Camry" },
+                    { 463, 11, "Carina" },
+                    { 464, 11, "Celica" },
+                    { 465, 11, "C-HR" },
+                    { 466, 11, "Corolla" },
+                    { 467, 11, "Corolla Cross" },
+                    { 468, 11, "Corolla Verso" },
+                    { 469, 11, "FJ Cruiser" },
+                    { 470, 11, "GT86" },
+                    { 471, 11, "Hiace" },
+                    { 472, 11, "Highlander" },
+                    { 473, 11, "Hilux" },
+                    { 474, 11, "IQ" },
+                    { 475, 11, "Land Cruiser" },
+                    { 476, 11, "MR2" },
+                    { 477, 11, "Paseo" },
+                    { 478, 11, "Picnic" },
+                    { 479, 11, "Prius" },
+                    { 480, 11, "Prius+" },
+                    { 481, 11, "Proace" },
+                    { 482, 11, "Proace City" },
+                    { 483, 11, "Proace City Verso" },
+                    { 484, 11, "Proace Verso" },
+                    { 485, 11, "RAV4" },
+                    { 486, 11, "Sequoia" },
+                    { 487, 11, "Sienna" },
+                    { 488, 11, "Starlet" },
+                    { 489, 11, "Supra" },
+                    { 490, 11, "Tacoma" },
+                    { 491, 11, "Tundra" },
+                    { 492, 11, "Urban Cruiser" },
+                    { 493, 11, "Verso" },
+                    { 494, 11, "Verso-S" },
+                    { 495, 11, "Yaris" },
+                    { 496, 11, "Yaris Cross" },
+                    { 497, 11, "Yaris GR" },
+                    { 498, 11, "Drugi modeli Toyota" },
+                    { 499, 12, "Amarok" },
+                    { 500, 12, "Arteon" },
+                    { 501, 12, "Atlas" },
+                    { 502, 12, "Bora" },
+                    { 503, 12, "Buba / Beetle" },
+                    { 504, 12, "Caddy" },
+                    { 505, 12, "California" },
+                    { 506, 12, "Caravelle" },
+                    { 507, 12, "Corrado" },
+                    { 508, 12, "Crafter" },
+                    { 509, 12, "Eos" },
+                    { 510, 12, "Fox" },
+                    { 511, 12, "Golf 1" },
+                    { 512, 12, "Golf 2" },
+                    { 513, 12, "Golf 3" },
+                    { 514, 12, "Golf 4" },
+                    { 515, 12, "Golf 5" },
+                    { 516, 12, "Golf 6" },
+                    { 517, 12, "Golf 7" },
+                    { 518, 12, "Golf 8" },
+                    { 519, 12, "ID.3" },
+                    { 520, 12, "ID.4" },
+                    { 521, 12, "ID.5" },
+                    { 522, 12, "ID.7" },
+                    { 523, 12, "ID.Buzz" },
+                    { 524, 12, "Jetta" },
+                    { 525, 12, "Kombi" },
+                    { 526, 12, "LT" },
+                    { 527, 12, "Lupo" },
+                    { 528, 12, "Multivan" },
+                    { 529, 12, "Passat" },
+                    { 530, 12, "Passat CC" },
+                    { 531, 12, "Phaeton" },
+                    { 532, 12, "Polo" },
+                    { 533, 12, "Routan" },
+                    { 534, 12, "Santana" },
+                    { 535, 12, "Scirocco" },
+                    { 536, 12, "Sharan" },
+                    { 537, 12, "T-Cross" },
+                    { 538, 12, "T-Roc" },
+                    { 539, 12, "Taigo" },
+                    { 540, 12, "Tiguan" },
+                    { 541, 12, "Touareg" },
+                    { 542, 12, "Touran" },
+                    { 543, 12, "Transporter" },
+                    { 544, 12, "Up!" },
+                    { 545, 12, "Vento" },
+                    { 546, 12, "Drugi modeli Volkswagen" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_ClientId",
+                table: "Contracts",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_CompanyId",
+                table: "Contracts",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Contracts_VehicleId",
+                table: "Contracts",
+                column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleModel_MakeId",
+                table: "VehicleModel",
+                column: "MakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_CompanyId",
+                table: "Vehicles",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_VehicleMakeId",
+                table: "Vehicles",
+                column: "VehicleMakeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_VehicleModelId",
+                table: "Vehicles",
+                column: "VehicleModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_VehicleTypeId",
+                table: "Vehicles",
+                column: "VehicleTypeId");
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Contracts");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Vehicles");
+
+            migrationBuilder.DropTable(
+                name: "Companies");
+
+            migrationBuilder.DropTable(
+                name: "VehicleModel");
+
+            migrationBuilder.DropTable(
+                name: "VehicleType");
+
+            migrationBuilder.DropTable(
+                name: "VehicleMake");
+        }
+    }
+}
