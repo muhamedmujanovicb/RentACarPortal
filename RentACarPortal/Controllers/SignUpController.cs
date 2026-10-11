@@ -20,9 +20,21 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult ProcessSignUp(User newUser)
+        public IActionResult ProcessSignUp(string username, string password, bool isCompany)
         {
-            _context.Users.Add(newUser);
+            if (isCompany)
+            {
+                // Create and save a Company account
+                var newCompany = new Company(username, password);
+                _context.Companies.Add(newCompany);
+            }
+            else
+            {
+                // Create and save a Client account
+                var newClient = new Client(username, password);
+                _context.Clients.Add(newClient);
+            }
+
             _context.SaveChanges();
 
             return RedirectToAction("LoginForm", "Login");

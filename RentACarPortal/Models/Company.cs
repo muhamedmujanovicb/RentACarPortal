@@ -1,24 +1,23 @@
 ﻿namespace RentACarPortal.Models
 {
-    public class User
+    public class Company
     {
+        //IMPORTANT ATTRIBUTES
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public bool IsAdmin { get; set; }
-
         public ICollection<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
         public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
 
-        public User() { }
+        //OTHER ATTRIBUTES
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
-        public User(string username, string password, bool isAdmin)
+        //CONSTRUCTOR
+        public Company() { }
+
+        public Company(string username, string password)
         {
             Username = username;
             Password = password;
-            IsAdmin = isAdmin;
         }
     }
-
-    
 }

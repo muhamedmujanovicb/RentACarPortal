@@ -1,6 +1,9 @@
-﻿@model RentACarPortal.Models.BookingContractRequest
+﻿@model RentACarPortal.Models.Contract
 @{
     ViewData["Title"] = "Review Contract Request";
+    int rentalLength = Model.RentalEndDate.DayNumber - Model.RentalStartDate.DayNumber;
+    if (rentalLength <= 0) { rentalLength = 1; }
+    double totalPrice = rentalLength * (Model.Vehicle?.DailyRate ?? 0);
 }
 
 <!DOCTYPE html>
@@ -51,7 +54,7 @@
 
             <!-- Page Header -->
             <div class="mb-4">
-                <a href="/Dashboard/Dashboard" class="text-decoration-none text-muted mb-3 d-inline-block">
+                <a href="/Dashboard/Dashboard?loggedInUser=@ViewBag.Username" class="text-decoration-none text-muted mb-3 d-inline-block">
                     <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
                 </a>
                 <h1 class="h3 fw-bold text-dark mb-1">Review Contract Request</h1>
@@ -73,15 +76,15 @@
                 <div class="row g-4">
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Rental Start Date</span>
-                        <span class="d-block text-dark fw-medium fs-6">@Model.RentStartDate.ToString("dd MMM yyyy")</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.RentalStartDate.ToString("dd MMM yyyy")</span>
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Rental Duration</span>
-                        <span class="d-block text-dark fw-medium fs-6">@Model.RentLenght Days</span>
+                        <span class="d-block text-dark fw-medium fs-6">@rentalLength Days</span>
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Total Calculated Cost</span>
-                        <span class="d-block text-primary fw-bold fs-5">$@Model.TotalPrice.ToString("N2")</span>
+                        <span class="d-block text-primary fw-bold fs-5">$@totalPrice.ToString("N2")</span>
                     </div>
                 </div>
             </div>
@@ -109,7 +112,7 @@
                     </div>
                     <div class="col-md-4">
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Personal ID Number</span>
-                        <span class="d-block text-dark fw-medium fs-6">@Model.PersonalIdNumber</span>
+                        <span class="d-block text-dark fw-medium fs-6">@Model.PersonalNumber</span>
                     </div>
 
                     <div class="col-md-4">
@@ -153,7 +156,7 @@
                 </div>
                 <div class="p-3 bg-light rounded border">
                     <p class="mb-0 text-dark">
-                        @Model.Notes
+                        @Model.Comment
                     </p>
                 </div>
             </div>
@@ -176,7 +179,7 @@
                     </div>
                     <div>
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Vehicle Selection</span>
-                        <span class="d-block text-dark fw-bold fs-4">@(Model.Vehicle != null ? $"{Model.Vehicle.Make} {Model.Vehicle.Model}" : "No vehicle assigned")</span>
+                        <span class="d-block text-dark fw-bold fs-4">@(Model.Vehicle != null ? $"{Model.Vehicle.Make} {Model.Vehicle.Model}" : Model.TypeOfVehicle)</span>
                         <span class="badge bg-success mt-1">Available in Fleet</span>
                     </div>
                 </div>

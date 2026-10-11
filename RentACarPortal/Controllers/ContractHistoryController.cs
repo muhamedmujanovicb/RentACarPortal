@@ -20,10 +20,10 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
 
             var contracts = _context.Contracts
-                .Include(c => c.User)
+                .Include(c => c.Client)
                 .ToList();
 
-            return View();
+            return View(contracts);
         }
 
         [HttpPost]

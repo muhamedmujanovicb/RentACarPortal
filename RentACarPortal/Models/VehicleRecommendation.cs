@@ -8,19 +8,19 @@ namespace RentACarPortal.Models
         public double fuelConsumption { get; set; }
         public double dailyRate { get; set; }
         public bool childrenSafety { get; set; }
-        public string driveTerrain { get; set; }
-        public string bootSpace { get; set; }
+        public string driveTerrain { get; set; } = string.Empty;
+        public string bootSpace { get; set; } = string.Empty;
         public bool hasGps { get; set; }
-        public string acType { get; set; }
+        public string acType { get; set; } = string.Empty;
 
-        public string terrainType { get; set; }
+        public string terrainType { get; set; } = string.Empty;
         public int tripDuration { get; set; }
         public int passengerCount { get; set; }
         public bool hasChildren { get; set; }
         public bool hasElderly { get; set; }
         public int distance { get; set; }
         public int budget { get; set; }
-        public string weather { get; set; }
+        public string weather { get; set; } = string.Empty;
 
         public double fuelCost { get; set; }
         public double highwayCosts { get; set; }

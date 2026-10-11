@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentACarPortal.Models.BookingContractRequest>
+﻿@model IEnumerable<RentACarPortal.Models.Contract>
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -63,14 +63,14 @@
             <!-- Notifications Section -->
             <section class="notifications-section mb-5">
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h2 class="h5 fw-bold mb-0 text-dark">Pending Requests</h2>
+                    <h2 class="h5 fw-bold mb-0 text-dark">Pending Contracts</h2>
                     <span class="badge bg-primary rounded-pill">@(Model?.Count() ?? 0) New</span>
                 </div>
 
                 <div class="row g-3">
                     @if (Model != null && Model.Any())
                     {
-                        @foreach (var request in Model)
+                        @foreach (var contract in Model)
                         {
                             <div class="col-md-6 col-lg-4">
                                 <div class="notification-card">
@@ -78,14 +78,14 @@
                                         <i class="bi bi-person-lines-fill"></i>
                                     </div>
                                     <div class="notification-content">
-                                        <h6>Contract Request</h6>
-                                        <p class="mb-1">Client: <strong>@request.Username</strong></p>
-                                        @if (request.Vehicle != null)
+                                        <h6>Pending Contract</h6>
+                                        <p class="mb-1">Client: <strong>@contract.DriverFullName</strong></p>
+                                        @if (contract.Vehicle != null)
                                         {
-                                            <p class="text-muted small mb-2">Vehicle: @request.Vehicle.Make @request.Vehicle.Model</p>
+                                            <p class="text-muted small mb-2">Vehicle: @contract.Vehicle.Make @contract.Vehicle.Model</p>
                                         }
-                                        <a href="@Url.Action("ContractRequestDetails", "Dashboard", new { id = request.Id, loggedInUser = ViewBag.Username })" class="btn btn-sm btn-outline-primary">
-                                            View Contract Request
+                                        <a href="@Url.Action("ContractRequestDetails", "Dashboard", new { id = contract.Id, loggedInUser = ViewBag.Username })" class="btn btn-sm btn-outline-primary">
+                                            View Contract Details
                                         </a>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
                     {
                         <div class="col-12">
                             <div class="alert alert-light text-muted border text-center py-3">
-                                No active pending contract requests.
+                                No active pending contracts.
                             </div>
                         </div>
                     }

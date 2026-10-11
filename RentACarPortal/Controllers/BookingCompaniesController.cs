@@ -19,7 +19,7 @@ namespace RentACarPortal.Controllers
         {
             ViewBag.Username = loggedInUser;
 
-            var companies = _context.Users.Where(u => u.IsAdmin).ToList();
+            var companies = _context.Companies.ToList();
 
             return View(companies);
         }

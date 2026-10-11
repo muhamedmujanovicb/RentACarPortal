@@ -18,20 +18,20 @@ namespace RentACarPortal.Controllers
             string currentUsername = loggedInUser ?? User.Identity?.Name ?? "Admin";
             ViewBag.Username = currentUsername;
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == currentUsername);
+            var user = await _context.Companies.FirstOrDefaultAsync(u => u.Username == currentUsername);
             if (user == null)
             {
                 return View("~/Views/Dashboard/Statistics.cshtml");
             }
 
             var userVehicles = await _context.Vehicles
-                .Where(v => v.UserId == user.Id)
+                .Where(v => v.CompanyId == user.Id)
                 .ToListAsync();
 
             int totalFleetCount = userVehicles.Count;
 
             var userContracts = await _context.Contracts
-                .Where(c => c.UserId == user.Id)
+                .Where(c => c.ClientId == user.Id)
                 .ToListAsync();
 
             // --- STAT 1: Fleet Utilization Over Time ---

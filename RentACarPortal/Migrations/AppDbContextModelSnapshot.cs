@@ -17,75 +17,42 @@ namespace RentACarPortal.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.28");
 
-            modelBuilder.Entity("RentACarPortal.Models.BookingContractRequest", b =>
+            modelBuilder.Entity("RentACarPortal.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Address")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateOnly>("DateOfIssue")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DriverFullName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("DrivingLicenseNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PassportNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PersonalIdNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PlaceOfIssue")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("RentLenght")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("RentStartDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telephone")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("REAL");
 
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("VehicleId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("BookingContractRequests");
+                    b.ToTable("Companies");
                 });
 
             modelBuilder.Entity("RentACarPortal.Models.Contract", b =>
@@ -98,9 +65,15 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("TEXT");
@@ -115,8 +88,9 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("DrivingLicenseNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("DrivingLicenseNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FuelRecieved")
                         .IsRequired()
@@ -136,8 +110,9 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PersonalNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("PersonalNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PlaceOfIssue")
                         .IsRequired()
@@ -191,36 +166,18 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("VehicleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("VehicleId");
 
                     b.ToTable("Contracts");
-                });
-
-            modelBuilder.Entity("RentACarPortal.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("RentACarPortal.Models.Vehicle", b =>
@@ -236,6 +193,9 @@ namespace RentACarPortal.Migrations
                     b.Property<string>("BootSpace")
                         .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double>("DailyRate")
                         .HasColumnType("REAL");
@@ -280,9 +240,6 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Score")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -291,53 +248,52 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Vehicles");
                 });
 
-            modelBuilder.Entity("RentACarPortal.Models.BookingContractRequest", b =>
+            modelBuilder.Entity("RentACarPortal.Models.Contract", b =>
                 {
+                    b.HasOne("RentACarPortal.Models.Client", "Client")
+                        .WithMany("Contracts")
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("RentACarPortal.Models.Company", null)
+                        .WithMany("Contracts")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("RentACarPortal.Models.Vehicle", "Vehicle")
                         .WithMany()
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VehicleId");
+
+                    b.Navigation("Client");
 
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("RentACarPortal.Models.Contract", b =>
-                {
-                    b.HasOne("RentACarPortal.Models.User", "User")
-                        .WithMany("Contracts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("RentACarPortal.Models.Vehicle", b =>
                 {
-                    b.HasOne("RentACarPortal.Models.User", "User")
+                    b.HasOne("RentACarPortal.Models.Company", "Company")
                         .WithMany("Vehicles")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("RentACarPortal.Models.User", b =>
+            modelBuilder.Entity("RentACarPortal.Models.Client", b =>
+                {
+                    b.Navigation("Contracts");
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.Company", b =>
                 {
                     b.Navigation("Contracts");
 

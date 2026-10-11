@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using RentACarPortal.Data;
 using RentACarPortal.Models;
-using SQLitePCL;
 
 namespace RentACarPortal.Controllers
 {
@@ -17,9 +16,18 @@ namespace RentACarPortal.Controllers
             _context = context;
         }
 
-        public IActionResult FleetOverview()
+        public IActionResult FleetOverview(string loggedInUser)
         {
-            return View();
+            ViewBag.Username = loggedInUser;
+
+            // Fetch the user along with their associated fleet vehicles
+            var user = _context.Companies
+                .Include(u => u.Vehicles)
+                .FirstOrDefault(u => u.Username == loggedInUser);
+
+            var vehicles = user?.Vehicles.ToList() ?? new List<Vehicle>();
+
+            return View(vehicles);
         }
 
         [HttpPost]
