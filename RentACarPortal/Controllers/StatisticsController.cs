@@ -24,7 +24,11 @@ namespace RentACarPortal.Controllers
                 return View("~/Views/Dashboard/Statistics.cshtml");
             }
 
+            // Eager load the normalized Make, Model, and Type tables
             var userVehicles = await _context.Vehicles
+                .Include(v => v.VehicleMake)
+                .Include(v => v.VehicleModel)
+                .Include(v => v.VehicleType)
                 .Where(v => v.CompanyId == user.Id)
                 .ToListAsync();
 
@@ -55,7 +59,7 @@ namespace RentACarPortal.Controllers
                     vehicle => vehicle.RegisterNumberOfVehicle,
                     contract => contract.RegisterNumberOfVehicle,
                     (vehicle, contract) => new {
-                        Type = vehicle.TypeOfVehicle ?? "Standard",
+                        Type = vehicle.VehicleType?.Name ?? "Standard",
                         Revenue = Math.Max(1, contract.RentalEndDate.DayNumber - contract.RentalStartDate.DayNumber) * vehicle.DailyRate
                     })
                 .GroupBy(x => x.Type)
@@ -76,7 +80,9 @@ namespace RentACarPortal.Controllers
                     vehicle => vehicle.RegisterNumberOfVehicle,
                     contract => contract.RegisterNumberOfVehicle,
                     (vehicle, contracts) => new {
-                        VehicleName = $"{vehicle.Make} {vehicle.Model}",
+                        VehicleName = vehicle.VehicleMake != null && vehicle.VehicleModel != null
+                            ? $"{vehicle.VehicleMake.Name} {vehicle.VehicleModel.Name}"
+                            : "Unknown Vehicle",
                         RentalCount = contracts.Count()
                     })
                 .OrderByDescending(x => x.RentalCount)
@@ -93,7 +99,7 @@ namespace RentACarPortal.Controllers
                     vehicle => vehicle.RegisterNumberOfVehicle,
                     (contract, vehicle) => new {
                         RentLength = (double)Math.Max(1, contract.RentalEndDate.DayNumber - contract.RentalStartDate.DayNumber),
-                        Type = vehicle.TypeOfVehicle ?? "Standard"
+                        Type = vehicle.VehicleType?.Name ?? "Standard"
                     })
                 .GroupBy(x => x.Type)
                 .Select(g => new {

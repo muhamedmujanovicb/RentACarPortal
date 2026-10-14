@@ -1,4 +1,5 @@
-﻿using RentACarPortal.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RentACarPortal.Data;
 using RentACarPortal.Models;
 
 namespace RentACarPortal.Services
@@ -43,13 +44,17 @@ namespace RentACarPortal.Services
         )
         {
             var user = _context.Clients.FirstOrDefault(u => u.Username == loggedInUser);
-            var vehicle = _context.Vehicles.Find(vehicleId);
+
+            // Eager load VehicleModel so we can access its Name string
+            var vehicle = _context.Vehicles
+                .Include(v => v.VehicleModel)
+                .FirstOrDefault(v => v.Id == vehicleId);
 
             var newContract = new Contract
             {
                 ClientId = user != null ? user.Id : 0,
                 RegisterNumberOfVehicle = vehicle != null ? vehicle.RegisterNumberOfVehicle : vehicleId.ToString(),
-                TypeOfVehicle = vehicle != null ? vehicle.Model : "Unknown",
+                TypeOfVehicle = vehicle?.VehicleModel?.Name ?? "Unknown",
                 RentDriver = driverFullName,
                 Address = address,
                 Telephone = telephone,

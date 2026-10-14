@@ -8,6 +8,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<RentACarPortal.Data.AppDbContext>(options => options.UseSqlite("Data Source=fleetdrive.db"));
 builder.Services.AddScoped<BookingManager>();
 builder.Services.AddScoped<NotificationManager>();
+builder.Services.AddScoped<DashboardService>();
+builder.Services.AddScoped<FleetService>();
+builder.Services.AddScoped<StatisticsService>();
 
 var app = builder.Build();
 
@@ -15,7 +18,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
