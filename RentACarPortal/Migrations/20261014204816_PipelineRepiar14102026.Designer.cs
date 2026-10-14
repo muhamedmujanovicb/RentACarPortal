@@ -11,8 +11,8 @@ using RentACarPortal.Data;
 namespace RentACarPortal.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261011173258_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20261014204816_PipelineRepiar14102026")]
+    partial class PipelineRepiar14102026
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

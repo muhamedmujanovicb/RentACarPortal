@@ -1,90 +1,45 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Data;
 using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class DashboardController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly DashboardService _dashboardService;
+        private readonly FleetService _fleetService;
 
-        public DashboardController(AppDbContext context)
+        public DashboardController(DashboardService dashboardService, FleetService fleetService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
+            _fleetService = fleetService;
         }
 
         [HttpGet]
         public IActionResult Dashboard(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
-            // Find the current user/company managing the fleet
-            var currentUser = _context.Companies
-                .Include(u => u.Vehicles)
-                .FirstOrDefault(u => u.Username == loggedInUser);
-
-            if (currentUser == null || currentUser.Vehicles == null)
-            {
-                return View(new List<Contract>());
-            }
-
-            var currentTime = DateTime.Now;
-
-            // Get registration numbers belonging to this company's vehicles
-            var companyVehicleRegs = currentUser.Vehicles.Select(v => v.RegisterNumberOfVehicle).ToList();
-
-            // Check for expired vehicle holds
-            var expiredVehicles = currentUser.Vehicles
-                .Where(v => v.HoldExpiresAt != null && v.HoldExpiresAt <= currentTime)
-                .ToList();
-
-            if (expiredVehicles.Any())
-            {
-                var expiredRegs = expiredVehicles.Select(v => v.RegisterNumberOfVehicle).ToList();
-
-                // Find pending contracts associated with expired vehicles
-                var expiredContracts = _context.Contracts
-                    .Where(c => c.Status == "Pending" && expiredRegs.Contains(c.RegisterNumberOfVehicle))
-                    .ToList();
-
-                foreach (var vehicle in expiredVehicles)
-                {
-                    vehicle.Status = "Available";
-                    vehicle.HoldExpiresAt = null;
-                }
-
-                if (expiredContracts.Any())
-                {
-                    _context.Contracts.RemoveRange(expiredContracts);
-                }
-
-                _context.SaveChanges();
-            }
-
-            // Fetch pending contracts for this company's vehicle registrations
-            var validContracts = _context.Contracts
-                .Where(c => c.Status == "Pending" && companyVehicleRegs.Contains(c.RegisterNumberOfVehicle))
-                .OrderByDescending(c => c.Id)
-                .ToList();
-
+            var validContracts = _dashboardService.GetPendingContractsAndProcessExpirations(loggedInUser);
             return View(validContracts);
         }
 
         [HttpGet]
         public IActionResult FleetManager(string loggedInUser)
         {
-            ViewBag.Username = loggedInUser;
+            ViewBag.Username = string.IsNullOrEmpty(loggedInUser) ? "Admin" : loggedInUser;
+            ViewBag.Makes = _fleetService.GetAllMakes();
+            ViewBag.Models = _fleetService.GetAllModels();
+            ViewBag.VehicleTypes = _fleetService.GetAllVehicleTypes();
             return View("FleetManager");
         }
 
         [HttpGet]
         public IActionResult FleetOverview(string loggedInUser)
         {
-            var user = _context.Companies.Include(u => u.Vehicles).FirstOrDefault(u => u.Username == loggedInUser);
-            
             ViewBag.Username = loggedInUser;
-            return View(user?.Vehicles.ToList()??new List<Vehicle>());
+            var vehicles = _dashboardService.GetCompanyFleetWithLookups(loggedInUser);
+            return View(vehicles);
         }
 
         [HttpGet]
@@ -97,29 +52,23 @@ namespace RentACarPortal.Controllers
         [HttpGet]
         public IActionResult ContractHistory(string loggedInUser)
         {
-            var user = _context.Companies.Include(u => u.Contracts).FirstOrDefault(u => u.Username == loggedInUser);
-
             ViewBag.Username = loggedInUser;
-            return View(user?.Contracts.ToList() ?? new List<Contract>());
+            var contracts = _dashboardService.GetCompanyContracts(loggedInUser);
+            return View(contracts);
         }
 
         [HttpGet]
         public IActionResult ContractRequestDetails(int id, string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
-            var contract = _context.Contracts
-                .FirstOrDefault(c => c.Id == id);
+            var (contract, vehicle) = _dashboardService.GetContractRequestDetails(id);
 
             if (contract == null)
             {
                 return NotFound();
             }
 
-            // Pass the associated vehicle along via ViewBag since Contract links via RegisterNumberOfVehicle
-            ViewBag.Vehicle = _context.Vehicles
-                .FirstOrDefault(v => v.RegisterNumberOfVehicle == contract.RegisterNumberOfVehicle);
-
+            ViewBag.Vehicle = vehicle;
             return View("ContractRequestDetails", contract);
         }
 
@@ -127,7 +76,6 @@ namespace RentACarPortal.Controllers
         public IActionResult Statistics(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
             return RedirectToAction("Index", "Statistics", new { loggedInUser });
         }
     }
