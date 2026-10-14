@@ -119,9 +119,9 @@ namespace RentACarPortal.Services
         {
             return _context.Contracts
                 .Include(c => c.Vehicle)
-                    .ThenInclude(v => v.VehicleMake)
+                    .ThenInclude(v => v!.VehicleMake)
                 .Include(c => c.Vehicle)
-                    .ThenInclude(v => v.VehicleModel)
+                    .ThenInclude(v => v!.VehicleModel)
                 .Include(c => c.Client)
                 .FirstOrDefault(c => c.Id == id);
         }
@@ -175,4 +175,3 @@ namespace RentACarPortal.Services
         }
     }
 }
-

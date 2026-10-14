@@ -1,5 +1,10 @@
 ﻿@{
-	ViewData["Title"] = "FleetManager";
+    Layout = null;
+    ViewData["Title"] = "FleetManager";
+
+    var makes = ViewBag.Makes as List<RentACarPortal.Models.VehicleMake> ?? new List<RentACarPortal.Models.VehicleMake>();
+    var models = ViewBag.Models as List<RentACarPortal.Models.VehicleModel> ?? new List<RentACarPortal.Models.VehicleModel>();
+    var vTypes = ViewBag.VehicleTypes as List<RentACarPortal.Models.VehicleType> ?? new List<RentACarPortal.Models.VehicleType>();
 }
 
 <!DOCTYPE html>
@@ -59,6 +64,16 @@
                 </div>
             </header>
 
+            @if (!makes.Any() || !vTypes.Any())
+            {
+                <div class="alert alert-warning">
+                    <strong>No lookup data found.</strong>
+                    Makes loaded: @makes.Count, models: @models.Count, vehicle types: @vTypes.Count.
+                    The database tables are empty. Make sure the seed methods are called in
+                    <code>AppDbContext.OnModelCreating</code> and that the migration has been applied.
+                </div>
+            }
+
             <form class="recommendor-form" asp-controller="FleetManager" asp-action="NewVehicle" method="post">
                 <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
 
@@ -77,38 +92,48 @@
                             </div>
 
                             <div class="form-section-body">
+
                                 <div class="row g-3 mb-3">
-                                    <div class="col-md-4">
-                                        <label for="Make" class="form-label">Make</label>
-                                        <input type="text" class="form-control" id="Make" name="Make" placeholder="e.g. Toyota" required>
+                                    <!-- Make Dropdown -->
+                                    <div class="col-md-3">
+                                        <label for="VehicleMakeId" class="form-label">Make</label>
+                                        <select class="form-select" id="VehicleMakeId" name="VehicleMakeId" required>
+                                            <option value="" disabled selected>Select make...</option>
+                                            @foreach (var make in makes)
+                                            {
+                                                <option value="@make.Id">@make.Name</option>
+                                            }
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label for="Model" class="form-label">Model</label>
-                                        <input type="text" class="form-control" id="Model" name="Model" placeholder="e.g. Corolla" required>
+
+                                    <!-- Model Dropdown -->
+                                    <div class="col-md-3">
+                                        <label for="VehicleModelId" class="form-label">Model</label>
+                                        <select class="form-select" id="VehicleModelId" name="VehicleModelId" required disabled>
+                                            <option value="" disabled selected>Select make first...</option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
+
+                                    <!-- Year Input -->
+                                    <div class="col-md-3">
                                         <label for="Year" class="form-label">Year</label>
                                         <input type="number" class="form-control" id="Year" name="Year" min="1990" max="2027" placeholder="e.g. 2024" required>
+                                    </div>
+
+                                    <!-- Vehicle Type Dropdown -->
+                                    <div class="col-md-3">
+                                        <label for="VehicleTypeId" class="form-label">Vehicle Type</label>
+                                        <select class="form-select" id="VehicleTypeId" name="VehicleTypeId" required>
+                                            <option value="" disabled selected>Select type...</option>
+                                            @foreach (var vt in vTypes)
+                                            {
+                                                <option value="@vt.Id">@vt.Name</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
 
                                 <div class="row g-3 mb-3">
-                                    <div class="col-md-4">
-                                        <label for="TypeOfVehicle" class="form-label">Vehicle Type</label>
-                                        <select class="form-select" id="TypeOfVehicle" name="TypeOfVehicle" required>
-                                            <option value="" disabled selected>Select type...</option>
-                                            <option value="coupe">Coupe</option>
-                                            <option value="compact">Compact</option>
-                                            <option value="sedan">Sedan</option>
-                                            <option value="limo">Limo</option>
-                                            <option value="suv">SUV</option>
-                                            <option value="jeep">Jeep</option>
-                                            <option value="monovolumen">Monovolumen</option>
-                                            <option value="van">Van</option>
-                                            <option value="minibus">Minibus</option>
-                                            <option value="bus">Bus</option>
-                                        </select>
-                                    </div>
                                     <div class="col-md-4">
                                         <label for="DriveTerrain" class="form-label">Drive Terrain</label>
                                         <select class="form-select" id="DriveTerrain" name="DriveTerrain" required>
@@ -127,18 +152,18 @@
                                             <option value="big">Big</option>
                                         </select>
                                     </div>
-                                </div>
-
-                                <div class="row g-3 mb-3">
                                     <div class="col-md-4">
                                         <label for="NumberOfSeats" class="form-label">Number of Seats</label>
                                         <input type="number" class="form-control" id="NumberOfSeats" name="NumberOfSeats" min="1" max="60" placeholder="e.g. 5" required>
                                     </div>
-                                    <div class="col-md-4">
+                                </div>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
                                         <label for="FuelEfficiency" class="form-label">Fuel Efficiency (L/100km)</label>
                                         <input type="number" class="form-control" id="FuelEfficiency" name="FuelEfficiency" step="0.1" min="0" placeholder="e.g. 6.5" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <label for="FuelTankSize" class="form-label">Fuel Tank Size (L)</label>
                                         <input type="number" class="form-control" id="FuelTankSize" name="FuelTankSize" step="1" min="0" placeholder="e.g. 50" required>
                                     </div>
@@ -149,12 +174,12 @@
                                         <label class="form-label">AC Type</label>
                                         <div class="d-flex gap-4">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="ACtype" id="ACtype" value="single" required>
-                                                <label class="form-check-label" for="ACtype">Single Zone</label>
+                                                <input class="form-check-input" type="radio" name="ACtype" id="ACtypeSingle" value="single" required>
+                                                <label class="form-check-label" for="ACtypeSingle">Single Zone</label>
                                             </div>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="ACtype" id="ACtype" value="dual">
-                                                <label class="form-check-label" for="ACtype">Dual Zone</label>
+                                                <input class="form-check-input" type="radio" name="ACtype" id="ACtypeDual" value="dual">
+                                                <label class="form-check-label" for="ACtypeDual">Dual Zone</label>
                                             </div>
                                         </div>
                                     </div>
@@ -170,20 +195,16 @@
                                         </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-check form-switch">
-                                            <select name="HasChildrenSafety" class="form-select">
-                                                <option value="true">Has child safety features</option>
-                                                <option value="false">Does not have child safety features</option>
-                                            </select>
-                                        </div>
+                                        <select name="HasChildrenSafety" class="form-select">
+                                            <option value="true">Has child safety features</option>
+                                            <option value="false">Does not have child safety features</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-check form-switch">
-                                            <select name="HasNavigation" class="form-select">
-                                                <option value="true">Has navigation</option>
-                                                <option value="false">Does not have navigation</option>
-                                            </select>
-                                        </div>
+                                        <select name="HasNavigation" class="form-select">
+                                            <option value="true">Has navigation</option>
+                                            <option value="false">Does not have navigation</option>
+                                        </select>
                                     </div>
                                 </div>
 
@@ -218,7 +239,7 @@
                                         <input type="number" class="form-control" id="DailyRate" name="DailyRate" min="0" step="0.01" placeholder="e.g. 45" required>
                                     </div>
                                 </div>
-                                
+
                                 <div class="mb-4 pt-2">
                                     <select name="HasInsurance" class="form-select">
                                         <option value="true">Has active insurance</option>
@@ -241,6 +262,31 @@
 
         </div>
     </main>
+
+    <!-- Fill the Model dropdown with only the models that belong to the selected make -->
+    <script>
+            const allModels = @Json.Serialize(models.Select(m => new { id = m.Id, name = m.Name, makeId = m.MakeId }));
+
+            const makeSelect = document.getElementById('VehicleMakeId');
+            const modelSelect = document.getElementById('VehicleModelId');
+
+            makeSelect.addEventListener('change', function() {
+                const makeId = parseInt(this.value, 10);
+
+                modelSelect.innerHTML = '';
+
+                const placeholder = new Option('Select model...', '', true, true);
+                placeholder.disabled = true;
+                modelSelect.add(placeholder);
+
+                const matches = allModels.filter(function(m) { return m.makeId === makeId; });
+                matches.forEach(function(m) {
+                    modelSelect.add(new Option(m.name, m.id));
+                });
+
+                modelSelect.disabled = matches.length === 0;
+            });
+    </script>
 
     <footer class="footer py-4 mt-auto">
         <div class="container">

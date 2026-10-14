@@ -225,14 +225,6 @@ namespace RentACarPortal.Migrations
                     b.Property<bool>("IsDiesel")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Make")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Model")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("INTEGER");
 
@@ -244,9 +236,14 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("TypeOfVehicle")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("VehicleMakeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VehicleModelId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("VehicleTypeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
@@ -255,7 +252,3445 @@ namespace RentACarPortal.Migrations
 
                     b.HasIndex("CompanyId");
 
+                    b.HasIndex("VehicleMakeId");
+
+                    b.HasIndex("VehicleModelId");
+
+                    b.HasIndex("VehicleTypeId");
+
                     b.ToTable("Vehicles");
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.VehicleMake", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VehicleMake");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Audi"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "BMW"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Citroen"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Fiat"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Ford"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Mercedes-Benz"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Opel"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Peugeot"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Renault"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "Škoda"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "Toyota"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Volkswagen"
+                        });
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.VehicleModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MakeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MakeId");
+
+                    b.ToTable("VehicleModel");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MakeId = 1,
+                            Name = "80"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MakeId = 1,
+                            Name = "90"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            MakeId = 1,
+                            Name = "100"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            MakeId = 1,
+                            Name = "200"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MakeId = 1,
+                            Name = "A1"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            MakeId = 1,
+                            Name = "A2"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            MakeId = 1,
+                            Name = "A3"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            MakeId = 1,
+                            Name = "A4"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            MakeId = 1,
+                            Name = "A5"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            MakeId = 1,
+                            Name = "A6"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            MakeId = 1,
+                            Name = "A7"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            MakeId = 1,
+                            Name = "A8"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            MakeId = 1,
+                            Name = "Allroad"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            MakeId = 1,
+                            Name = "Cabriolet"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            MakeId = 1,
+                            Name = "Coupe"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            MakeId = 1,
+                            Name = "e-tron"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            MakeId = 1,
+                            Name = "e-tron GT"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            MakeId = 1,
+                            Name = "Q2"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            MakeId = 1,
+                            Name = "Q3"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            MakeId = 1,
+                            Name = "Q4 e-tron"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            MakeId = 1,
+                            Name = "Q5"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            MakeId = 1,
+                            Name = "Q7"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            MakeId = 1,
+                            Name = "Q8"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            MakeId = 1,
+                            Name = "Quattro"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            MakeId = 1,
+                            Name = "R8"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            MakeId = 1,
+                            Name = "RS3"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            MakeId = 1,
+                            Name = "RS4"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            MakeId = 1,
+                            Name = "RS5"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            MakeId = 1,
+                            Name = "RS6"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            MakeId = 1,
+                            Name = "RS7"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            MakeId = 1,
+                            Name = "RSQ3"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            MakeId = 1,
+                            Name = "RSQ8"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            MakeId = 1,
+                            Name = "S3"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            MakeId = 1,
+                            Name = "S4"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            MakeId = 1,
+                            Name = "S5"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            MakeId = 1,
+                            Name = "S6"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            MakeId = 1,
+                            Name = "S7"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            MakeId = 1,
+                            Name = "S8"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            MakeId = 1,
+                            Name = "SQ5"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            MakeId = 1,
+                            Name = "SQ7"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            MakeId = 1,
+                            Name = "SQ8"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            MakeId = 1,
+                            Name = "TT"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            MakeId = 1,
+                            Name = "TT RS"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            MakeId = 1,
+                            Name = "TTS"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            MakeId = 1,
+                            Name = "V8"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            MakeId = 2,
+                            Name = "114"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            MakeId = 2,
+                            Name = "116"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            MakeId = 2,
+                            Name = "118"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            MakeId = 2,
+                            Name = "120"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            MakeId = 2,
+                            Name = "123"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            MakeId = 2,
+                            Name = "125"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            MakeId = 2,
+                            Name = "128"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            MakeId = 2,
+                            Name = "130"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            MakeId = 2,
+                            Name = "135"
+                        },
+                        new
+                        {
+                            Id = 55,
+                            MakeId = 2,
+                            Name = "214 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 56,
+                            MakeId = 2,
+                            Name = "214 Gran Tourer"
+                        },
+                        new
+                        {
+                            Id = 57,
+                            MakeId = 2,
+                            Name = "216"
+                        },
+                        new
+                        {
+                            Id = 58,
+                            MakeId = 2,
+                            Name = "216 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 59,
+                            MakeId = 2,
+                            Name = "216 Gran Tourer"
+                        },
+                        new
+                        {
+                            Id = 60,
+                            MakeId = 2,
+                            Name = "218"
+                        },
+                        new
+                        {
+                            Id = 61,
+                            MakeId = 2,
+                            Name = "218 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 62,
+                            MakeId = 2,
+                            Name = "218 Gran Tourer"
+                        },
+                        new
+                        {
+                            Id = 63,
+                            MakeId = 2,
+                            Name = "220"
+                        },
+                        new
+                        {
+                            Id = 64,
+                            MakeId = 2,
+                            Name = "220 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 65,
+                            MakeId = 2,
+                            Name = "220 Gran Tourer"
+                        },
+                        new
+                        {
+                            Id = 66,
+                            MakeId = 2,
+                            Name = "223 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 67,
+                            MakeId = 2,
+                            Name = "225"
+                        },
+                        new
+                        {
+                            Id = 68,
+                            MakeId = 2,
+                            Name = "225 Active Tourer"
+                        },
+                        new
+                        {
+                            Id = 69,
+                            MakeId = 2,
+                            Name = "228"
+                        },
+                        new
+                        {
+                            Id = 70,
+                            MakeId = 2,
+                            Name = "230"
+                        },
+                        new
+                        {
+                            Id = 71,
+                            MakeId = 2,
+                            Name = "315"
+                        },
+                        new
+                        {
+                            Id = 72,
+                            MakeId = 2,
+                            Name = "316"
+                        },
+                        new
+                        {
+                            Id = 73,
+                            MakeId = 2,
+                            Name = "318"
+                        },
+                        new
+                        {
+                            Id = 74,
+                            MakeId = 2,
+                            Name = "318 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 75,
+                            MakeId = 2,
+                            Name = "320"
+                        },
+                        new
+                        {
+                            Id = 76,
+                            MakeId = 2,
+                            Name = "320 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 77,
+                            MakeId = 2,
+                            Name = "323"
+                        },
+                        new
+                        {
+                            Id = 78,
+                            MakeId = 2,
+                            Name = "324"
+                        },
+                        new
+                        {
+                            Id = 79,
+                            MakeId = 2,
+                            Name = "325"
+                        },
+                        new
+                        {
+                            Id = 80,
+                            MakeId = 2,
+                            Name = "325 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 81,
+                            MakeId = 2,
+                            Name = "328"
+                        },
+                        new
+                        {
+                            Id = 82,
+                            MakeId = 2,
+                            Name = "328 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 83,
+                            MakeId = 2,
+                            Name = "330"
+                        },
+                        new
+                        {
+                            Id = 84,
+                            MakeId = 2,
+                            Name = "330 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 85,
+                            MakeId = 2,
+                            Name = "335"
+                        },
+                        new
+                        {
+                            Id = 86,
+                            MakeId = 2,
+                            Name = "335 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 87,
+                            MakeId = 2,
+                            Name = "340"
+                        },
+                        new
+                        {
+                            Id = 88,
+                            MakeId = 2,
+                            Name = "340 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 89,
+                            MakeId = 2,
+                            Name = "ActiveHybrid 3"
+                        },
+                        new
+                        {
+                            Id = 90,
+                            MakeId = 2,
+                            Name = "418"
+                        },
+                        new
+                        {
+                            Id = 91,
+                            MakeId = 2,
+                            Name = "418 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 92,
+                            MakeId = 2,
+                            Name = "420"
+                        },
+                        new
+                        {
+                            Id = 93,
+                            MakeId = 2,
+                            Name = "420 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 94,
+                            MakeId = 2,
+                            Name = "425"
+                        },
+                        new
+                        {
+                            Id = 95,
+                            MakeId = 2,
+                            Name = "425 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 96,
+                            MakeId = 2,
+                            Name = "428"
+                        },
+                        new
+                        {
+                            Id = 97,
+                            MakeId = 2,
+                            Name = "428 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 98,
+                            MakeId = 2,
+                            Name = "430"
+                        },
+                        new
+                        {
+                            Id = 99,
+                            MakeId = 2,
+                            Name = "430 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 100,
+                            MakeId = 2,
+                            Name = "435"
+                        },
+                        new
+                        {
+                            Id = 101,
+                            MakeId = 2,
+                            Name = "435 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 102,
+                            MakeId = 2,
+                            Name = "440"
+                        },
+                        new
+                        {
+                            Id = 103,
+                            MakeId = 2,
+                            Name = "440 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 104,
+                            MakeId = 2,
+                            Name = "518"
+                        },
+                        new
+                        {
+                            Id = 105,
+                            MakeId = 2,
+                            Name = "520"
+                        },
+                        new
+                        {
+                            Id = 106,
+                            MakeId = 2,
+                            Name = "520 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            MakeId = 2,
+                            Name = "523"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            MakeId = 2,
+                            Name = "524"
+                        },
+                        new
+                        {
+                            Id = 109,
+                            MakeId = 2,
+                            Name = "525"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            MakeId = 2,
+                            Name = "528"
+                        },
+                        new
+                        {
+                            Id = 111,
+                            MakeId = 2,
+                            Name = "530"
+                        },
+                        new
+                        {
+                            Id = 112,
+                            MakeId = 2,
+                            Name = "530 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 113,
+                            MakeId = 2,
+                            Name = "535"
+                        },
+                        new
+                        {
+                            Id = 114,
+                            MakeId = 2,
+                            Name = "535 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 115,
+                            MakeId = 2,
+                            Name = "540"
+                        },
+                        new
+                        {
+                            Id = 116,
+                            MakeId = 2,
+                            Name = "545"
+                        },
+                        new
+                        {
+                            Id = 117,
+                            MakeId = 2,
+                            Name = "550"
+                        },
+                        new
+                        {
+                            Id = 118,
+                            MakeId = 2,
+                            Name = "550 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 119,
+                            MakeId = 2,
+                            Name = "ActiveHybrid 5"
+                        },
+                        new
+                        {
+                            Id = 120,
+                            MakeId = 2,
+                            Name = "620 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 121,
+                            MakeId = 2,
+                            Name = "628"
+                        },
+                        new
+                        {
+                            Id = 122,
+                            MakeId = 2,
+                            Name = "630"
+                        },
+                        new
+                        {
+                            Id = 123,
+                            MakeId = 2,
+                            Name = "630 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 124,
+                            MakeId = 2,
+                            Name = "633"
+                        },
+                        new
+                        {
+                            Id = 125,
+                            MakeId = 2,
+                            Name = "635"
+                        },
+                        new
+                        {
+                            Id = 126,
+                            MakeId = 2,
+                            Name = "640"
+                        },
+                        new
+                        {
+                            Id = 127,
+                            MakeId = 2,
+                            Name = "640 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 128,
+                            MakeId = 2,
+                            Name = "640 Gran Turismo"
+                        },
+                        new
+                        {
+                            Id = 129,
+                            MakeId = 2,
+                            Name = "645"
+                        },
+                        new
+                        {
+                            Id = 130,
+                            MakeId = 2,
+                            Name = "650"
+                        },
+                        new
+                        {
+                            Id = 131,
+                            MakeId = 2,
+                            Name = "650 Gran Coupe"
+                        },
+                        new
+                        {
+                            Id = 132,
+                            MakeId = 2,
+                            Name = "725"
+                        },
+                        new
+                        {
+                            Id = 133,
+                            MakeId = 2,
+                            Name = "728"
+                        },
+                        new
+                        {
+                            Id = 134,
+                            MakeId = 2,
+                            Name = "730"
+                        },
+                        new
+                        {
+                            Id = 135,
+                            MakeId = 2,
+                            Name = "732"
+                        },
+                        new
+                        {
+                            Id = 136,
+                            MakeId = 2,
+                            Name = "735"
+                        },
+                        new
+                        {
+                            Id = 137,
+                            MakeId = 2,
+                            Name = "740"
+                        },
+                        new
+                        {
+                            Id = 138,
+                            MakeId = 2,
+                            Name = "745"
+                        },
+                        new
+                        {
+                            Id = 139,
+                            MakeId = 2,
+                            Name = "750"
+                        },
+                        new
+                        {
+                            Id = 140,
+                            MakeId = 2,
+                            Name = "760"
+                        },
+                        new
+                        {
+                            Id = 141,
+                            MakeId = 2,
+                            Name = "ActiveHybrid 7"
+                        },
+                        new
+                        {
+                            Id = 142,
+                            MakeId = 2,
+                            Name = "840"
+                        },
+                        new
+                        {
+                            Id = 143,
+                            MakeId = 2,
+                            Name = "850"
+                        },
+                        new
+                        {
+                            Id = 144,
+                            MakeId = 2,
+                            Name = "X1"
+                        },
+                        new
+                        {
+                            Id = 145,
+                            MakeId = 2,
+                            Name = "X2"
+                        },
+                        new
+                        {
+                            Id = 146,
+                            MakeId = 2,
+                            Name = "X3"
+                        },
+                        new
+                        {
+                            Id = 147,
+                            MakeId = 2,
+                            Name = "X4"
+                        },
+                        new
+                        {
+                            Id = 148,
+                            MakeId = 2,
+                            Name = "X5"
+                        },
+                        new
+                        {
+                            Id = 149,
+                            MakeId = 2,
+                            Name = "X6"
+                        },
+                        new
+                        {
+                            Id = 150,
+                            MakeId = 2,
+                            Name = "X7"
+                        },
+                        new
+                        {
+                            Id = 151,
+                            MakeId = 2,
+                            Name = "ActiveHybrid X6"
+                        },
+                        new
+                        {
+                            Id = 152,
+                            MakeId = 2,
+                            Name = "Z1"
+                        },
+                        new
+                        {
+                            Id = 153,
+                            MakeId = 2,
+                            Name = "Z3"
+                        },
+                        new
+                        {
+                            Id = 154,
+                            MakeId = 2,
+                            Name = "Z4"
+                        },
+                        new
+                        {
+                            Id = 155,
+                            MakeId = 2,
+                            Name = "Z8"
+                        },
+                        new
+                        {
+                            Id = 156,
+                            MakeId = 2,
+                            Name = "i3"
+                        },
+                        new
+                        {
+                            Id = 157,
+                            MakeId = 2,
+                            Name = "i4"
+                        },
+                        new
+                        {
+                            Id = 158,
+                            MakeId = 2,
+                            Name = "i5"
+                        },
+                        new
+                        {
+                            Id = 159,
+                            MakeId = 2,
+                            Name = "i7"
+                        },
+                        new
+                        {
+                            Id = 160,
+                            MakeId = 2,
+                            Name = "i8"
+                        },
+                        new
+                        {
+                            Id = 161,
+                            MakeId = 2,
+                            Name = "iX"
+                        },
+                        new
+                        {
+                            Id = 162,
+                            MakeId = 2,
+                            Name = "iX1"
+                        },
+                        new
+                        {
+                            Id = 163,
+                            MakeId = 2,
+                            Name = "iX2"
+                        },
+                        new
+                        {
+                            Id = 164,
+                            MakeId = 2,
+                            Name = "iX3"
+                        },
+                        new
+                        {
+                            Id = 165,
+                            MakeId = 2,
+                            Name = "M2"
+                        },
+                        new
+                        {
+                            Id = 166,
+                            MakeId = 2,
+                            Name = "M3"
+                        },
+                        new
+                        {
+                            Id = 167,
+                            MakeId = 2,
+                            Name = "M4"
+                        },
+                        new
+                        {
+                            Id = 168,
+                            MakeId = 2,
+                            Name = "M5"
+                        },
+                        new
+                        {
+                            Id = 169,
+                            MakeId = 2,
+                            Name = "M6"
+                        },
+                        new
+                        {
+                            Id = 170,
+                            MakeId = 2,
+                            Name = "M8"
+                        },
+                        new
+                        {
+                            Id = 171,
+                            MakeId = 2,
+                            Name = "XM"
+                        },
+                        new
+                        {
+                            Id = 172,
+                            MakeId = 2,
+                            Name = "2002"
+                        },
+                        new
+                        {
+                            Id = 173,
+                            MakeId = 3,
+                            Name = "AX"
+                        },
+                        new
+                        {
+                            Id = 174,
+                            MakeId = 3,
+                            Name = "Berlingo"
+                        },
+                        new
+                        {
+                            Id = 175,
+                            MakeId = 3,
+                            Name = "BX"
+                        },
+                        new
+                        {
+                            Id = 176,
+                            MakeId = 3,
+                            Name = "C-Crosser"
+                        },
+                        new
+                        {
+                            Id = 177,
+                            MakeId = 3,
+                            Name = "C-Elysee"
+                        },
+                        new
+                        {
+                            Id = 178,
+                            MakeId = 3,
+                            Name = "C-Zero"
+                        },
+                        new
+                        {
+                            Id = 179,
+                            MakeId = 3,
+                            Name = "C1"
+                        },
+                        new
+                        {
+                            Id = 180,
+                            MakeId = 3,
+                            Name = "C2"
+                        },
+                        new
+                        {
+                            Id = 181,
+                            MakeId = 3,
+                            Name = "C3"
+                        },
+                        new
+                        {
+                            Id = 182,
+                            MakeId = 3,
+                            Name = "C3 Aircross"
+                        },
+                        new
+                        {
+                            Id = 183,
+                            MakeId = 3,
+                            Name = "C3 Picasso"
+                        },
+                        new
+                        {
+                            Id = 184,
+                            MakeId = 3,
+                            Name = "C4"
+                        },
+                        new
+                        {
+                            Id = 185,
+                            MakeId = 3,
+                            Name = "C4 Aircross"
+                        },
+                        new
+                        {
+                            Id = 186,
+                            MakeId = 3,
+                            Name = "C4 Cactus"
+                        },
+                        new
+                        {
+                            Id = 187,
+                            MakeId = 3,
+                            Name = "C4 Picasso"
+                        },
+                        new
+                        {
+                            Id = 188,
+                            MakeId = 3,
+                            Name = "C4 SpaceTourer"
+                        },
+                        new
+                        {
+                            Id = 189,
+                            MakeId = 3,
+                            Name = "C4 X"
+                        },
+                        new
+                        {
+                            Id = 190,
+                            MakeId = 3,
+                            Name = "C5"
+                        },
+                        new
+                        {
+                            Id = 191,
+                            MakeId = 3,
+                            Name = "C5 Aircross"
+                        },
+                        new
+                        {
+                            Id = 192,
+                            MakeId = 3,
+                            Name = "C5 X"
+                        },
+                        new
+                        {
+                            Id = 193,
+                            MakeId = 3,
+                            Name = "C6"
+                        },
+                        new
+                        {
+                            Id = 194,
+                            MakeId = 3,
+                            Name = "C8"
+                        },
+                        new
+                        {
+                            Id = 195,
+                            MakeId = 3,
+                            Name = "Evasion"
+                        },
+                        new
+                        {
+                            Id = 196,
+                            MakeId = 3,
+                            Name = "Jumper"
+                        },
+                        new
+                        {
+                            Id = 197,
+                            MakeId = 3,
+                            Name = "Jumpy"
+                        },
+                        new
+                        {
+                            Id = 198,
+                            MakeId = 3,
+                            Name = "Nemo"
+                        },
+                        new
+                        {
+                            Id = 199,
+                            MakeId = 3,
+                            Name = "Saxo"
+                        },
+                        new
+                        {
+                            Id = 200,
+                            MakeId = 3,
+                            Name = "SpaceTourer"
+                        },
+                        new
+                        {
+                            Id = 201,
+                            MakeId = 3,
+                            Name = "Xsara"
+                        },
+                        new
+                        {
+                            Id = 202,
+                            MakeId = 3,
+                            Name = "Xsara Picasso"
+                        },
+                        new
+                        {
+                            Id = 203,
+                            MakeId = 3,
+                            Name = "ZX"
+                        },
+                        new
+                        {
+                            Id = 204,
+                            MakeId = 3,
+                            Name = "Drugi modeli Citroen"
+                        },
+                        new
+                        {
+                            Id = 205,
+                            MakeId = 4,
+                            Name = "124 Spider"
+                        },
+                        new
+                        {
+                            Id = 206,
+                            MakeId = 4,
+                            Name = "126"
+                        },
+                        new
+                        {
+                            Id = 207,
+                            MakeId = 4,
+                            Name = "127"
+                        },
+                        new
+                        {
+                            Id = 208,
+                            MakeId = 4,
+                            Name = "128"
+                        },
+                        new
+                        {
+                            Id = 209,
+                            MakeId = 4,
+                            Name = "500"
+                        },
+                        new
+                        {
+                            Id = 210,
+                            MakeId = 4,
+                            Name = "500L"
+                        },
+                        new
+                        {
+                            Id = 211,
+                            MakeId = 4,
+                            Name = "500X"
+                        },
+                        new
+                        {
+                            Id = 212,
+                            MakeId = 4,
+                            Name = "Albea"
+                        },
+                        new
+                        {
+                            Id = 213,
+                            MakeId = 4,
+                            Name = "Argenta"
+                        },
+                        new
+                        {
+                            Id = 214,
+                            MakeId = 4,
+                            Name = "Barchetta"
+                        },
+                        new
+                        {
+                            Id = 215,
+                            MakeId = 4,
+                            Name = "Brava"
+                        },
+                        new
+                        {
+                            Id = 216,
+                            MakeId = 4,
+                            Name = "Bravo"
+                        },
+                        new
+                        {
+                            Id = 217,
+                            MakeId = 4,
+                            Name = "Cinquecento"
+                        },
+                        new
+                        {
+                            Id = 218,
+                            MakeId = 4,
+                            Name = "Coupe"
+                        },
+                        new
+                        {
+                            Id = 219,
+                            MakeId = 4,
+                            Name = "Croma"
+                        },
+                        new
+                        {
+                            Id = 220,
+                            MakeId = 4,
+                            Name = "Doblo"
+                        },
+                        new
+                        {
+                            Id = 221,
+                            MakeId = 4,
+                            Name = "Ducato"
+                        },
+                        new
+                        {
+                            Id = 222,
+                            MakeId = 4,
+                            Name = "Fiorino"
+                        },
+                        new
+                        {
+                            Id = 223,
+                            MakeId = 4,
+                            Name = "Fullback"
+                        },
+                        new
+                        {
+                            Id = 224,
+                            MakeId = 4,
+                            Name = "Grande Punto"
+                        },
+                        new
+                        {
+                            Id = 225,
+                            MakeId = 4,
+                            Name = "Idea"
+                        },
+                        new
+                        {
+                            Id = 226,
+                            MakeId = 4,
+                            Name = "Linea"
+                        },
+                        new
+                        {
+                            Id = 227,
+                            MakeId = 4,
+                            Name = "Marea"
+                        },
+                        new
+                        {
+                            Id = 228,
+                            MakeId = 4,
+                            Name = "Multipla"
+                        },
+                        new
+                        {
+                            Id = 229,
+                            MakeId = 4,
+                            Name = "Palio"
+                        },
+                        new
+                        {
+                            Id = 230,
+                            MakeId = 4,
+                            Name = "Panda"
+                        },
+                        new
+                        {
+                            Id = 231,
+                            MakeId = 4,
+                            Name = "Punto"
+                        },
+                        new
+                        {
+                            Id = 232,
+                            MakeId = 4,
+                            Name = "Qubo"
+                        },
+                        new
+                        {
+                            Id = 233,
+                            MakeId = 4,
+                            Name = "Regata"
+                        },
+                        new
+                        {
+                            Id = 234,
+                            MakeId = 4,
+                            Name = "Scudo"
+                        },
+                        new
+                        {
+                            Id = 235,
+                            MakeId = 4,
+                            Name = "Sedici"
+                        },
+                        new
+                        {
+                            Id = 236,
+                            MakeId = 4,
+                            Name = "Seicento"
+                        },
+                        new
+                        {
+                            Id = 237,
+                            MakeId = 4,
+                            Name = "Stilo"
+                        },
+                        new
+                        {
+                            Id = 238,
+                            MakeId = 4,
+                            Name = "Talento"
+                        },
+                        new
+                        {
+                            Id = 239,
+                            MakeId = 4,
+                            Name = "Tempra"
+                        },
+                        new
+                        {
+                            Id = 240,
+                            MakeId = 4,
+                            Name = "Tipo"
+                        },
+                        new
+                        {
+                            Id = 241,
+                            MakeId = 4,
+                            Name = "Ulysse"
+                        },
+                        new
+                        {
+                            Id = 242,
+                            MakeId = 4,
+                            Name = "Uno"
+                        },
+                        new
+                        {
+                            Id = 243,
+                            MakeId = 4,
+                            Name = "X1/9"
+                        },
+                        new
+                        {
+                            Id = 244,
+                            MakeId = 4,
+                            Name = "Drugi modeli Fiat"
+                        },
+                        new
+                        {
+                            Id = 245,
+                            MakeId = 5,
+                            Name = "Aerostar"
+                        },
+                        new
+                        {
+                            Id = 246,
+                            MakeId = 5,
+                            Name = "B-Max"
+                        },
+                        new
+                        {
+                            Id = 247,
+                            MakeId = 5,
+                            Name = "Bronco"
+                        },
+                        new
+                        {
+                            Id = 248,
+                            MakeId = 5,
+                            Name = "C-Max"
+                        },
+                        new
+                        {
+                            Id = 249,
+                            MakeId = 5,
+                            Name = "Capri"
+                        },
+                        new
+                        {
+                            Id = 250,
+                            MakeId = 5,
+                            Name = "Connect"
+                        },
+                        new
+                        {
+                            Id = 251,
+                            MakeId = 5,
+                            Name = "Courier"
+                        },
+                        new
+                        {
+                            Id = 252,
+                            MakeId = 5,
+                            Name = "Custom"
+                        },
+                        new
+                        {
+                            Id = 253,
+                            MakeId = 5,
+                            Name = "Edge"
+                        },
+                        new
+                        {
+                            Id = 254,
+                            MakeId = 5,
+                            Name = "Escape"
+                        },
+                        new
+                        {
+                            Id = 255,
+                            MakeId = 5,
+                            Name = "Escort"
+                        },
+                        new
+                        {
+                            Id = 256,
+                            MakeId = 5,
+                            Name = "Excursion"
+                        },
+                        new
+                        {
+                            Id = 257,
+                            MakeId = 5,
+                            Name = "Expedition"
+                        },
+                        new
+                        {
+                            Id = 258,
+                            MakeId = 5,
+                            Name = "Explorer"
+                        },
+                        new
+                        {
+                            Id = 259,
+                            MakeId = 5,
+                            Name = "F-150"
+                        },
+                        new
+                        {
+                            Id = 260,
+                            MakeId = 5,
+                            Name = "F-250"
+                        },
+                        new
+                        {
+                            Id = 261,
+                            MakeId = 5,
+                            Name = "F-350"
+                        },
+                        new
+                        {
+                            Id = 262,
+                            MakeId = 5,
+                            Name = "Fiesta"
+                        },
+                        new
+                        {
+                            Id = 263,
+                            MakeId = 5,
+                            Name = "Flex"
+                        },
+                        new
+                        {
+                            Id = 264,
+                            MakeId = 5,
+                            Name = "Focus"
+                        },
+                        new
+                        {
+                            Id = 265,
+                            MakeId = 5,
+                            Name = "Fusion"
+                        },
+                        new
+                        {
+                            Id = 266,
+                            MakeId = 5,
+                            Name = "Galaxy"
+                        },
+                        new
+                        {
+                            Id = 267,
+                            MakeId = 5,
+                            Name = "Granada"
+                        },
+                        new
+                        {
+                            Id = 268,
+                            MakeId = 5,
+                            Name = "GT"
+                        },
+                        new
+                        {
+                            Id = 269,
+                            MakeId = 5,
+                            Name = "Ka"
+                        },
+                        new
+                        {
+                            Id = 270,
+                            MakeId = 5,
+                            Name = "Kuga"
+                        },
+                        new
+                        {
+                            Id = 271,
+                            MakeId = 5,
+                            Name = "Maverick"
+                        },
+                        new
+                        {
+                            Id = 272,
+                            MakeId = 5,
+                            Name = "Mondeo"
+                        },
+                        new
+                        {
+                            Id = 273,
+                            MakeId = 5,
+                            Name = "Mustang"
+                        },
+                        new
+                        {
+                            Id = 274,
+                            MakeId = 5,
+                            Name = "Orion"
+                        },
+                        new
+                        {
+                            Id = 275,
+                            MakeId = 5,
+                            Name = "Probe"
+                        },
+                        new
+                        {
+                            Id = 276,
+                            MakeId = 5,
+                            Name = "Puma"
+                        },
+                        new
+                        {
+                            Id = 277,
+                            MakeId = 5,
+                            Name = "Ranger"
+                        },
+                        new
+                        {
+                            Id = 278,
+                            MakeId = 5,
+                            Name = "S-Max"
+                        },
+                        new
+                        {
+                            Id = 279,
+                            MakeId = 5,
+                            Name = "Scorpio"
+                        },
+                        new
+                        {
+                            Id = 280,
+                            MakeId = 5,
+                            Name = "Sierra"
+                        },
+                        new
+                        {
+                            Id = 281,
+                            MakeId = 5,
+                            Name = "StreetKA"
+                        },
+                        new
+                        {
+                            Id = 282,
+                            MakeId = 5,
+                            Name = "Thunderbird"
+                        },
+                        new
+                        {
+                            Id = 283,
+                            MakeId = 5,
+                            Name = "Tourneo"
+                        },
+                        new
+                        {
+                            Id = 284,
+                            MakeId = 5,
+                            Name = "Transit"
+                        },
+                        new
+                        {
+                            Id = 285,
+                            MakeId = 5,
+                            Name = "Windstar"
+                        },
+                        new
+                        {
+                            Id = 286,
+                            MakeId = 5,
+                            Name = "Drugi modeli Ford"
+                        },
+                        new
+                        {
+                            Id = 287,
+                            MakeId = 6,
+                            Name = "190"
+                        },
+                        new
+                        {
+                            Id = 288,
+                            MakeId = 6,
+                            Name = "A-klasa"
+                        },
+                        new
+                        {
+                            Id = 289,
+                            MakeId = 6,
+                            Name = "AMG GT"
+                        },
+                        new
+                        {
+                            Id = 290,
+                            MakeId = 6,
+                            Name = "B-klasa"
+                        },
+                        new
+                        {
+                            Id = 291,
+                            MakeId = 6,
+                            Name = "C-klasa"
+                        },
+                        new
+                        {
+                            Id = 292,
+                            MakeId = 6,
+                            Name = "Citan"
+                        },
+                        new
+                        {
+                            Id = 293,
+                            MakeId = 6,
+                            Name = "CL"
+                        },
+                        new
+                        {
+                            Id = 294,
+                            MakeId = 6,
+                            Name = "CLA"
+                        },
+                        new
+                        {
+                            Id = 295,
+                            MakeId = 6,
+                            Name = "CLC"
+                        },
+                        new
+                        {
+                            Id = 296,
+                            MakeId = 6,
+                            Name = "CLK"
+                        },
+                        new
+                        {
+                            Id = 297,
+                            MakeId = 6,
+                            Name = "CLS"
+                        },
+                        new
+                        {
+                            Id = 298,
+                            MakeId = 6,
+                            Name = "E-klasa"
+                        },
+                        new
+                        {
+                            Id = 299,
+                            MakeId = 6,
+                            Name = "EQC"
+                        },
+                        new
+                        {
+                            Id = 300,
+                            MakeId = 6,
+                            Name = "EQE"
+                        },
+                        new
+                        {
+                            Id = 301,
+                            MakeId = 6,
+                            Name = "EQS"
+                        },
+                        new
+                        {
+                            Id = 302,
+                            MakeId = 6,
+                            Name = "EQV"
+                        },
+                        new
+                        {
+                            Id = 303,
+                            MakeId = 6,
+                            Name = "G-klasa"
+                        },
+                        new
+                        {
+                            Id = 304,
+                            MakeId = 6,
+                            Name = "GL"
+                        },
+                        new
+                        {
+                            Id = 305,
+                            MakeId = 6,
+                            Name = "GLA"
+                        },
+                        new
+                        {
+                            Id = 306,
+                            MakeId = 6,
+                            Name = "GLB"
+                        },
+                        new
+                        {
+                            Id = 307,
+                            MakeId = 6,
+                            Name = "GLC"
+                        },
+                        new
+                        {
+                            Id = 308,
+                            MakeId = 6,
+                            Name = "GLE"
+                        },
+                        new
+                        {
+                            Id = 309,
+                            MakeId = 6,
+                            Name = "GLK"
+                        },
+                        new
+                        {
+                            Id = 310,
+                            MakeId = 6,
+                            Name = "GLS"
+                        },
+                        new
+                        {
+                            Id = 311,
+                            MakeId = 6,
+                            Name = "M-klasa"
+                        },
+                        new
+                        {
+                            Id = 312,
+                            MakeId = 6,
+                            Name = "Maybach"
+                        },
+                        new
+                        {
+                            Id = 313,
+                            MakeId = 6,
+                            Name = "R-klasa"
+                        },
+                        new
+                        {
+                            Id = 314,
+                            MakeId = 6,
+                            Name = "S-klasa"
+                        },
+                        new
+                        {
+                            Id = 315,
+                            MakeId = 6,
+                            Name = "SL"
+                        },
+                        new
+                        {
+                            Id = 316,
+                            MakeId = 6,
+                            Name = "SLC"
+                        },
+                        new
+                        {
+                            Id = 317,
+                            MakeId = 6,
+                            Name = "SLK"
+                        },
+                        new
+                        {
+                            Id = 318,
+                            MakeId = 6,
+                            Name = "SLR"
+                        },
+                        new
+                        {
+                            Id = 319,
+                            MakeId = 6,
+                            Name = "SLS"
+                        },
+                        new
+                        {
+                            Id = 320,
+                            MakeId = 6,
+                            Name = "Sprinter"
+                        },
+                        new
+                        {
+                            Id = 321,
+                            MakeId = 6,
+                            Name = "T-klasa"
+                        },
+                        new
+                        {
+                            Id = 322,
+                            MakeId = 6,
+                            Name = "Vaneo"
+                        },
+                        new
+                        {
+                            Id = 323,
+                            MakeId = 6,
+                            Name = "Vario"
+                        },
+                        new
+                        {
+                            Id = 324,
+                            MakeId = 6,
+                            Name = "Viano"
+                        },
+                        new
+                        {
+                            Id = 325,
+                            MakeId = 6,
+                            Name = "Vito"
+                        },
+                        new
+                        {
+                            Id = 326,
+                            MakeId = 6,
+                            Name = "X-klasa"
+                        },
+                        new
+                        {
+                            Id = 327,
+                            MakeId = 6,
+                            Name = "Drugi modeli Mercedes-Benz"
+                        },
+                        new
+                        {
+                            Id = 328,
+                            MakeId = 7,
+                            Name = "Adam"
+                        },
+                        new
+                        {
+                            Id = 329,
+                            MakeId = 7,
+                            Name = "Agila"
+                        },
+                        new
+                        {
+                            Id = 330,
+                            MakeId = 7,
+                            Name = "Ampera"
+                        },
+                        new
+                        {
+                            Id = 331,
+                            MakeId = 7,
+                            Name = "Antara"
+                        },
+                        new
+                        {
+                            Id = 332,
+                            MakeId = 7,
+                            Name = "Ascona"
+                        },
+                        new
+                        {
+                            Id = 333,
+                            MakeId = 7,
+                            Name = "Astra"
+                        },
+                        new
+                        {
+                            Id = 334,
+                            MakeId = 7,
+                            Name = "Calibra"
+                        },
+                        new
+                        {
+                            Id = 335,
+                            MakeId = 7,
+                            Name = "Campo"
+                        },
+                        new
+                        {
+                            Id = 336,
+                            MakeId = 7,
+                            Name = "Cascada"
+                        },
+                        new
+                        {
+                            Id = 337,
+                            MakeId = 7,
+                            Name = "Corsa"
+                        },
+                        new
+                        {
+                            Id = 338,
+                            MakeId = 7,
+                            Name = "Crossland"
+                        },
+                        new
+                        {
+                            Id = 339,
+                            MakeId = 7,
+                            Name = "Frontera"
+                        },
+                        new
+                        {
+                            Id = 340,
+                            MakeId = 7,
+                            Name = "Grandland"
+                        },
+                        new
+                        {
+                            Id = 341,
+                            MakeId = 7,
+                            Name = "GT"
+                        },
+                        new
+                        {
+                            Id = 342,
+                            MakeId = 7,
+                            Name = "Insignia"
+                        },
+                        new
+                        {
+                            Id = 343,
+                            MakeId = 7,
+                            Name = "Kadett"
+                        },
+                        new
+                        {
+                            Id = 344,
+                            MakeId = 7,
+                            Name = "Manta"
+                        },
+                        new
+                        {
+                            Id = 345,
+                            MakeId = 7,
+                            Name = "Meriva"
+                        },
+                        new
+                        {
+                            Id = 346,
+                            MakeId = 7,
+                            Name = "Mokka"
+                        },
+                        new
+                        {
+                            Id = 347,
+                            MakeId = 7,
+                            Name = "Monterey"
+                        },
+                        new
+                        {
+                            Id = 348,
+                            MakeId = 7,
+                            Name = "Movano"
+                        },
+                        new
+                        {
+                            Id = 349,
+                            MakeId = 7,
+                            Name = "Omega"
+                        },
+                        new
+                        {
+                            Id = 350,
+                            MakeId = 7,
+                            Name = "Rekord"
+                        },
+                        new
+                        {
+                            Id = 351,
+                            MakeId = 7,
+                            Name = "Senator"
+                        },
+                        new
+                        {
+                            Id = 352,
+                            MakeId = 7,
+                            Name = "Signum"
+                        },
+                        new
+                        {
+                            Id = 353,
+                            MakeId = 7,
+                            Name = "Sintra"
+                        },
+                        new
+                        {
+                            Id = 354,
+                            MakeId = 7,
+                            Name = "Speedster"
+                        },
+                        new
+                        {
+                            Id = 355,
+                            MakeId = 7,
+                            Name = "Tigra"
+                        },
+                        new
+                        {
+                            Id = 356,
+                            MakeId = 7,
+                            Name = "Vectra"
+                        },
+                        new
+                        {
+                            Id = 357,
+                            MakeId = 7,
+                            Name = "Vivaro"
+                        },
+                        new
+                        {
+                            Id = 358,
+                            MakeId = 7,
+                            Name = "Zafira"
+                        },
+                        new
+                        {
+                            Id = 359,
+                            MakeId = 7,
+                            Name = "Drugi modeli Opel"
+                        },
+                        new
+                        {
+                            Id = 360,
+                            MakeId = 8,
+                            Name = "1007"
+                        },
+                        new
+                        {
+                            Id = 361,
+                            MakeId = 8,
+                            Name = "106"
+                        },
+                        new
+                        {
+                            Id = 362,
+                            MakeId = 8,
+                            Name = "107"
+                        },
+                        new
+                        {
+                            Id = 363,
+                            MakeId = 8,
+                            Name = "108"
+                        },
+                        new
+                        {
+                            Id = 364,
+                            MakeId = 8,
+                            Name = "2008"
+                        },
+                        new
+                        {
+                            Id = 365,
+                            MakeId = 8,
+                            Name = "205"
+                        },
+                        new
+                        {
+                            Id = 366,
+                            MakeId = 8,
+                            Name = "206"
+                        },
+                        new
+                        {
+                            Id = 367,
+                            MakeId = 8,
+                            Name = "207"
+                        },
+                        new
+                        {
+                            Id = 368,
+                            MakeId = 8,
+                            Name = "208"
+                        },
+                        new
+                        {
+                            Id = 369,
+                            MakeId = 8,
+                            Name = "3008"
+                        },
+                        new
+                        {
+                            Id = 370,
+                            MakeId = 8,
+                            Name = "306"
+                        },
+                        new
+                        {
+                            Id = 371,
+                            MakeId = 8,
+                            Name = "307"
+                        },
+                        new
+                        {
+                            Id = 372,
+                            MakeId = 8,
+                            Name = "308"
+                        },
+                        new
+                        {
+                            Id = 373,
+                            MakeId = 8,
+                            Name = "4007"
+                        },
+                        new
+                        {
+                            Id = 374,
+                            MakeId = 8,
+                            Name = "4008"
+                        },
+                        new
+                        {
+                            Id = 375,
+                            MakeId = 8,
+                            Name = "405"
+                        },
+                        new
+                        {
+                            Id = 376,
+                            MakeId = 8,
+                            Name = "406"
+                        },
+                        new
+                        {
+                            Id = 377,
+                            MakeId = 8,
+                            Name = "407"
+                        },
+                        new
+                        {
+                            Id = 378,
+                            MakeId = 8,
+                            Name = "5008"
+                        },
+                        new
+                        {
+                            Id = 379,
+                            MakeId = 8,
+                            Name = "508"
+                        },
+                        new
+                        {
+                            Id = 380,
+                            MakeId = 8,
+                            Name = "605"
+                        },
+                        new
+                        {
+                            Id = 381,
+                            MakeId = 8,
+                            Name = "607"
+                        },
+                        new
+                        {
+                            Id = 382,
+                            MakeId = 8,
+                            Name = "806"
+                        },
+                        new
+                        {
+                            Id = 383,
+                            MakeId = 8,
+                            Name = "807"
+                        },
+                        new
+                        {
+                            Id = 384,
+                            MakeId = 8,
+                            Name = "Bipper"
+                        },
+                        new
+                        {
+                            Id = 385,
+                            MakeId = 8,
+                            Name = "Boxer"
+                        },
+                        new
+                        {
+                            Id = 386,
+                            MakeId = 8,
+                            Name = "Expert"
+                        },
+                        new
+                        {
+                            Id = 387,
+                            MakeId = 8,
+                            Name = "Partner"
+                        },
+                        new
+                        {
+                            Id = 388,
+                            MakeId = 8,
+                            Name = "Rifter"
+                        },
+                        new
+                        {
+                            Id = 389,
+                            MakeId = 8,
+                            Name = "RCZ"
+                        },
+                        new
+                        {
+                            Id = 390,
+                            MakeId = 8,
+                            Name = "Traveller"
+                        },
+                        new
+                        {
+                            Id = 391,
+                            MakeId = 8,
+                            Name = "Drugi modeli Peugeot"
+                        },
+                        new
+                        {
+                            Id = 392,
+                            MakeId = 9,
+                            Name = "Alaskan"
+                        },
+                        new
+                        {
+                            Id = 393,
+                            MakeId = 9,
+                            Name = "Alpine"
+                        },
+                        new
+                        {
+                            Id = 394,
+                            MakeId = 9,
+                            Name = "Arkana"
+                        },
+                        new
+                        {
+                            Id = 395,
+                            MakeId = 9,
+                            Name = "Austral"
+                        },
+                        new
+                        {
+                            Id = 396,
+                            MakeId = 9,
+                            Name = "Avantime"
+                        },
+                        new
+                        {
+                            Id = 397,
+                            MakeId = 9,
+                            Name = "Captur"
+                        },
+                        new
+                        {
+                            Id = 398,
+                            MakeId = 9,
+                            Name = "Caravelle"
+                        },
+                        new
+                        {
+                            Id = 399,
+                            MakeId = 9,
+                            Name = "Clio"
+                        },
+                        new
+                        {
+                            Id = 400,
+                            MakeId = 9,
+                            Name = "Espace"
+                        },
+                        new
+                        {
+                            Id = 401,
+                            MakeId = 9,
+                            Name = "Express"
+                        },
+                        new
+                        {
+                            Id = 402,
+                            MakeId = 9,
+                            Name = "Fluence"
+                        },
+                        new
+                        {
+                            Id = 403,
+                            MakeId = 9,
+                            Name = "Fuego"
+                        },
+                        new
+                        {
+                            Id = 404,
+                            MakeId = 9,
+                            Name = "Grand Espace"
+                        },
+                        new
+                        {
+                            Id = 405,
+                            MakeId = 9,
+                            Name = "Grand Kangoo"
+                        },
+                        new
+                        {
+                            Id = 406,
+                            MakeId = 9,
+                            Name = "Grand Modus"
+                        },
+                        new
+                        {
+                            Id = 407,
+                            MakeId = 9,
+                            Name = "Grand Scenic"
+                        },
+                        new
+                        {
+                            Id = 408,
+                            MakeId = 9,
+                            Name = "Kadjar"
+                        },
+                        new
+                        {
+                            Id = 409,
+                            MakeId = 9,
+                            Name = "Kangoo"
+                        },
+                        new
+                        {
+                            Id = 410,
+                            MakeId = 9,
+                            Name = "Koleos"
+                        },
+                        new
+                        {
+                            Id = 411,
+                            MakeId = 9,
+                            Name = "Laguna"
+                        },
+                        new
+                        {
+                            Id = 412,
+                            MakeId = 9,
+                            Name = "Latitude"
+                        },
+                        new
+                        {
+                            Id = 413,
+                            MakeId = 9,
+                            Name = "Mascott"
+                        },
+                        new
+                        {
+                            Id = 414,
+                            MakeId = 9,
+                            Name = "Master"
+                        },
+                        new
+                        {
+                            Id = 415,
+                            MakeId = 9,
+                            Name = "Megane"
+                        },
+                        new
+                        {
+                            Id = 416,
+                            MakeId = 9,
+                            Name = "Modus"
+                        },
+                        new
+                        {
+                            Id = 417,
+                            MakeId = 9,
+                            Name = "Nevada"
+                        },
+                        new
+                        {
+                            Id = 418,
+                            MakeId = 9,
+                            Name = "R 11"
+                        },
+                        new
+                        {
+                            Id = 419,
+                            MakeId = 9,
+                            Name = "R 19"
+                        },
+                        new
+                        {
+                            Id = 420,
+                            MakeId = 9,
+                            Name = "R 21"
+                        },
+                        new
+                        {
+                            Id = 421,
+                            MakeId = 9,
+                            Name = "R 25"
+                        },
+                        new
+                        {
+                            Id = 422,
+                            MakeId = 9,
+                            Name = "R 4"
+                        },
+                        new
+                        {
+                            Id = 423,
+                            MakeId = 9,
+                            Name = "R 5"
+                        },
+                        new
+                        {
+                            Id = 424,
+                            MakeId = 9,
+                            Name = "R 9"
+                        },
+                        new
+                        {
+                            Id = 425,
+                            MakeId = 9,
+                            Name = "Rapid"
+                        },
+                        new
+                        {
+                            Id = 426,
+                            MakeId = 9,
+                            Name = "Safrane"
+                        },
+                        new
+                        {
+                            Id = 427,
+                            MakeId = 9,
+                            Name = "Scenic"
+                        },
+                        new
+                        {
+                            Id = 428,
+                            MakeId = 9,
+                            Name = "Spider"
+                        },
+                        new
+                        {
+                            Id = 429,
+                            MakeId = 9,
+                            Name = "Symbol"
+                        },
+                        new
+                        {
+                            Id = 430,
+                            MakeId = 9,
+                            Name = "Talisman"
+                        },
+                        new
+                        {
+                            Id = 431,
+                            MakeId = 9,
+                            Name = "Trafic"
+                        },
+                        new
+                        {
+                            Id = 432,
+                            MakeId = 9,
+                            Name = "Twingo"
+                        },
+                        new
+                        {
+                            Id = 433,
+                            MakeId = 9,
+                            Name = "Vel Satis"
+                        },
+                        new
+                        {
+                            Id = 434,
+                            MakeId = 9,
+                            Name = "Wind"
+                        },
+                        new
+                        {
+                            Id = 435,
+                            MakeId = 9,
+                            Name = "Zoe"
+                        },
+                        new
+                        {
+                            Id = 436,
+                            MakeId = 9,
+                            Name = "Drugi modeli Renault"
+                        },
+                        new
+                        {
+                            Id = 437,
+                            MakeId = 10,
+                            Name = "105"
+                        },
+                        new
+                        {
+                            Id = 438,
+                            MakeId = 10,
+                            Name = "120"
+                        },
+                        new
+                        {
+                            Id = 439,
+                            MakeId = 10,
+                            Name = "130"
+                        },
+                        new
+                        {
+                            Id = 440,
+                            MakeId = 10,
+                            Name = "Citigo"
+                        },
+                        new
+                        {
+                            Id = 441,
+                            MakeId = 10,
+                            Name = "Enyaq"
+                        },
+                        new
+                        {
+                            Id = 442,
+                            MakeId = 10,
+                            Name = "Fabia"
+                        },
+                        new
+                        {
+                            Id = 443,
+                            MakeId = 10,
+                            Name = "Favorit"
+                        },
+                        new
+                        {
+                            Id = 444,
+                            MakeId = 10,
+                            Name = "Felicia"
+                        },
+                        new
+                        {
+                            Id = 445,
+                            MakeId = 10,
+                            Name = "Kamiq"
+                        },
+                        new
+                        {
+                            Id = 446,
+                            MakeId = 10,
+                            Name = "Karoq"
+                        },
+                        new
+                        {
+                            Id = 447,
+                            MakeId = 10,
+                            Name = "Kodiaq"
+                        },
+                        new
+                        {
+                            Id = 448,
+                            MakeId = 10,
+                            Name = "Octavia"
+                        },
+                        new
+                        {
+                            Id = 449,
+                            MakeId = 10,
+                            Name = "Rapid"
+                        },
+                        new
+                        {
+                            Id = 450,
+                            MakeId = 10,
+                            Name = "Roomster"
+                        },
+                        new
+                        {
+                            Id = 451,
+                            MakeId = 10,
+                            Name = "Scala"
+                        },
+                        new
+                        {
+                            Id = 452,
+                            MakeId = 10,
+                            Name = "Superb"
+                        },
+                        new
+                        {
+                            Id = 453,
+                            MakeId = 10,
+                            Name = "Yeti"
+                        },
+                        new
+                        {
+                            Id = 454,
+                            MakeId = 10,
+                            Name = "Drugi modeli Škoda"
+                        },
+                        new
+                        {
+                            Id = 455,
+                            MakeId = 11,
+                            Name = "4-Runner"
+                        },
+                        new
+                        {
+                            Id = 456,
+                            MakeId = 11,
+                            Name = "Alphard"
+                        },
+                        new
+                        {
+                            Id = 457,
+                            MakeId = 11,
+                            Name = "Auris"
+                        },
+                        new
+                        {
+                            Id = 458,
+                            MakeId = 11,
+                            Name = "Avensis"
+                        },
+                        new
+                        {
+                            Id = 459,
+                            MakeId = 11,
+                            Name = "Avensis Verso"
+                        },
+                        new
+                        {
+                            Id = 460,
+                            MakeId = 11,
+                            Name = "Aygo"
+                        },
+                        new
+                        {
+                            Id = 461,
+                            MakeId = 11,
+                            Name = "Aygo X"
+                        },
+                        new
+                        {
+                            Id = 462,
+                            MakeId = 11,
+                            Name = "Camry"
+                        },
+                        new
+                        {
+                            Id = 463,
+                            MakeId = 11,
+                            Name = "Carina"
+                        },
+                        new
+                        {
+                            Id = 464,
+                            MakeId = 11,
+                            Name = "Celica"
+                        },
+                        new
+                        {
+                            Id = 465,
+                            MakeId = 11,
+                            Name = "C-HR"
+                        },
+                        new
+                        {
+                            Id = 466,
+                            MakeId = 11,
+                            Name = "Corolla"
+                        },
+                        new
+                        {
+                            Id = 467,
+                            MakeId = 11,
+                            Name = "Corolla Cross"
+                        },
+                        new
+                        {
+                            Id = 468,
+                            MakeId = 11,
+                            Name = "Corolla Verso"
+                        },
+                        new
+                        {
+                            Id = 469,
+                            MakeId = 11,
+                            Name = "FJ Cruiser"
+                        },
+                        new
+                        {
+                            Id = 470,
+                            MakeId = 11,
+                            Name = "GT86"
+                        },
+                        new
+                        {
+                            Id = 471,
+                            MakeId = 11,
+                            Name = "Hiace"
+                        },
+                        new
+                        {
+                            Id = 472,
+                            MakeId = 11,
+                            Name = "Highlander"
+                        },
+                        new
+                        {
+                            Id = 473,
+                            MakeId = 11,
+                            Name = "Hilux"
+                        },
+                        new
+                        {
+                            Id = 474,
+                            MakeId = 11,
+                            Name = "IQ"
+                        },
+                        new
+                        {
+                            Id = 475,
+                            MakeId = 11,
+                            Name = "Land Cruiser"
+                        },
+                        new
+                        {
+                            Id = 476,
+                            MakeId = 11,
+                            Name = "MR2"
+                        },
+                        new
+                        {
+                            Id = 477,
+                            MakeId = 11,
+                            Name = "Paseo"
+                        },
+                        new
+                        {
+                            Id = 478,
+                            MakeId = 11,
+                            Name = "Picnic"
+                        },
+                        new
+                        {
+                            Id = 479,
+                            MakeId = 11,
+                            Name = "Prius"
+                        },
+                        new
+                        {
+                            Id = 480,
+                            MakeId = 11,
+                            Name = "Prius+"
+                        },
+                        new
+                        {
+                            Id = 481,
+                            MakeId = 11,
+                            Name = "Proace"
+                        },
+                        new
+                        {
+                            Id = 482,
+                            MakeId = 11,
+                            Name = "Proace City"
+                        },
+                        new
+                        {
+                            Id = 483,
+                            MakeId = 11,
+                            Name = "Proace City Verso"
+                        },
+                        new
+                        {
+                            Id = 484,
+                            MakeId = 11,
+                            Name = "Proace Verso"
+                        },
+                        new
+                        {
+                            Id = 485,
+                            MakeId = 11,
+                            Name = "RAV4"
+                        },
+                        new
+                        {
+                            Id = 486,
+                            MakeId = 11,
+                            Name = "Sequoia"
+                        },
+                        new
+                        {
+                            Id = 487,
+                            MakeId = 11,
+                            Name = "Sienna"
+                        },
+                        new
+                        {
+                            Id = 488,
+                            MakeId = 11,
+                            Name = "Starlet"
+                        },
+                        new
+                        {
+                            Id = 489,
+                            MakeId = 11,
+                            Name = "Supra"
+                        },
+                        new
+                        {
+                            Id = 490,
+                            MakeId = 11,
+                            Name = "Tacoma"
+                        },
+                        new
+                        {
+                            Id = 491,
+                            MakeId = 11,
+                            Name = "Tundra"
+                        },
+                        new
+                        {
+                            Id = 492,
+                            MakeId = 11,
+                            Name = "Urban Cruiser"
+                        },
+                        new
+                        {
+                            Id = 493,
+                            MakeId = 11,
+                            Name = "Verso"
+                        },
+                        new
+                        {
+                            Id = 494,
+                            MakeId = 11,
+                            Name = "Verso-S"
+                        },
+                        new
+                        {
+                            Id = 495,
+                            MakeId = 11,
+                            Name = "Yaris"
+                        },
+                        new
+                        {
+                            Id = 496,
+                            MakeId = 11,
+                            Name = "Yaris Cross"
+                        },
+                        new
+                        {
+                            Id = 497,
+                            MakeId = 11,
+                            Name = "Yaris GR"
+                        },
+                        new
+                        {
+                            Id = 498,
+                            MakeId = 11,
+                            Name = "Drugi modeli Toyota"
+                        },
+                        new
+                        {
+                            Id = 499,
+                            MakeId = 12,
+                            Name = "Amarok"
+                        },
+                        new
+                        {
+                            Id = 500,
+                            MakeId = 12,
+                            Name = "Arteon"
+                        },
+                        new
+                        {
+                            Id = 501,
+                            MakeId = 12,
+                            Name = "Atlas"
+                        },
+                        new
+                        {
+                            Id = 502,
+                            MakeId = 12,
+                            Name = "Bora"
+                        },
+                        new
+                        {
+                            Id = 503,
+                            MakeId = 12,
+                            Name = "Buba / Beetle"
+                        },
+                        new
+                        {
+                            Id = 504,
+                            MakeId = 12,
+                            Name = "Caddy"
+                        },
+                        new
+                        {
+                            Id = 505,
+                            MakeId = 12,
+                            Name = "California"
+                        },
+                        new
+                        {
+                            Id = 506,
+                            MakeId = 12,
+                            Name = "Caravelle"
+                        },
+                        new
+                        {
+                            Id = 507,
+                            MakeId = 12,
+                            Name = "Corrado"
+                        },
+                        new
+                        {
+                            Id = 508,
+                            MakeId = 12,
+                            Name = "Crafter"
+                        },
+                        new
+                        {
+                            Id = 509,
+                            MakeId = 12,
+                            Name = "Eos"
+                        },
+                        new
+                        {
+                            Id = 510,
+                            MakeId = 12,
+                            Name = "Fox"
+                        },
+                        new
+                        {
+                            Id = 511,
+                            MakeId = 12,
+                            Name = "Golf 1"
+                        },
+                        new
+                        {
+                            Id = 512,
+                            MakeId = 12,
+                            Name = "Golf 2"
+                        },
+                        new
+                        {
+                            Id = 513,
+                            MakeId = 12,
+                            Name = "Golf 3"
+                        },
+                        new
+                        {
+                            Id = 514,
+                            MakeId = 12,
+                            Name = "Golf 4"
+                        },
+                        new
+                        {
+                            Id = 515,
+                            MakeId = 12,
+                            Name = "Golf 5"
+                        },
+                        new
+                        {
+                            Id = 516,
+                            MakeId = 12,
+                            Name = "Golf 6"
+                        },
+                        new
+                        {
+                            Id = 517,
+                            MakeId = 12,
+                            Name = "Golf 7"
+                        },
+                        new
+                        {
+                            Id = 518,
+                            MakeId = 12,
+                            Name = "Golf 8"
+                        },
+                        new
+                        {
+                            Id = 519,
+                            MakeId = 12,
+                            Name = "ID.3"
+                        },
+                        new
+                        {
+                            Id = 520,
+                            MakeId = 12,
+                            Name = "ID.4"
+                        },
+                        new
+                        {
+                            Id = 521,
+                            MakeId = 12,
+                            Name = "ID.5"
+                        },
+                        new
+                        {
+                            Id = 522,
+                            MakeId = 12,
+                            Name = "ID.7"
+                        },
+                        new
+                        {
+                            Id = 523,
+                            MakeId = 12,
+                            Name = "ID.Buzz"
+                        },
+                        new
+                        {
+                            Id = 524,
+                            MakeId = 12,
+                            Name = "Jetta"
+                        },
+                        new
+                        {
+                            Id = 525,
+                            MakeId = 12,
+                            Name = "Kombi"
+                        },
+                        new
+                        {
+                            Id = 526,
+                            MakeId = 12,
+                            Name = "LT"
+                        },
+                        new
+                        {
+                            Id = 527,
+                            MakeId = 12,
+                            Name = "Lupo"
+                        },
+                        new
+                        {
+                            Id = 528,
+                            MakeId = 12,
+                            Name = "Multivan"
+                        },
+                        new
+                        {
+                            Id = 529,
+                            MakeId = 12,
+                            Name = "Passat"
+                        },
+                        new
+                        {
+                            Id = 530,
+                            MakeId = 12,
+                            Name = "Passat CC"
+                        },
+                        new
+                        {
+                            Id = 531,
+                            MakeId = 12,
+                            Name = "Phaeton"
+                        },
+                        new
+                        {
+                            Id = 532,
+                            MakeId = 12,
+                            Name = "Polo"
+                        },
+                        new
+                        {
+                            Id = 533,
+                            MakeId = 12,
+                            Name = "Routan"
+                        },
+                        new
+                        {
+                            Id = 534,
+                            MakeId = 12,
+                            Name = "Santana"
+                        },
+                        new
+                        {
+                            Id = 535,
+                            MakeId = 12,
+                            Name = "Scirocco"
+                        },
+                        new
+                        {
+                            Id = 536,
+                            MakeId = 12,
+                            Name = "Sharan"
+                        },
+                        new
+                        {
+                            Id = 537,
+                            MakeId = 12,
+                            Name = "T-Cross"
+                        },
+                        new
+                        {
+                            Id = 538,
+                            MakeId = 12,
+                            Name = "T-Roc"
+                        },
+                        new
+                        {
+                            Id = 539,
+                            MakeId = 12,
+                            Name = "Taigo"
+                        },
+                        new
+                        {
+                            Id = 540,
+                            MakeId = 12,
+                            Name = "Tiguan"
+                        },
+                        new
+                        {
+                            Id = 541,
+                            MakeId = 12,
+                            Name = "Touareg"
+                        },
+                        new
+                        {
+                            Id = 542,
+                            MakeId = 12,
+                            Name = "Touran"
+                        },
+                        new
+                        {
+                            Id = 543,
+                            MakeId = 12,
+                            Name = "Transporter"
+                        },
+                        new
+                        {
+                            Id = 544,
+                            MakeId = 12,
+                            Name = "Up!"
+                        },
+                        new
+                        {
+                            Id = 545,
+                            MakeId = 12,
+                            Name = "Vento"
+                        },
+                        new
+                        {
+                            Id = 546,
+                            MakeId = 12,
+                            Name = "Drugi modeli Volkswagen"
+                        });
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.VehicleType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("VehicleType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Limuzina / Sedan"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Malo auto / Hatchback"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Karavan"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "SUV / Terenac"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Monovolumen / Minivan"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Kombi"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Kabriolet"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Coupe"
+                        });
                 });
 
             modelBuilder.Entity("RentACarPortal.Models.Contract", b =>
@@ -264,7 +3699,7 @@ namespace RentACarPortal.Migrations
                         .WithMany("Contracts")
                         .HasForeignKey("ClientId");
 
-                    b.HasOne("RentACarPortal.Models.Company", null)
+                    b.HasOne("RentACarPortal.Models.Company", "Company")
                         .WithMany("Contracts")
                         .HasForeignKey("CompanyId");
 
@@ -273,6 +3708,8 @@ namespace RentACarPortal.Migrations
                         .HasForeignKey("VehicleId");
 
                     b.Navigation("Client");
+
+                    b.Navigation("Company");
 
                     b.Navigation("Vehicle");
                 });
@@ -285,7 +3722,42 @@ namespace RentACarPortal.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("RentACarPortal.Models.VehicleMake", "VehicleMake")
+                        .WithMany("Models")
+                        .HasForeignKey("VehicleMakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentACarPortal.Models.VehicleModel", "VehicleModel")
+                        .WithMany()
+                        .HasForeignKey("VehicleModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RentACarPortal.Models.VehicleType", "VehicleType")
+                        .WithMany()
+                        .HasForeignKey("VehicleTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Company");
+
+                    b.Navigation("VehicleMake");
+
+                    b.Navigation("VehicleModel");
+
+                    b.Navigation("VehicleType");
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.VehicleModel", b =>
+                {
+                    b.HasOne("RentACarPortal.Models.VehicleMake", "Make")
+                        .WithMany()
+                        .HasForeignKey("MakeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Make");
                 });
 
             modelBuilder.Entity("RentACarPortal.Models.Client", b =>
@@ -298,6 +3770,11 @@ namespace RentACarPortal.Migrations
                     b.Navigation("Contracts");
 
                     b.Navigation("Vehicles");
+                });
+
+            modelBuilder.Entity("RentACarPortal.Models.VehicleMake", b =>
+                {
+                    b.Navigation("Models");
                 });
 #pragma warning restore 612, 618
         }

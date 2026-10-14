@@ -76,4 +76,3 @@ namespace RentACarPortal.Services
         public List<VehicleType> GetAllVehicleTypes() => _context.VehicleType.ToList();
     }
 }
-
