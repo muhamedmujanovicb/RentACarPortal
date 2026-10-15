@@ -1,37 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentACarPortal.Data;
 using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class ContractCreatorController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly DashboardService _dashboardService;
 
-        public ContractCreatorController(AppDbContext context)
+        public ContractCreatorController(DashboardService dashboardService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
         }
 
         [HttpGet]
         public IActionResult ContractCreator(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
             return View();
         }
 
         [HttpPost]
         public IActionResult NewContract([Bind("RentalStation,TypeOfVehicle,RegisterNumberOfVehicle,RentDriver,Address,Telephone,PassportNumber,PlaceOfIssue,DateOfIssue,DateOfBirth,PersonalNumber,DrivingLicenseNumber,RentalStartDate,RentalStartTime,RentalStartPlace,RentalEndDate,RentalEndTime,RentalEndPlace,Insurance,FuelRecieved,FuelReturned,FullTankSizeLiquid,Deposit,Comment,Remarks")] Contract newContract, string loggedInUser)
         {
-            var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
-            if (user != null)
-            {
-                newContract.CompanyId = user.Id;
-                newContract.RentalStation = loggedInUser;
-                _context.Contracts.Add(newContract);
-                _context.SaveChanges();
-            }
+            _dashboardService.CreateContract(newContract, loggedInUser);
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }
     }

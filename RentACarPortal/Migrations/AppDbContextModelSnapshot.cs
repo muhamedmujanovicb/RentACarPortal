@@ -162,6 +162,9 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("TypeOfVehicle")
                         .IsRequired()
                         .HasColumnType("TEXT");

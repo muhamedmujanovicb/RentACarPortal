@@ -1,32 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Data;
-using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class BookingFleetController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly FleetService _fleetService;
 
-        public BookingFleetController(AppDbContext context)
+        public BookingFleetController(FleetService fleetService)
         {
-            _context = context;
+            _fleetService = fleetService;
         }
 
         [HttpGet]
-        public IActionResult BookingFleet(string loggedInUser, string companyName)
+        public async Task<IActionResult> BookingFleet(string loggedInUser, string companyName)
         {
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = companyName;
 
-            var company = _context.Companies
-                .Include(c => c.Vehicles)
-                .FirstOrDefault(c => c.Username.ToLower() == companyName.ToLower());
-
-            var availableVehicles = company?.Vehicles
-                    .Where(v => v.Status != "Pending")
-                    .ToList() ?? new List<Vehicle>();
+            var availableVehicles = await _fleetService.GetAvailableVehiclesByCompanyAsync(companyName);
 
             return View("~/Views/UserDashboard/BookingFleet.cshtml", availableVehicles);
         }

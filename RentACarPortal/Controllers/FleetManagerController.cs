@@ -1,36 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentACarPortal.Data;
 using RentACarPortal.Models;
-using SQLitePCL;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class FleetManagerController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly FleetService _fleetService;
 
-        public FleetManagerController(AppDbContext context)
+        public FleetManagerController(FleetService fleetService)
         {
-            _context = context;
+            _fleetService = fleetService;
         }
 
         [HttpGet]
         public IActionResult FleetManager(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-            return View(); 
+            ViewBag.Makes = _fleetService.GetAllMakes();
+            ViewBag.Models = _fleetService.GetAllModels();
+            ViewBag.VehicleTypes = _fleetService.GetAllVehicleTypes();
+            return View("FleetManager");
         }
 
         [HttpPost]
-        public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle")] Vehicle newVehicle, string loggedInUser)
+        public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle,VehicleMakeId,VehicleModelId,VehicleTypeId")] Vehicle newVehicle, string loggedInUser)
         {
-            var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
-            if (user != null)
-            {
-                newVehicle.CompanyId = user.Id;
-                _context.Vehicles.Add(newVehicle);
-                _context.SaveChanges();
-            }
+            _fleetService.AddVehicleToFleet(newVehicle, loggedInUser);
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }
     }

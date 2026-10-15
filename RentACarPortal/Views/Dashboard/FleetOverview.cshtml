@@ -68,9 +68,14 @@
                                 <!-- Header -->
                                 <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div>
-                                        <h3 class="fw-bold mb-1 fs-5 text-dark">@vehicle.VehicleMake @vehicle.VehicleModel <span class="text-muted fw-normal ms-1 fs-6">@vehicle.Year</span></h3>
+                                    <h3 class="fw-bold mb-1 fs-5 text-dark">
+                                        @(vehicle.VehicleMake?.Name ?? "Unknown Make") @(vehicle.VehicleModel?.Name ?? "Unknown Model")
+                                        <span class="text-muted fw-normal ms-1 fs-6">@vehicle.Year</span>
+                                    </h3>
                                         <div class="d-flex gap-2 align-items-center mt-2">
-                                            <span class="badge bg-primary text-white text-uppercase" style="letter-spacing: 0.05em;">@vehicle.VehicleType</span>
+                                        <span class="badge bg-primary text-white text-uppercase" style="letter-spacing: 0.05em;">
+                                            @(vehicle.VehicleType?.Name ?? "Standard")
+                                        </span>
                                             <span class="badge bg-light text-dark border font-monospace">@vehicle.RegisterNumberOfVehicle</span>
                                         </div>
                                     </div>

@@ -55,6 +55,8 @@ namespace RentACarPortal.Services
                     .ThenInclude(v => v.VehicleMake)
                 .Include(u => u.Vehicles)
                     .ThenInclude(v => v.VehicleModel)
+                .Include(u => u.Vehicles)
+                    .ThenInclude(v => v.VehicleType) 
                 .FirstOrDefault(u => u.Username == loggedInUser);
 
             return user?.Vehicles.ToList() ?? new List<Vehicle>();
@@ -74,5 +76,8 @@ namespace RentACarPortal.Services
         public List<VehicleMake> GetAllMakes() => _context.VehicleMake.ToList();
         public List<VehicleModel> GetAllModels() => _context.VehicleModel.ToList();
         public List<VehicleType> GetAllVehicleTypes() => _context.VehicleType.ToList();
+        public List<Company> GetAllCompanies() => _context.Companies.ToList();
+        public Vehicle? GetVehicleById(int id) => _context.Vehicles.Find(id);
+        public List<string> GetAllClientUsernames() => _context.Clients.Select(c => c.Username).ToList();
     }
 }

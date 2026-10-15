@@ -83,7 +83,7 @@
                                     <span class="vehicle-badge">@vehicle.Status</span>
                                 </div>
                                 <div class="vehicle-details">
-                                    <h3 class="vehicle-title">@vehicle.VehicleMake @vehicle.VehicleModel</h3>
+                                    <h3 class="vehicle-title">@(vehicle.VehicleMake?.Name ?? "Unknown") @(vehicle.VehicleModel?.Name ?? "Vehicle")</h3>
                                     <div class="vehicle-type">@vehicle.VehicleType</div>
 
                                     <div class="vehicle-specs">

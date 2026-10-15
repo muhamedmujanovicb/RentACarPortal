@@ -1,29 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Data;
-using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class BookingCompaniesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly FleetService _fleetService;
 
-        public BookingCompaniesController(AppDbContext context)
+        public BookingCompaniesController(FleetService fleetService)
         {
-            _context = context;
+            _fleetService = fleetService;
         }
 
         [HttpGet]
         public IActionResult BookingCompanies(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
-            var companies = _context.Companies.ToList();
-
+            var companies = _fleetService.GetAllCompanies();
             return View(companies);
         }
-
-
     }
 }

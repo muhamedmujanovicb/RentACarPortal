@@ -37,6 +37,7 @@
         public string FuelRecieved { get; set; } = string.Empty;
         public string FuelReturned { get; set; } = string.Empty;
         public double FullTankSizeLiquid { get; set; }
+        public double TotalPrice { get; set; }
         public double Deposit { get; set; }
         public string Comment { get; set; } = string.Empty;
         public string Remarks { get; set; } = string.Empty;

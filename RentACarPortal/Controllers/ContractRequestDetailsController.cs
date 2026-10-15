@@ -1,28 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Data;
-using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class ContractRequestDetailsController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly DashboardService _dashboardService;
 
-        public ContractRequestDetailsController(AppDbContext context)
+        public ContractRequestDetailsController(DashboardService dashboardService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
         }
 
         [HttpGet]
         public IActionResult ContractRequestDetails(int id, string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
-            var contract = _context.Contracts
-                .Include(c => c.Vehicle)
-                .Include(c => c.Client)
-                .FirstOrDefault(c => c.Id == id);
+            var contract = _dashboardService.GetContractDetailsWithLookups(id);
 
             if (contract == null)
             {
@@ -35,34 +29,11 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult AcceptRequest(int id, string loggedInUser)
         {
-            var contract = _context.Contracts
-        .Include(c => c.Vehicle)
-        .FirstOrDefault(c => c.Id == id);
-
-            if (contract == null)
+            bool success = _dashboardService.AcceptContractRequest(id, loggedInUser);
+            if (!success)
             {
                 return NotFound();
             }
-
-            var companyUser = _context.Companies.FirstOrDefault(c => c.Username == loggedInUser);
-            if (companyUser == null)
-            {
-                return Unauthorized();
-            }
-
-            contract.Status = "Active";
-            contract.RentalStation = loggedInUser;
-            contract.Remarks = "Created from approved contract request.";
-
-            contract.CompanyId = companyUser.Id;
-
-            if (contract.Vehicle != null)
-            {
-                contract.Vehicle.Status = "Rented";
-                contract.Vehicle.HoldExpiresAt = null;
-            }
-
-            _context.SaveChanges();
 
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }
@@ -70,29 +41,11 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult DeclineRequest(int id, string loggedInUser)
         {
-            var contract = _context.Contracts
-                .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id);
-
-            if (contract == null)
+            bool success = _dashboardService.DeclineContractRequest(id, loggedInUser);
+            if (!success)
             {
                 return NotFound();
             }
-
-            var companyUser = _context.Companies.FirstOrDefault(c => c.Username == loggedInUser);
-            if (companyUser == null)
-            {
-                return Unauthorized();
-            }
-
-            if (contract.Vehicle != null)
-            {
-                contract.Vehicle.Status = "Available";
-                contract.Vehicle.HoldExpiresAt = null;
-            }
-
-            _context.Contracts.Remove(contract);
-            _context.SaveChanges();
 
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }

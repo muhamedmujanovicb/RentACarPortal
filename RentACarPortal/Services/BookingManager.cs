@@ -69,7 +69,8 @@ namespace RentACarPortal.Services
                 RentalStartPlace = placeOfIssue,
                 RentalEndPlace = placeOfIssue,
                 Comment = notes,
-                Status = "Pending"
+                Status = "Pending",
+                TotalPrice = totalPrice 
             };
 
             _context.Contracts.Add(newContract);

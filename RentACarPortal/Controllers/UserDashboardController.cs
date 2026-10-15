@@ -1,33 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Data;
-using RentACarPortal.Models;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class UserDashboardController : Controller
     {
-        private readonly AppDbContext _context;
-        public UserDashboardController(AppDbContext context)
+        private readonly FleetService _fleetService;
+
+        public UserDashboardController(FleetService fleetService)
         {
-            _context = context;
+            _fleetService = fleetService;
         }
 
         [HttpGet]
         public IActionResult UserDashboard(string loggedInUser = "Admin")
         {
             ViewBag.Username = loggedInUser;
-
             return View();
         }
 
         [HttpGet]
         public IActionResult Recommendor()
         {
-            ViewBag.Companies = _context.Clients
-                .Select(c => c.Username)
-                .ToList();
-
+            ViewBag.Companies = _fleetService.GetAllClientUsernames();
             return View("Recommendor");
         }
 
@@ -35,9 +30,7 @@ namespace RentACarPortal.Controllers
         public IActionResult BookingCompanies(string loggedInUser)
         {
             ViewBag.Username = loggedInUser ?? "Admin";
-
-            var companies = _context.Companies.ToList();
-
+            var companies = _fleetService.GetAllCompanies();
             return View("BookingCompanies", companies);
         }
 
@@ -45,7 +38,6 @@ namespace RentACarPortal.Controllers
         public IActionResult BookingFleet(string loggedInUser, string companyName)
         {
             ViewBag.Username = loggedInUser ?? "Admin";
-
             return View("BookingFleet");
         }
     }

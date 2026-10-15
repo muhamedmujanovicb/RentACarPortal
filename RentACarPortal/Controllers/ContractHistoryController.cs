@@ -1,40 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentACarPortal.Data;
-using RentACarPortal.Models;
-using Microsoft.EntityFrameworkCore;
+using RentACarPortal.Services;
 
 namespace RentACarPortal.Controllers
 {
     public class ContractHistoryController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly DashboardService _dashboardService;
 
-        public ContractHistoryController(AppDbContext context)
+        public ContractHistoryController(DashboardService dashboardService)
         {
-            _context = context;
+            _dashboardService = dashboardService;
         }
 
         [HttpGet]
         public IActionResult ContractHistory(string loggedInUser)
         {
             ViewBag.Username = loggedInUser;
-
-            var contracts = _context.Contracts
-                .Include(c => c.Client)
-                .ToList();
-
+            var contracts = _dashboardService.GetContractHistory();
             return View(contracts);
         }
 
         [HttpPost]
         public IActionResult UpdateStatus(int id, string newStatus, string loggedInUser)
         {
-            var contract = _context.Contracts.Find(id);
-            if (contract != null)
-            {
-                contract.Status = newStatus;
-                _context.SaveChanges();
-            }
+            _dashboardService.UpdateContractStatus(id, newStatus);
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }
     }

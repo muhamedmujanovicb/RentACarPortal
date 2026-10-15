@@ -28,6 +28,7 @@ namespace RentACarPortal.Models
         public int VehicleTypeId { get; set; }
         public VehicleType? VehicleType { get; set; }
 
+        //OTHER ATTRIBUTES
         public bool HasChildrenSafety { get; set; }
         public string DriveTerrain { get; set; } = string.Empty;
         public string BootSpace { get; set; } = string.Empty;

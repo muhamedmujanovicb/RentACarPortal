@@ -68,6 +68,8 @@ namespace RentACarPortal.Services
                     .ThenInclude(v => v.VehicleMake)
                 .Include(u => u.Vehicles)
                     .ThenInclude(v => v.VehicleModel)
+                .Include(u => u.Vehicles)
+                    .ThenInclude(v => v.VehicleType) 
                 .FirstOrDefault(u => u.Username == loggedInUser);
 
             return user?.Vehicles.ToList() ?? new List<Vehicle>();
@@ -117,13 +119,19 @@ namespace RentACarPortal.Services
 
         public Contract? GetContractDetailsWithLookups(int id)
         {
-            return _context.Contracts
-                .Include(c => c.Vehicle)
-                    .ThenInclude(v => v!.VehicleMake)
-                .Include(c => c.Vehicle)
-                    .ThenInclude(v => v!.VehicleModel)
+            var contract = _context.Contracts
                 .Include(c => c.Client)
                 .FirstOrDefault(c => c.Id == id);
+
+            if (contract != null && !string.IsNullOrEmpty(contract.RegisterNumberOfVehicle))
+            {
+                contract.Vehicle = _context.Vehicles
+                    .Include(v => v.VehicleMake)
+                    .Include(v => v.VehicleModel)
+                    .FirstOrDefault(v => v.RegisterNumberOfVehicle == contract.RegisterNumberOfVehicle);
+            }
+
+            return contract;
         }
 
         public bool AcceptContractRequest(int id, string loggedInUser)
@@ -172,6 +180,18 @@ namespace RentACarPortal.Services
             _context.Contracts.Remove(contract);
             _context.SaveChanges();
             return true;
+        }
+
+        public void CreateContract(Contract newContract, string loggedInUser)
+        {
+            var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
+            if (user != null)
+            {
+                newContract.CompanyId = user.Id;
+                newContract.RentalStation = loggedInUser;
+                _context.Contracts.Add(newContract);
+                _context.SaveChanges();
+            }
         }
     }
 }
