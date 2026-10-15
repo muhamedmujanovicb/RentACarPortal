@@ -60,3 +60,6 @@ This project provided hands-on experience implementing architectural patterns, b
   - Implemented row-level data binding and data rendering to dynamic UI components like Chart.js dashboards
 * **Application Architecture**
   - Structured a monolithic application designed to fit enterprise application standards across different application types
+
+## Security threats learned during development
+* **Insecure Direct Object Reference**
