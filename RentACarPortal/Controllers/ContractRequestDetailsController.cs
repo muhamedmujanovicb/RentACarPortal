@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Company")]
+
     public class ContractRequestDetailsController : Controller
     {
         private readonly DashboardService _dashboardService;
@@ -13,22 +16,25 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpGet]
-        public IActionResult ContractRequestDetails(int id, string loggedInUser)
+        public IActionResult ContractRequestDetails(int id)
         {
+            var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
-            var contract = _dashboardService.GetContractDetailsWithLookups(id);
+            var (contract, vehicle) = _dashboardService.GetContractRequestDetails(id, loggedInUser);
 
             if (contract == null)
             {
                 return NotFound();
             }
 
-            return View(contract);
+            ViewBag.Vehicle = vehicle;
+            return View("ContractRequestDetails", contract);
         }
 
         [HttpPost]
-        public IActionResult AcceptRequest(int id, string loggedInUser)
+        public IActionResult AcceptRequest(int id)
         {
+            var loggedInUser = User.Identity!.Name!;
             bool success = _dashboardService.AcceptContractRequest(id, loggedInUser);
             if (!success)
             {
@@ -39,8 +45,9 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeclineRequest(int id, string loggedInUser)
+        public IActionResult DeclineRequest(int id)
         {
+            var loggedInUser = User.Identity!.Name!;
             bool success = _dashboardService.DeclineContractRequest(id, loggedInUser);
             if (!success)
             {

@@ -37,39 +37,31 @@ namespace RentACarPortal.Services
                 .ToList();
         }
 
-        public void AddVehicleToFleet(Vehicle newVehicle, string loggedInUser)
+        public string? AddVehicleToFleet(Vehicle newVehicle, string loggedInUser)
         {
             var user = _context.Companies.FirstOrDefault(u => u.Username == loggedInUser);
-            if (user != null)
-            {
-                newVehicle.CompanyId = user.Id;
-                _context.Vehicles.Add(newVehicle);
-                _context.SaveChanges();
-            }
+            if (user == null) return "Your company account could not be found. Please log in again.";
+
+            if (_context.Vehicles.Any(v => v.RegisterNumberOfVehicle == newVehicle.RegisterNumberOfVehicle))
+                return "A vehicle with that registration number already exists.";
+
+            newVehicle.CompanyId = user.Id;
+            _context.Vehicles.Add(newVehicle);
+            _context.SaveChanges();
+            return null;
         }
 
-        public List<Vehicle> GetCompanyFleetWithLookups(string loggedInUser)
+        public bool DeleteVehicle(int id, string loggedInUser)
         {
-            var user = _context.Companies
-                .Include(u => u.Vehicles)
-                    .ThenInclude(v => v.VehicleMake)
-                .Include(u => u.Vehicles)
-                    .ThenInclude(v => v.VehicleModel)
-                .Include(u => u.Vehicles)
-                    .ThenInclude(v => v.VehicleType) 
-                .FirstOrDefault(u => u.Username == loggedInUser);
+            var company = _context.Companies.FirstOrDefault(c => c.Username == loggedInUser);
+            if (company == null) return false;
 
-            return user?.Vehicles.ToList() ?? new List<Vehicle>();
-        }
+            var vehicle = _context.Vehicles.FirstOrDefault(v => v.Id == id && v.CompanyId == company.Id);
+            if (vehicle == null) return false; 
 
-        public void DeleteVehicle(int id)
-        {
-            var vehicle = _context.Vehicles.FirstOrDefault(v => v.Id == id);
-            if (vehicle != null)
-            {
-                _context.Vehicles.Remove(vehicle);
-                _context.SaveChanges();
-            }
+            _context.Vehicles.Remove(vehicle);
+            _context.SaveChanges();
+            return true;
         }
 
         //Helper methods

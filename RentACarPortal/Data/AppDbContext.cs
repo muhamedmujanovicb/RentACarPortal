@@ -22,6 +22,10 @@ namespace RentACarPortal.Data
                 .WithMany(u => u.Contracts)
                 .HasForeignKey(c => c.ClientId);
 
+            modelBuilder.Entity<Company>().HasIndex(c => c.Username).IsUnique();
+            modelBuilder.Entity<Client>().HasIndex(c => c.Username).IsUnique();
+            modelBuilder.Entity<Vehicle>().HasIndex(v => v.RegisterNumberOfVehicle).IsUnique();
+
             VehicleMakeSeed.SeedMakes(modelBuilder);
             VehicleModelSeed.SeedModels(modelBuilder);
             VehicleTypeSeed.SeedVehicleTypes(modelBuilder);

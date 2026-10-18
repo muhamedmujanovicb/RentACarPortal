@@ -39,7 +39,9 @@
           <span class="dashboard-user d-none d-md-inline">
                         <i class="bi bi-person-circle me-1"></i> @(ViewBag.Username ?? "Admin")
           </span>
-          <a href="/Login/LoginForm" class="btn btn-outline-primary btn-sm px-4">Log Out</a>
+                    <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-primary btn-sm px-4">Log Out</button>
+                    </form>
         </div>
       </div>
     </div>
@@ -147,7 +149,6 @@
                             <div class="card-footer bg-white border-top-0 d-flex justify-content-between align-items-center">
                                 <form asp-controller="FleetOverview" asp-action="DeleteVehicle" method="post" onsubmit="return confirm('Are you sure you want to delete this vehicle?');">
                                     <input type="hidden" name="id" value="@vehicle.Id" />
-                                    <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
                                     <button type="submit" class="btn btn-outline-danger btn-sm">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>

@@ -39,7 +39,9 @@
                     <span class="dashboard-user d-none d-md-inline">
                         <i class="bi bi-person-circle me-1"></i> @(ViewBag.Username ?? "Admin")
                     </span>
-                    <a href="/Login/LoginForm" class="btn btn-outline-primary btn-sm px-4">Log Out</a>
+                    <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-primary btn-sm px-4">Log Out</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -53,6 +55,7 @@
                 <div>
                     <span class="section-label">Control Panel</span>
                     <h1 class="dashboard-title">Dashboard</h1>
+                    <p>Cookie says: @User.Identity?.Name (Company? @User.IsInRole("Company"))</p>
                     <p class="dashboard-subtitle">Select a module below to manage your fleet operations.</p>
                 </div>
                 <div class="dashboard-header-badge">
@@ -79,12 +82,12 @@
                                     </div>
                                     <div class="notification-content">
                                         <h6>Pending Contract</h6>
-                                        <p class="mb-1">Client: <strong>@contract.DriverFullName</strong></p>
+                                        <p class="mb-1">Client: <strong>@contract.RentDriver</strong></p>
                                         @if (contract.Vehicle != null)
                                         {
-                                            <p class="text-muted small mb-2">Vehicle: @contract.Vehicle.VehicleMake @contract.Vehicle.VehicleModel</p>
+                                            <p class="text-muted small mb-2">Vehicle: @contract.Vehicle?.VehicleMake?.Name @contract.Vehicle?.VehicleModel?.Name</p>
                                         }
-                                        <a href="@Url.Action("ContractRequestDetails", "Dashboard", new { id = contract.Id, loggedInUser = ViewBag.Username })" class="btn btn-sm btn-outline-primary">
+                                        <a href="@Url.Action("ContractRequestDetails", "ContractRequestDetails", new { id = contract.Id })" class="btn btn-sm btn-outline-primary">
                                             View Contract Details
                                         </a>
                                     </div>
@@ -107,7 +110,7 @@
             <h2 class="h5 fw-bold mb-3 text-dark">Modules</h2>
             <div class="row g-4">
                 <div class="col-md-6 col-lg-4">
-                    <a href="@Url.Action("FleetManager", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("FleetManager", "FleetManager")" class="dashboard-card">
                         <div class="dashboard-card-icon icon-fleet">
                             <i class="bi bi-truck"></i>
                         </div>
@@ -120,7 +123,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="@Url.Action("Statistics", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("Statistics", "Dashboard")" class="dashboard-card">
                         <div class="dashboard-card-icon icon-stats">
                             <i class="bi bi-bar-chart-line"></i>
                         </div>
@@ -133,7 +136,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="@Url.Action("ContractCreator", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("ContractCreator", "ContractCreator")" class="dashboard-card">
                         <div class="dashboard-card-icon icon-contract">
                             <i class="bi bi-file-earmark-text"></i>
                         </div>
@@ -146,7 +149,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="@Url.Action("FleetOverview", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("FleetOverview", "FleetOverview")" class="dashboard-card">
                         <div class="dashboard-card-icon icon-overview">
                             <i class="bi bi-grid"></i>
                         </div>
@@ -159,7 +162,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-4">
-                    <a href="@Url.Action("ContractHistory", "Dashboard", new { loggedInUser = ViewBag.Username })" class="dashboard-card">
+                    <a href="@Url.Action("ContractHistory", "ContractHistory")" class="dashboard-card">
                         <div class="dashboard-card-icon icon-history">
                             <i class="bi bi-clock-history"></i>
                         </div>

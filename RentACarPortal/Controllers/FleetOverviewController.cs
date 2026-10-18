@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Company")]
+
     public class FleetOverviewController : Controller
     {
         private readonly DashboardService _dashboardService;
@@ -14,21 +17,21 @@ namespace RentACarPortal.Controllers
             _fleetService = fleetService;
         }
 
-        public IActionResult FleetOverview(string loggedInUser)
+        [HttpGet]
+        public IActionResult FleetOverview()
         {
+            var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
-
             var vehicles = _dashboardService.GetCompanyFleetWithLookups(loggedInUser);
-
             return View(vehicles);
         }
 
         [HttpPost]
-        public IActionResult DeleteVehicle(int id, string loggedInUser)
+        public IActionResult DeleteVehicle(int id)
         {
-            _fleetService.DeleteVehicle(id);
-
-            return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
+            var loggedInUser = User.Identity!.Name!;
+            if (!_fleetService.DeleteVehicle(id, loggedInUser)) return NotFound();
+            return RedirectToAction("Dashboard", "Dashboard");
         }
     }
 }

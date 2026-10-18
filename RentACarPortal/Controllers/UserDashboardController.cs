@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Client")]
+
     public class UserDashboardController : Controller
     {
         private readonly FleetService _fleetService;
@@ -13,32 +16,20 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpGet]
-        public IActionResult UserDashboard(string loggedInUser = "Admin")
+        public IActionResult UserDashboard()
         {
+            var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
             return View();
         }
 
         [HttpGet]
-        public IActionResult Recommendor()
+        public IActionResult BookingCompanies()
         {
-            ViewBag.Companies = _fleetService.GetAllClientUsernames();
-            return View("Recommendor");
-        }
-
-        [HttpGet]
-        public IActionResult BookingCompanies(string loggedInUser)
-        {
-            ViewBag.Username = loggedInUser ?? "Admin";
+            var loggedInUser = User.Identity!.Name!;
+            ViewBag.Username = loggedInUser;
             var companies = _fleetService.GetAllCompanies();
             return View("BookingCompanies", companies);
-        }
-
-        [HttpGet]
-        public IActionResult BookingFleet(string loggedInUser, string companyName)
-        {
-            ViewBag.Username = loggedInUser ?? "Admin";
-            return View("BookingFleet");
         }
     }
 }

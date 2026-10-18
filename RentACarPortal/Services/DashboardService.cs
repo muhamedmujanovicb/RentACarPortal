@@ -13,10 +13,16 @@ namespace RentACarPortal.Services
             _context = context;
         }
 
+        private Company? GetCompany(string username) => _context.Companies.FirstOrDefault(c => c.Username == username);
+        private IQueryable<Contract> ContractsOwnedBy(int companyId) =>
+        _context.Contracts.Where(c => c.CompanyId == companyId || 
+        (c.CompanyId == null && _context.Vehicles.Any(v => v.CompanyId == companyId && v.RegisterNumberOfVehicle == c.RegisterNumberOfVehicle)));
+
         public List<Contract> GetPendingContractsAndProcessExpirations(string loggedInUser)
         {
             var currentUser = _context.Companies
-                .Include(u => u.Vehicles)
+                .Include(u => u.Vehicles).ThenInclude(v => v.VehicleMake)
+                .Include(u => u.Vehicles).ThenInclude(v => v.VehicleModel)
                 .FirstOrDefault(u => u.Username == loggedInUser);
 
             if (currentUser == null || currentUser.Vehicles == null)
@@ -84,13 +90,13 @@ namespace RentACarPortal.Services
             return user?.Contracts.ToList() ?? new List<Contract>();
         }
 
-        public (Contract? Contract, Vehicle? Vehicle) GetContractRequestDetails(int id)
+        public (Contract? Contract, Vehicle? Vehicle) GetContractRequestDetails(int id, string loggedInUser)
         {
-            var contract = _context.Contracts.FirstOrDefault(c => c.Id == id);
-            if (contract == null)
-            {
-                return (null, null);
-            }
+            var company = GetCompany(loggedInUser);
+            if (company == null) return (null, null);
+
+            var contract = ContractsOwnedBy(company.Id).FirstOrDefault(c => c.Id == id);
+            if (contract == null) return (null, null);
 
             var vehicle = _context.Vehicles
                 .Include(v => v.VehicleMake)
@@ -100,50 +106,30 @@ namespace RentACarPortal.Services
             return (contract, vehicle);
         }
 
-        public List<Contract> GetContractHistory()
+        public bool UpdateContractStatus(int id, string newStatus, string loggedInUser)
         {
-            return _context.Contracts
-                .Include(c => c.Client)
-                .ToList();
-        }
+            if (newStatus != "Completed" && newStatus != "Cancelled") return false;
 
-        public void UpdateContractStatus(int id, string newStatus)
-        {
-            var contract = _context.Contracts.Find(id);
-            if (contract != null)
-            {
-                contract.Status = newStatus;
-                _context.SaveChanges();
-            }
-        }
+            var company = GetCompany(loggedInUser);
+            if (company == null) return false;
 
-        public Contract? GetContractDetailsWithLookups(int id)
-        {
-            var contract = _context.Contracts
-                .Include(c => c.Client)
-                .FirstOrDefault(c => c.Id == id);
+            var contract = ContractsOwnedBy(company.Id).FirstOrDefault(c => c.Id == id);
+            if (contract == null) return false;
 
-            if (contract != null && !string.IsNullOrEmpty(contract.RegisterNumberOfVehicle))
-            {
-                contract.Vehicle = _context.Vehicles
-                    .Include(v => v.VehicleMake)
-                    .Include(v => v.VehicleModel)
-                    .FirstOrDefault(v => v.RegisterNumberOfVehicle == contract.RegisterNumberOfVehicle);
-            }
-
-            return contract;
+            contract.Status = newStatus;
+            _context.SaveChanges();
+            return true;
         }
 
         public bool AcceptContractRequest(int id, string loggedInUser)
         {
-            var contract = _context.Contracts
-                .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id);
-
-            if (contract == null) return false;
-
-            var companyUser = _context.Companies.FirstOrDefault(c => c.Username == loggedInUser);
+            var companyUser = GetCompany(loggedInUser);
             if (companyUser == null) return false;
+
+            var contract = ContractsOwnedBy(companyUser.Id)
+                .Include(c => c.Vehicle)
+                .FirstOrDefault(c => c.Id == id && c.Status == "Pending");
+            if (contract == null) return false;
 
             contract.Status = "Active";
             contract.RentalStation = loggedInUser;
@@ -162,14 +148,13 @@ namespace RentACarPortal.Services
 
         public bool DeclineContractRequest(int id, string loggedInUser)
         {
-            var contract = _context.Contracts
-                .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id);
-
-            if (contract == null) return false;
-
-            var companyUser = _context.Companies.FirstOrDefault(c => c.Username == loggedInUser);
+            var companyUser = GetCompany(loggedInUser);
             if (companyUser == null) return false;
+
+            var contract = ContractsOwnedBy(companyUser.Id)
+                .Include(c => c.Vehicle)
+                .FirstOrDefault(c => c.Id == id && c.Status == "Pending");
+            if (contract == null) return false;
 
             if (contract.Vehicle != null)
             {
@@ -193,5 +178,7 @@ namespace RentACarPortal.Services
                 _context.SaveChanges();
             }
         }
+
+
     }
 }

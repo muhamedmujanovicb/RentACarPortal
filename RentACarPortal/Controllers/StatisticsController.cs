@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Company")]
+
     public class StatisticsController : Controller
     {
         private readonly StatisticsService _statisticsService;
@@ -12,15 +15,16 @@ namespace RentACarPortal.Controllers
             _statisticsService = statisticsService;
         }
 
-        public async Task<IActionResult> Index(string loggedInUser)
+        public async Task<IActionResult> Index()
         {
-            string currentUsername = loggedInUser ?? User.Identity?.Name ?? "Admin";
+            var loggedInUser = User.Identity!.Name!;
+            string currentUsername = User.Identity!.Name!;
             ViewBag.Username = currentUsername;
 
             var stats = await _statisticsService.GetStatisticsDataAsync(currentUsername);
             if (stats == null)
             {
-                return View("~/Views/Dashboard/Statistics.cshtml");
+                return View("Statistics");
             }
 
             ViewBag.UtilizationMonths = stats.UtilizationMonths;
@@ -32,7 +36,7 @@ namespace RentACarPortal.Controllers
             ViewBag.DurationLabels = stats.DurationLabels;
             ViewBag.DurationValues = stats.DurationValues;
 
-            return View("~/Views/Dashboard/Statistics.cshtml");
+            return View("Statistics");
         }
     }
 }

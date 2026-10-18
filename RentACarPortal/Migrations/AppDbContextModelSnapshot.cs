@@ -33,6 +33,9 @@ namespace RentACarPortal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Username")
+                        .IsUnique();
+
                     b.ToTable("Clients");
                 });
 
@@ -51,6 +54,9 @@ namespace RentACarPortal.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Companies");
                 });
@@ -254,6 +260,9 @@ namespace RentACarPortal.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CompanyId");
+
+                    b.HasIndex("RegisterNumberOfVehicle")
+                        .IsUnique();
 
                     b.HasIndex("VehicleMakeId");
 

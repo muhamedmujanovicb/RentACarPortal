@@ -13,15 +13,15 @@ namespace RentACarPortal.Services
             _context = context;
         }
 
-        public void ProcessBookingRequest(int vehicleId, string loggedInUser)
+        public bool ProcessBookingRequest(int vehicleId, string loggedInUser)
         {
             var vehicle = _context.Vehicles.Find(vehicleId);
-            if (vehicle != null && vehicle.Status == "Available")
-            {
-                vehicle.Status = "Pending";
-                vehicle.HoldExpiresAt = DateTime.Now.AddMinutes(10);
-                _context.SaveChanges();
-            }
+            if (vehicle == null || vehicle.Status != "Available") return false;
+
+            vehicle.Status = "Pending";
+            vehicle.HoldExpiresAt = DateTime.Now.AddMinutes(10);
+            _context.SaveChanges();
+            return true;
         }
 
         public void CreateContractRequest(
@@ -70,7 +70,8 @@ namespace RentACarPortal.Services
                 RentalEndPlace = placeOfIssue,
                 Comment = notes,
                 Status = "Pending",
-                TotalPrice = totalPrice 
+                TotalPrice = totalPrice,
+                VehicleId = vehicle?.Id,
             };
 
             _context.Contracts.Add(newContract);

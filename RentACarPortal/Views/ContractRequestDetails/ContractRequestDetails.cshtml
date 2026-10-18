@@ -42,7 +42,9 @@
                     <span class="dashboard-user d-none d-md-inline">
                         <i class="bi bi-person-circle me-1"></i> @(ViewBag.Username ?? "Admin")
                     </span>
-                    <a href="/Login/LoginForm" class="btn btn-outline-primary btn-sm px-4">Log Out</a>
+                    <form asp-controller="Login" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-outline-primary btn-sm px-4">Log Out</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -54,7 +56,7 @@
 
             <!-- Page Header -->
             <div class="mb-4">
-                <a href="/Dashboard/Dashboard?loggedInUser=@ViewBag.Username" class="text-decoration-none text-muted mb-3 d-inline-block">
+                <a href="/Dashboard/Dashboard" class="text-decoration-none text-muted mb-3 d-inline-block">
                     <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
                 </a>
                 <h1 class="h3 fw-bold text-dark mb-1">Review Contract Request</h1>
@@ -179,25 +181,23 @@
                     </div>
                     <div>
                         <span class="d-block text-muted small fw-semibold text-uppercase mb-1">Vehicle Selection</span>
-                        <span class="d-block text-dark fw-bold fs-4">@(Model.Vehicle != null ? $"{Model.Vehicle.VehicleMake} {Model.Vehicle.VehicleModel}" : Model.TypeOfVehicle)</span>
-                        <span class="badge bg-success mt-1">Available in Fleet</span>
+                        <span class="d-block text-dark fw-bold fs-4">@(Model.Vehicle != null ? $"{Model.Vehicle.VehicleMake?.Name} {Model.Vehicle.VehicleModel?.Name}" : Model.TypeOfVehicle)</span>
+                        <span class="badge bg-success mt-1">@Model.Vehicle?.Status</span>
                     </div>
                 </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="d-flex align-items-center justify-content-end gap-3 mt-2 mb-5">
-                <form method="post" action="/ContractRequestDetails/DeclineRequest">
+                <form method="post" asp-controller="ContractRequestDetails" asp-action="DeclineRequest">
                     <input type="hidden" name="id" value="@Model.Id" />
-                    <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
                     <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-x-circle me-2"></i> Decline
                     </button>
                 </form>
 
-                <form method="post" action="/ContractRequestDetails/AcceptRequest">
+                <form method="post" asp-controller="ContractRequestDetails" asp-action="AcceptRequest">
                     <input type="hidden" name="id" value="@Model.Id" />
-                    <input type="hidden" name="loggedInUser" value="@ViewBag.Username" />
                     <button type="submit" class="btn btn-success btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-check-circle me-2"></i> Accept
                     </button>

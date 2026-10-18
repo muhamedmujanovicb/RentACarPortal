@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Models;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Company")]
+
     public class FleetManagerController : Controller
     {
         private readonly FleetService _fleetService;
@@ -14,9 +17,9 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpGet]
-        public IActionResult FleetManager(string loggedInUser)
+        public IActionResult FleetManager()
         {
-            ViewBag.Username = loggedInUser;
+            ViewBag.Username = User.Identity!.Name!;
             ViewBag.Makes = _fleetService.GetAllMakes();
             ViewBag.Models = _fleetService.GetAllModels();
             ViewBag.VehicleTypes = _fleetService.GetAllVehicleTypes();
@@ -24,10 +27,16 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle,VehicleMakeId,VehicleModelId,VehicleTypeId")] Vehicle newVehicle, string loggedInUser)
+        public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle,VehicleMakeId,VehicleModelId,VehicleTypeId")] Vehicle newVehicle)
         {
-            _fleetService.AddVehicleToFleet(newVehicle, loggedInUser);
-            return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
+            var loggedInUser = User.Identity!.Name!;
+            var error = _fleetService.AddVehicleToFleet(newVehicle, loggedInUser);
+            if (error != null)
+            {
+                TempData["FleetError"] = error;
+                return RedirectToAction("FleetManager", "FleetManager");
+            }
+            return RedirectToAction("Dashboard", "Dashboard");
         }
     }
 }

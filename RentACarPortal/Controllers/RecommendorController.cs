@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Data;
 using RentACarPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Client")]
+
     public class RecommendorController : Controller
     {
         private readonly AppDbContext _context;
@@ -22,7 +25,7 @@ namespace RentACarPortal.Controllers
                 .Select(u => u.Username)
                 .ToList();
 
-            return View("~/Views/UserDashboard/Recommendor.cshtml");
+            return View("Recommendor");
         }
 
         /*[HttpPost]

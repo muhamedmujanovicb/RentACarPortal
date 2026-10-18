@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers
 {
+    [Authorize(Roles = "Client")]
+
     public class BookingContractRequestController : Controller
     {
         private readonly BookingManager _bookingManager;
@@ -15,8 +18,9 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpGet]
-        public IActionResult BookingContractRequest(string loggedInUser, string selectedCompany, int vehicleId)
+        public IActionResult BookingContractRequest(string selectedCompany, int vehicleId)
         {
+            var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = selectedCompany;
             ViewBag.VehicleId = vehicleId;
@@ -24,13 +28,12 @@ namespace RentACarPortal.Controllers
             var vehicle = _fleetService.GetVehicleById(vehicleId);
             ViewBag.VehiclePrice = vehicle != null ? vehicle.DailyRate : 0.00;
 
-            return View("~/Views/UserDashboard/BookingContractRequest.cshtml");
+            return View();
         }
 
         [HttpPost]
         public IActionResult SubmitRequest(
             int vehicleId,
-            string loggedInUser,
             string selectedCompany,
             string driverFullName,
             DateOnly dateOfBirth,
@@ -46,10 +49,15 @@ namespace RentACarPortal.Controllers
             string notes
         )
         {
+            var loggedInUser = User.Identity!.Name!;
             var vehicle = _fleetService.GetVehicleById(vehicleId);
             double totalPrice = vehicle != null ? vehicle.DailyRate * rentLength : 0;
 
-            _bookingManager.ProcessBookingRequest(vehicleId, loggedInUser);
+            if (!_bookingManager.ProcessBookingRequest(vehicleId, loggedInUser))
+            {
+                TempData["BookingError"] = "Sorry, that vehicle is no longer available.";
+                return RedirectToAction("BookingCompanies", "UserDashboard");
+            }
             _bookingManager.CreateContractRequest(
                 vehicleId,
                 loggedInUser,
