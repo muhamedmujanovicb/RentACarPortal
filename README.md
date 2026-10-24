@@ -72,20 +72,24 @@ This project provided hands-on experience implementing architectural patterns, b
   - Stopped trusting identity sent by the client: the logged-in user now comes from a signed authentication cookie with claims-based identity, and passwords are stored as salted hashes instead of plain text
 * **Authorization**
   - Applied role-based authorization with `[Authorize(Roles = ...)]` and an access denied page, and configured the ASP.NET Core middleware pipeline in the correct order (`UseAuthentication` before `UseAuthorization`)
+  
 * **Security threats learned during development**
   - **Broken access control and Insecure Direct Object Reference (IDOR):** never trusting identity or record IDs sent by the client. Identity comes from the cookie, queries are scoped by owner, and a record that is not yours returns 404 instead of revealing that it exists
   - **Cross-Site Request Forgery (CSRF):** validated anti-forgery tokens on every POST request
   - **Insecure input handling:** validated allowed status values, blocked duplicate usernames and registration numbers, and checked vehicle availability on the server instead of trusting the browser
 * **Asynchronous programming**
   - Used `async` and `await` for sign-in and data access where the framework provides asynchronous operations
+* **Server-side price calculation:** calculated the total price on the server from the vehicle's daily rate, ignoring any price sent from the browser
   
 * **Concurrency control**
-  - Protected vehicle bookings against simultaneous requests with optimistic concurrency, so two clients can no longer book the same vehicle at the same moment
-  - **Race condition (check-then-act):** found that checking "Available" and then saving "Pending" as two separate steps lets two requests both pass the check. Reproduced it on purpose by pausing two simultaneous requests with debugger breakpoints, and confirmed two pending contracts for one vehicle before the fix
-  - **Lost update:** understood the failure where two requests read the same row, both change it, and the second save silently overwrites the first without any error
-  - **Optimistic concurrency and concurrency tokens:** added a `[ConcurrencyCheck]` column to `Vehicle` so EF Core includes it in the `WHERE` clause of every `UPDATE`; a stale write now affects zero rows and is rejected instead of overwriting
-  - **EF Core change tracking:** learned how EF Core remembers the original value of each property loaded from the database and compares it with the current value when generating the `UPDATE`
-  - **`DbUpdateConcurrencyException`:** caught the exception when a booking loses the race and turned it into a clear "vehicle no longer available" message instead of a server error
-  - **GUID as a row version:** used a `Guid` regenerated on every vehicle status change (booking, accept, decline, hold expiry) as the version stamp, since SQLite has no auto-generated row version column
+  - Protected vehicle bookings with optimistic concurrency, so two clients can no longer book the same vehicle at the same moment
+  - **Race condition (check-then-act):** found that checking "Available" and then saving "Pending" in separate steps lets two requests both pass, and reproduced it with two requests paused at debugger breakpoints
+  - **Lost update:** understood how two requests can read the same row, both change it, and the second save silently overwrites the first
+  - **Optimistic concurrency and concurrency tokens:** added a `[ConcurrencyCheck]` column to `Vehicle`, so a stale `UPDATE` matches zero rows and is rejected instead of overwriting
+  - **EF Core change tracking:** learned how EF Core compares each property's original value with its current value when generating the `UPDATE`
+  - **`DbUpdateConcurrencyException`:** caught it when a booking loses the race and showed a "vehicle no longer available" message instead of a server error
+  - **GUID as a version stamp:** used a Globally Unique Identifier, regenerated on every vehicle status change, as the row version, since SQLite doesn't generate one automatically
+* **Nullable reference types & model binding**
+  - Learned that MVC model binding turns an empty form field into `null`, and handled it with a nullable `string?` parameter so an empty comment no longer crashes a booking
 
-   - **Insecure input handling:** validated allowed status values, blocked duplicate usernames and registration numbers, checked vehicle availability and rent length on the server (the browser's `min` attribute can be bypassed) instead of trusting the browser
+  
