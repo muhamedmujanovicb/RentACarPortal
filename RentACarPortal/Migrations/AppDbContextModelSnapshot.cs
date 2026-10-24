@@ -254,6 +254,10 @@ namespace RentACarPortal.Migrations
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("Year")
                         .HasColumnType("INTEGER");
 

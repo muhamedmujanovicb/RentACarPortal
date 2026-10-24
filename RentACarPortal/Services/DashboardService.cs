@@ -50,6 +50,7 @@ namespace RentACarPortal.Services
                 {
                     vehicle.Status = "Available";
                     vehicle.HoldExpiresAt = null;
+                    vehicle.Version = Guid.NewGuid();
                 }
 
                 if (expiredContracts.Any())
@@ -140,6 +141,7 @@ namespace RentACarPortal.Services
             {
                 contract.Vehicle.Status = "Rented";
                 contract.Vehicle.HoldExpiresAt = null;
+                contract.Vehicle.Version = Guid.NewGuid();
             }
 
             _context.SaveChanges();
@@ -160,6 +162,7 @@ namespace RentACarPortal.Services
             {
                 contract.Vehicle.Status = "Available";
                 contract.Vehicle.HoldExpiresAt = null;
+                contract.Vehicle.Version = Guid.NewGuid();
             }
 
             _context.Contracts.Remove(contract);

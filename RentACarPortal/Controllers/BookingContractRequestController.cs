@@ -46,10 +46,17 @@ namespace RentACarPortal.Controllers
             DateOnly dateOfIssue,
             DateOnly rentStartDate,
             int rentLength,
-            string notes
+            string? notes
         )
         {
             var loggedInUser = User.Identity!.Name!;
+
+            if (rentLength < 1 || rentLength > 365)
+            {
+                TempData["BookingError"] = "Rent length must be between 1 and 365 days.";
+                return RedirectToAction("BookingCompanies", "UserDashboard");
+            }
+
             var vehicle = _fleetService.GetVehicleById(vehicleId);
             double totalPrice = vehicle != null ? vehicle.DailyRate * rentLength : 0;
 
@@ -71,7 +78,7 @@ namespace RentACarPortal.Controllers
                 passportNumber,
                 placeOfIssue,
                 dateOfIssue,
-                notes,
+                notes ?? string.Empty,
                 rentStartDate,
                 rentLength,
                 totalPrice

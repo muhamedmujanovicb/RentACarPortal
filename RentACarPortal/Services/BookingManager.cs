@@ -20,7 +20,16 @@ namespace RentACarPortal.Services
 
             vehicle.Status = "Pending";
             vehicle.HoldExpiresAt = DateTime.Now.AddMinutes(10);
-            _context.SaveChanges();
+            vehicle.Version = Guid.NewGuid();
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
             return true;
         }
 

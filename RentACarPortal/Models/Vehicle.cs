@@ -1,4 +1,5 @@
 ﻿using RentACarPortal.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace RentACarPortal.Models
 {
@@ -8,6 +9,8 @@ namespace RentACarPortal.Models
         public int Id { get; set; }
         public int CompanyId { get; set; }
         public Company? Company { get; set; }
+        [ConcurrencyCheck]
+        public Guid Version { get; set; } = Guid.NewGuid();
 
         // VEHICLE MAKE LINK
         public int VehicleMakeId { get; set; }
