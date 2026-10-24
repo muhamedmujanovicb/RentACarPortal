@@ -1,7 +1,7 @@
 # FleetDrive — Rent-a-Car Web Application
 
 ## Project goal
-FleetDrive is a web application designed to help rent-a-car businesses manage their fleet and contracts data. The application has a user side as well which helps the user book a vehicle easily or get a recommendation through the app's integrated recommendation algorithm. The application's goal is to display the contributor's skills and knowledge on ASP.NET and Entity Core frameworks.
+FleetDrive is a web application designed to help rent-a-car businesses manage their fleet and contracts data. The application has a user side as well which helps the user book a vehicle easily or get a recommendation through the app's integrated recommendation algorithm. The application's goal is to display the contributor's skills and knowledge on ASP.NET and Entity Framework Core frameworks.
 
 ## Technologies
 * **Backend**
@@ -69,7 +69,7 @@ This project provided hands-on experience implementing architectural patterns, b
 * **Application Architecture**
   - Structured a monolithic application designed to fit enterprise application standards across different application types
 * **Authentication**
-  - Replaced identity passed in the URL with cookie authentication and claims-based identity, and stored passwords as salted hashes instead of plain text
+  - Stopped trusting identity sent by the client: the logged-in user now comes from a signed authentication cookie with claims-based identity, and passwords are stored as salted hashes instead of plain text
 * **Authorization**
   - Applied role-based authorization with `[Authorize(Roles = ...)]` and an access denied page, and configured the ASP.NET Core middleware pipeline in the correct order (`UseAuthentication` before `UseAuthorization`)
 * **Security threats learned during development**
