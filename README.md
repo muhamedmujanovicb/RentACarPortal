@@ -78,3 +78,14 @@ This project provided hands-on experience implementing architectural patterns, b
   - **Insecure input handling:** validated allowed status values, blocked duplicate usernames and registration numbers, and checked vehicle availability on the server instead of trusting the browser
 * **Asynchronous programming**
   - Used `async` and `await` for sign-in and data access where the framework provides asynchronous operations
+  
+* **Concurrency control**
+  - Protected vehicle bookings against simultaneous requests with optimistic concurrency, so two clients can no longer book the same vehicle at the same moment
+  - **Race condition (check-then-act):** found that checking "Available" and then saving "Pending" as two separate steps lets two requests both pass the check. Reproduced it on purpose by pausing two simultaneous requests with debugger breakpoints, and confirmed two pending contracts for one vehicle before the fix
+  - **Lost update:** understood the failure where two requests read the same row, both change it, and the second save silently overwrites the first without any error
+  - **Optimistic concurrency and concurrency tokens:** added a `[ConcurrencyCheck]` column to `Vehicle` so EF Core includes it in the `WHERE` clause of every `UPDATE`; a stale write now affects zero rows and is rejected instead of overwriting
+  - **EF Core change tracking:** learned how EF Core remembers the original value of each property loaded from the database and compares it with the current value when generating the `UPDATE`
+  - **`DbUpdateConcurrencyException`:** caught the exception when a booking loses the race and turned it into a clear "vehicle no longer available" message instead of a server error
+  - **GUID as a row version:** used a `Guid` regenerated on every vehicle status change (booking, accept, decline, hold expiry) as the version stamp, since SQLite has no auto-generated row version column
+
+   - **Insecure input handling:** validated allowed status values, blocked duplicate usernames and registration numbers, checked vehicle availability and rent length on the server (the browser's `min` attribute can be bypassed) instead of trusting the browser
