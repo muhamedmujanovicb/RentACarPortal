@@ -65,7 +65,7 @@ namespace RentACarPortal.Controllers
                 TempData["BookingError"] = "Sorry, that vehicle is no longer available.";
                 return RedirectToAction("BookingCompanies", "UserDashboard");
             }
-            _bookingManager.CreateContractRequest(
+            if (!_bookingManager.CreateContractRequest(
                 vehicleId,
                 loggedInUser,
                 selectedCompany,
@@ -82,7 +82,12 @@ namespace RentACarPortal.Controllers
                 rentStartDate,
                 rentLength,
                 totalPrice
-            );
+            ))
+            {
+                TempData["BookingError"] = "Your account could not be found. Please log in again.";
+                return RedirectToAction("BookingCompanies", "UserDashboard");
+            }
+                
 
             return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = loggedInUser });
         }

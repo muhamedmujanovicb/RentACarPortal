@@ -17,7 +17,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/Login/AccessDenied";
         options.ExpireTimeSpan = TimeSpan.FromHours(8);
     });
-builder.Services.AddDbContext<RentACarPortal.Data.AppDbContext>(options => options.UseSqlite("Data Source=fleetdrive.db"));
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+builder.Services.AddDbContext<RentACarPortal.Data.AppDbContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddScoped<BookingManager>();
 builder.Services.AddScoped<NotificationManager>();
 builder.Services.AddScoped<FleetService>();

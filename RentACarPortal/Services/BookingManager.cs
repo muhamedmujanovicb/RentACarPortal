@@ -15,6 +15,7 @@ namespace RentACarPortal.Services
 
         public bool ProcessBookingRequest(int vehicleId, string loggedInUser)
         {
+            if (!_context.Clients.Any(c => c.Username == loggedInUser)) return false;
             var vehicle = _context.Vehicles.Find(vehicleId);
             if (vehicle == null || vehicle.Status != "Available") return false;
 
@@ -33,7 +34,7 @@ namespace RentACarPortal.Services
             return true;
         }
 
-        public void CreateContractRequest(
+        public bool CreateContractRequest(
             int vehicleId,
             string loggedInUser,
             string selectedCompany,
@@ -53,6 +54,7 @@ namespace RentACarPortal.Services
         )
         {
             var user = _context.Clients.FirstOrDefault(u => u.Username == loggedInUser);
+            if (user == null) return false;
 
             // Eager load VehicleModel so we can access its Name string
             var vehicle = _context.Vehicles
@@ -61,7 +63,7 @@ namespace RentACarPortal.Services
 
             var newContract = new Contract
             {
-                ClientId = user != null ? user.Id : 0,
+                ClientId = user.Id,
                 RegisterNumberOfVehicle = vehicle != null ? vehicle.RegisterNumberOfVehicle : vehicleId.ToString(),
                 TypeOfVehicle = vehicle?.VehicleModel?.Name ?? "Unknown",
                 RentDriver = driverFullName,
@@ -85,6 +87,7 @@ namespace RentACarPortal.Services
 
             _context.Contracts.Add(newContract);
             _context.SaveChanges();
+            return true;
         }
     }
 }
