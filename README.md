@@ -102,7 +102,7 @@ This project provided hands-on experience in implementing some of the core eleme
   * **Lost update** 
     - Understood how two requests can read the same row, both change it, and the second save silently overwrites the first
     
-  * **Optimistic concurrency and concurrency tokens** a
+  * **Optimistic concurrency and concurrency tokens**
     - Added a `[ConcurrencyCheck]` column to `Vehicle`, so a stale `UPDATE` matches zero rows and is rejected instead of overwriting
     
   * **EF Core change tracking** 
