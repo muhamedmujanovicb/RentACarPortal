@@ -1,4 +1,4 @@
-# FleetDrive — Rent-a-Car Web Application
+# FleetDrive — Rent-a-Car Web Platform
 
 ## Project goal 🎯
 FleetDrive is a web application designed to help rent-a-car businesses manage their fleet and contracts data. The application has a user side as well which helps the user book a vehicle easily or get a recommendation through the app's integrated recommendation algorithm. 
