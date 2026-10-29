@@ -114,10 +114,20 @@ namespace RentACarPortal.Services
             var company = GetCompany(loggedInUser);
             if (company == null) return false;
 
-            var contract = ContractsOwnedBy(company.Id).FirstOrDefault(c => c.Id == id);
+            var contract = ContractsOwnedBy(company.Id)
+                .Include(c => c.Vehicle)
+                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Active);
             if (contract == null) return false;
 
             contract.Status = newStatus;
+
+            if (contract.Vehicle != null)
+            {
+                contract.Vehicle.Status = VehicleStatus.Available;
+                contract.Vehicle.HoldExpiresAt = null;
+                contract.Vehicle.Version = Guid.NewGuid();
+            }
+
             _context.SaveChanges();
             return true;
         }
@@ -129,7 +139,7 @@ namespace RentACarPortal.Services
 
             var contract = ContractsOwnedBy(companyUser.Id)
                 .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending;
+                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
             if (contract == null) return false;
 
             contract.Status = ContractStatus.Active;
