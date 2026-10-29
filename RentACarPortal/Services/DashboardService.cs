@@ -43,12 +43,12 @@ namespace RentACarPortal.Services
                 var expiredRegs = expiredVehicles.Select(v => v.RegisterNumberOfVehicle).ToList();
 
                 var expiredContracts = _context.Contracts
-                    .Where(c => c.Status == "Pending" && expiredRegs.Contains(c.RegisterNumberOfVehicle))
+                    .Where(c => c.Status == ContractStatus.Pending && expiredRegs.Contains(c.RegisterNumberOfVehicle))
                     .ToList();
 
                 foreach (var vehicle in expiredVehicles)
                 {
-                    vehicle.Status = "Available";
+                    vehicle.Status = VehicleStatus.Available;
                     vehicle.HoldExpiresAt = null;
                     vehicle.Version = Guid.NewGuid();
                 }
@@ -63,7 +63,7 @@ namespace RentACarPortal.Services
 
             // Fetch valid pending contracts for this company's vehicle registrations
             return _context.Contracts
-                .Where(c => c.Status == "Pending" && companyVehicleRegs.Contains(c.RegisterNumberOfVehicle))
+                .Where(c => c.Status == ContractStatus.Pending && companyVehicleRegs.Contains(c.RegisterNumberOfVehicle))
                 .OrderByDescending(c => c.Id)
                 .ToList();
         }
@@ -109,7 +109,7 @@ namespace RentACarPortal.Services
 
         public bool UpdateContractStatus(int id, string newStatus, string loggedInUser)
         {
-            if (newStatus != "Completed" && newStatus != "Cancelled") return false;
+            if (newStatus != ContractStatus.Completed && newStatus != ContractStatus.Cancelled) return false;
 
             var company = GetCompany(loggedInUser);
             if (company == null) return false;
@@ -129,17 +129,17 @@ namespace RentACarPortal.Services
 
             var contract = ContractsOwnedBy(companyUser.Id)
                 .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id && c.Status == "Pending");
+                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending;
             if (contract == null) return false;
 
-            contract.Status = "Active";
+            contract.Status = ContractStatus.Active;
             contract.RentalStation = loggedInUser;
             contract.Remarks = "Created from approved contract request.";
             contract.CompanyId = companyUser.Id;
 
             if (contract.Vehicle != null)
             {
-                contract.Vehicle.Status = "Rented";
+                contract.Vehicle.Status = VehicleStatus.Rented;
                 contract.Vehicle.HoldExpiresAt = null;
                 contract.Vehicle.Version = Guid.NewGuid();
             }
@@ -155,12 +155,12 @@ namespace RentACarPortal.Services
 
             var contract = ContractsOwnedBy(companyUser.Id)
                 .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id && c.Status == "Pending");
+                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
             if (contract == null) return false;
 
             if (contract.Vehicle != null)
             {
-                contract.Vehicle.Status = "Available";
+                contract.Vehicle.Status = VehicleStatus.Available;
                 contract.Vehicle.HoldExpiresAt = null;
                 contract.Vehicle.Version = Guid.NewGuid();
             }

@@ -98,20 +98,20 @@
 
                             <!-- Status -->
                             <div class="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-end gap-2">
-                                <span class="badge @(contract.Status == "Active" ? "bg-success-subtle text-success" : (contract.Status == "Completed" ? "bg-secondary-subtle text-secondary" : "bg-danger-subtle text-danger")) border px-3 py-2 rounded-pill">
+                                <span class="badge @(contract.Status == ContractStatus.Active ? "bg-success-subtle text-success" : (contract.Status == ContractStatus.Completed ? "bg-secondary-subtle text-secondary" : "bg-danger-subtle text-danger")) border px-3 py-2 rounded-pill">
                                     @contract.Status
                                 </span>
 
-                                @if (contract.Status == "Active")
+                                @if (contract.Status == ContractStatus.Active)
                                 {
                                     <form asp-controller="ContractHistory" asp-action="UpdateStatus" method="post" class="d-flex gap-1">
                                         <input type="hidden" name="id" value="@contract.Id" />
 
-                                        <button type="submit" name="newStatus" value="Completed" class="btn btn-sm btn-outline-success">
+                                        <button type="submit" name="newStatus" value="@ContractStatus.Completed" class="btn btn-sm btn-outline-success">
                                             <i class="bi bi-check-lg"></i>
                                         </button>
 
-                                        <button type="submit" name="newStatus" value="Cancelled" class="btn btn-sm btn-outline-danger">
+                                        <button type="submit" name="newStatus" value="@ContractStatus.Cancelled" class="btn btn-sm btn-outline-danger">
                                             <i class="bi bi-x-lg"></i>
                                         </button>
                                     </form>

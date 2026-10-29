@@ -33,7 +33,7 @@ namespace RentACarPortal.Services
             }
 
             return company.Vehicles
-                .Where(v => v.Status != "Pending")
+                .Where(v => v.Status != VehicleStatus.Pending)
                 .ToList();
         }
 

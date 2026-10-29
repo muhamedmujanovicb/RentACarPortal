@@ -98,7 +98,7 @@
                                         <div class="vehicle-price">
                                             €@vehicle.DailyRate<span>/day</span>
                                         </div>
-                                            @if (vehicle.Status == "Available")
+                                            @if (vehicle.Status == VehicleStatus.Available)
                                             {
                                             <a href="@Url.Action("BookingContractRequest", "BookingContractRequest", new { selectedCompany = ViewBag.SelectedCompany, vehicleId = vehicle.Id })" class="btn btn-primary btn-sm px-4">Book Now</a>
                                             }

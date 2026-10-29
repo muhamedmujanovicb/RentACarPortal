@@ -6,7 +6,7 @@
         public int Id { get; set; }
         public int? ClientId { get; set; }
         public Client? Client { get; set; }
-        public string Status { get; set; } = "Active";
+        public string Status { get; set; } = ContractStatus.Active;
         public int? VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }
         public int? CompanyId { get; set; }

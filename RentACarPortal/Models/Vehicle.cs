@@ -1,5 +1,6 @@
 ﻿using RentACarPortal.Data;
 using System.ComponentModel.DataAnnotations;
+using RentACarPortal.Models;
 
 namespace RentACarPortal.Models
 {
@@ -42,7 +43,7 @@ namespace RentACarPortal.Models
         // VEHICLE BUSINESS ATTRIBUTES
         public double DailyRate { get; set; }
         public bool HasInsurance { get; set; }
-        public string Status { get; set; } = "Available";
+        public string Status { get; set; } = VehicleStatus.Available;
         public string RegisterNumberOfVehicle { get; set; } = string.Empty;
 
         public Vehicle() { }

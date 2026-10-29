@@ -17,9 +17,9 @@ namespace RentACarPortal.Services
         {
             if (!_context.Clients.Any(c => c.Username == loggedInUser)) return false;
             var vehicle = _context.Vehicles.Find(vehicleId);
-            if (vehicle == null || vehicle.Status != "Available") return false;
+            if (vehicle == null || vehicle.Status != VehicleStatus.Available) return false;
 
-            vehicle.Status = "Pending";
+            vehicle.Status = VehicleStatus.Pending;
             vehicle.HoldExpiresAt = DateTime.Now.AddMinutes(10);
             vehicle.Version = Guid.NewGuid();
 
@@ -80,7 +80,7 @@ namespace RentACarPortal.Services
                 RentalStartPlace = placeOfIssue,
                 RentalEndPlace = placeOfIssue,
                 Comment = notes,
-                Status = "Pending",
+                Status = ContractStatus.Pending,
                 TotalPrice = totalPrice,
                 VehicleId = vehicle?.Id,
             };
