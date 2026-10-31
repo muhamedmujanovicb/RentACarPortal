@@ -15,6 +15,8 @@ The application's goal is to display the contributor's skills and knowledge on A
 * **IDE**
   - Visual Studio Community, DB Browser for SQL Lite
 
+<img width="6545" height="5640" alt="CANVAS" src="https://github.com/user-attachments/assets/d271e4f2-d845-455d-9f56-e11b95c4f1d0" />
+
 ## Database Architecture 📘
 The application relies on a relational database structured around four core entities linked via foreign keys:
 1. **Vehicles** - Stores fleet details, linked to the company that owns each vehicle
