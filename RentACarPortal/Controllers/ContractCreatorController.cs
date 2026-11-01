@@ -28,6 +28,7 @@ namespace RentACarPortal.Controllers
         public IActionResult NewContract([Bind("RentalStation,TypeOfVehicle,RegisterNumberOfVehicle,RentDriver,Address,Telephone,PassportNumber,PlaceOfIssue,DateOfIssue,DateOfBirth,PersonalNumber,DrivingLicenseNumber,RentalStartDate,RentalStartTime,RentalStartPlace,RentalEndDate,RentalEndTime,RentalEndPlace,Insurance,FuelRecieved,FuelReturned,FullTankSizeLiquid,Deposit,Comment,Remarks")] Contract newContract)
         {
             var loggedInUser = User.Identity!.Name!;
+            //calls for dashboard service createContract method
             _dashboardService.CreateContract(newContract, loggedInUser);
             return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
         }

@@ -15,6 +15,7 @@ namespace RentACarPortal.Services
 
         public bool ProcessBookingRequest(int vehicleId, string loggedInUser)
         {
+            //fail fast check
             if (!_context.Clients.Any(c => c.Username == loggedInUser)) return false;
             var vehicle = _context.Vehicles.Find(vehicleId);
             if (vehicle == null || vehicle.Status != VehicleStatus.Available) return false;
@@ -56,7 +57,7 @@ namespace RentACarPortal.Services
             var user = _context.Clients.FirstOrDefault(u => u.Username == loggedInUser);
             if (user == null) return false;
 
-            // Eager load VehicleModel so we can access its Name string
+            // Eager loads the VehicleModel to quickly access it's name string
             var vehicle = _context.Vehicles
                 .Include(v => v.VehicleModel)
                 .FirstOrDefault(v => v.Id == vehicleId);

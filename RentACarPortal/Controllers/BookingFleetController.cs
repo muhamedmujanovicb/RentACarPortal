@@ -22,6 +22,7 @@ namespace RentACarPortal.Controllers
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = companyName;
 
+            //calls for fleetService to get all available vehicles from this company
             var availableVehicles = await _fleetService.GetAvailableVehiclesByCompanyAsync(companyName);
 
             return View(availableVehicles);

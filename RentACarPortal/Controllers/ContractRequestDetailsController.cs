@@ -20,6 +20,7 @@ namespace RentACarPortal.Controllers
         {
             var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
+            //calls for dashboardservice to get all contract request details
             var (contract, vehicle) = _dashboardService.GetContractRequestDetails(id, loggedInUser);
 
             if (contract == null)
@@ -35,6 +36,7 @@ namespace RentACarPortal.Controllers
         public IActionResult AcceptRequest(int id)
         {
             var loggedInUser = User.Identity!.Name!;
+            //calls dashboard service to accept contract request
             bool success = _dashboardService.AcceptContractRequest(id, loggedInUser);
             if (!success)
             {
@@ -48,6 +50,7 @@ namespace RentACarPortal.Controllers
         public IActionResult DeclineRequest(int id)
         {
             var loggedInUser = User.Identity!.Name!;
+            //calls dashboard service to decline contract request
             bool success = _dashboardService.DeclineContractRequest(id, loggedInUser);
             if (!success)
             {

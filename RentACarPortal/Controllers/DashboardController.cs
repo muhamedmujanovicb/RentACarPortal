@@ -22,6 +22,7 @@ namespace RentACarPortal.Controllers
         {
             var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
+            //queries for pending contracts requests and checks for expired ones
             var validContracts = _dashboardService.GetPendingContractsAndProcessExpirations(loggedInUser);
             return View(validContracts);
         }

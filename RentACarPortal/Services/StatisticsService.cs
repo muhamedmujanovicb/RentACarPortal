@@ -32,7 +32,7 @@ namespace RentACarPortal.Services
             int totalFleetCount = userVehicles.Count;
 
             var userContracts = await _context.Contracts
-                .Where(c => c.ClientId == user.Id)
+                .Where(c => c.CompanyId == user.Id && (c.Status == ContractStatus.Active || c.Status == ContractStatus.Completed))
                 .ToListAsync();
 
             // --- STAT 1: Fleet Utilization Over Time ---
@@ -40,12 +40,12 @@ namespace RentACarPortal.Services
                 .GroupBy(c => new { c.RentalStartDate.Year, c.RentalStartDate.Month })
                 .Select(g => new {
                     Period = $"{g.Key.Year}-{g.Key.Month:D2}",
-                    RentedCount = g.Select(c => c.RegisterNumberOfVehicle).Distinct().Count()
+                    RentedCount = g.Where(c => c.VehicleId != null).Select(c => c.VehicleId).Distinct().Count()
                 })
                 .OrderBy(x => x.Period)
                 .ToList();
 
-            double overallUtilization = totalFleetCount > 0 ? ((double)(userContracts.Select(c => c.RegisterNumberOfVehicle).Distinct().Count()) / totalFleetCount) * 100 : 0;
+            double overallUtilization = totalFleetCount > 0 ? ((double)(userContracts.Select(c => c.VehicleId).Distinct().Count()) / totalFleetCount) * 100 : 0;
 
             var utilizationMonths = utilizationByMonth.Any() ? utilizationByMonth.Select(x => x.Period).ToArray() : new[] { "Current Fleet" };
             var utilizationValues = utilizationByMonth.Any() ? utilizationByMonth.Select(x => totalFleetCount > 0 ? Math.Round(((double)x.RentedCount / totalFleetCount) * 100, 1) : 0.0).ToArray() : new[] { Math.Round(overallUtilization, 1) };
@@ -53,12 +53,12 @@ namespace RentACarPortal.Services
             // --- STAT 2: Top Revenue Source ---
             var revenueByType = userVehicles
                 .Join(userContracts,
-                    vehicle => vehicle.RegisterNumberOfVehicle,
-                    contract => contract.RegisterNumberOfVehicle,
+                        vehicle => (int?)vehicle.Id,
+                        contract => contract.VehicleId,
                     (vehicle, contract) => new {
                         // Access the relational VehicleType name safely
                         Type = vehicle.VehicleType?.Name ?? "Standard",
-                        Revenue = Math.Max(1, contract.RentalEndDate.DayNumber - contract.RentalStartDate.DayNumber) * vehicle.DailyRate
+                        Revenue = contract.TotalPrice
                     })
                 .GroupBy(x => x.Type)
                 .Select(g => new {
@@ -75,8 +75,8 @@ namespace RentACarPortal.Services
             // --- STAT 3: Most Popular Vehicles (Calculated by Rental Count) ---
             var popularVehicles = userVehicles
                 .GroupJoin(userContracts,
-                    vehicle => vehicle.RegisterNumberOfVehicle,
-                    contract => contract.RegisterNumberOfVehicle,
+                    vehicle => (int?)vehicle.Id,
+                    contract => contract.VehicleId,
                     (vehicle, contracts) => new {
                         // Safely resolve normalized relational Make and Model names
                         VehicleName = vehicle.VehicleMake != null && vehicle.VehicleModel != null
@@ -94,8 +94,8 @@ namespace RentACarPortal.Services
             // --- STAT 4: Average Rental Duration ---
             var avgDurationByType = userContracts
                 .Join(userVehicles,
-                    contract => contract.RegisterNumberOfVehicle,
-                    vehicle => vehicle.RegisterNumberOfVehicle,
+                    contract => contract.VehicleId,
+                    vehicle => (int?)vehicle.Id,
                     (contract, vehicle) => new {
                         RentLength = (double)Math.Max(1, contract.RentalEndDate.DayNumber - contract.RentalStartDate.DayNumber),
                         // Access the relational VehicleType name safely

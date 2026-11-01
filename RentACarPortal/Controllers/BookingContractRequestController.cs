@@ -25,7 +25,9 @@ namespace RentACarPortal.Controllers
             ViewBag.SelectedCompany = selectedCompany;
             ViewBag.VehicleId = vehicleId;
 
+            //calls for fleetService to get the vehicle the user wants to book by it's id
             var vehicle = _fleetService.GetVehicleById(vehicleId);
+            //checks the vehicle daily rate, if the vehicle returns null then it sets it to 0.00
             ViewBag.VehiclePrice = vehicle != null ? vehicle.DailyRate : 0.00;
 
             return View();
@@ -58,14 +60,16 @@ namespace RentACarPortal.Controllers
             }
 
             var vehicle = _fleetService.GetVehicleById(vehicleId);
+            //calculates rent length
             double totalPrice = vehicle != null ? vehicle.DailyRate * rentLength : 0;
 
+            //process the booking request
             if (!_bookingManager.ProcessBookingRequest(vehicleId, loggedInUser))
             {
                 TempData["BookingError"] = "Sorry, that vehicle is no longer available.";
                 return RedirectToAction("BookingCompanies", "UserDashboard");
             }
-            if (!_bookingManager.CreateContractRequest(
+            if (!_bookingManager.CreateContractRequest( //creates the contract request
                 vehicleId,
                 loggedInUser,
                 selectedCompany,

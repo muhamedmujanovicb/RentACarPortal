@@ -26,15 +26,17 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public IActionResult ProcessSignUp(string username, string password, bool isCompany)
         {
+            //queries to check if any companies or clients exist with the same userrname
             bool usernameTaken = _context.Companies.Any(c => c.Username == username) || _context.Clients.Any(cl => cl.Username == username);
 
+            //if the username is taken then it throws an error
             if (usernameTaken)
             {
                 ViewBag.ErrorMessage = "That username is already taken.";
                 return View("SignUpForm");
             }
 
-
+            //calls from PasswordService the hash method
             var hash = _passwords.Hash(password);
 
             if (isCompany)

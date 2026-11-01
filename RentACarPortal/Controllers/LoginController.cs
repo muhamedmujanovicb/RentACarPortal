@@ -30,13 +30,18 @@ namespace RentACarPortal.Controllers
         public async Task<IActionResult> ProcessLogin(string username, string password)
         {
             var loggedInUser = User.Identity!.Name!;
+
+            //checks for companies which match the username
             var matchingCompany = _context.Companies.FirstOrDefault(c => c.Username == username);
+
+            //if a company is found and the inputed password matches the existing company's password the user gets logged in
             if (matchingCompany != null && _passwords.Verify(matchingCompany.Password, password))
             {
                 await SignInUser(matchingCompany.Id, matchingCompany.Username, "Company");
                 return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingCompany.Username });
             }
 
+            //same as for company
             var matchingClient = _context.Clients.FirstOrDefault(cl => cl.Username == username);
             if (matchingClient != null && _passwords.Verify(matchingClient.Password, password))
             {
@@ -48,6 +53,7 @@ namespace RentACarPortal.Controllers
             return View("LoginForm");
         }
 
+        //creates a claim for the signed in user to be checked for authorization every time he tries to access a new page
         private async Task SignInUser(int id, string username, string role)
         {
             var claims = new List<Claim>
@@ -56,7 +62,7 @@ namespace RentACarPortal.Controllers
         new Claim(ClaimTypes.Name, username),
         new Claim(ClaimTypes.Role, role)
       };
-
+            //the claim is stored in the cookie
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 

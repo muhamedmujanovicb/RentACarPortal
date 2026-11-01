@@ -22,6 +22,7 @@ namespace RentACarPortal.Controllers
         {
             var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
+            //calls for dashboard service to get entire company fleet with lookups
             var vehicles = _dashboardService.GetCompanyFleetWithLookups(loggedInUser);
             return View(vehicles);
         }
@@ -30,6 +31,7 @@ namespace RentACarPortal.Controllers
         public IActionResult DeleteVehicle(int id)
         {
             var loggedInUser = User.Identity!.Name!;
+            //calls for fleetservice to delete the vehicle if it passes the check
             if (!_fleetService.DeleteVehicle(id, loggedInUser)) return NotFound();
             return RedirectToAction("Dashboard", "Dashboard");
         }
