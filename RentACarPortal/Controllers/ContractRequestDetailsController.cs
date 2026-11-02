@@ -28,7 +28,6 @@ namespace RentACarPortal.Controllers
                 return NotFound();
             }
 
-            ViewBag.Vehicle = vehicle;
             return View("ContractRequestDetails", contract);
         }
 
@@ -43,7 +42,7 @@ namespace RentACarPortal.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
+            return RedirectToAction("Dashboard", "Dashboard");
         }
 
         [HttpPost]
@@ -57,7 +56,7 @@ namespace RentACarPortal.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
+            return RedirectToAction("Dashboard", "Dashboard");
         }
     }
 }

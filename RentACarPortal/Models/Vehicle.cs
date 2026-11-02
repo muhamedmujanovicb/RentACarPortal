@@ -1,6 +1,4 @@
-﻿using RentACarPortal.Data;
-using System.ComponentModel.DataAnnotations;
-using RentACarPortal.Models;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RentACarPortal.Models
 {

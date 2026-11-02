@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
+﻿
 namespace RentACarPortal.Models
 {
     public class VehicleRecommendation

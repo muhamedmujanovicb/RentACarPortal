@@ -2,7 +2,6 @@
 using RentACarPortal.Data;
 using RentACarPortal.Models;
 using RentACarPortal.Services;
-using System.Reflection.Metadata;
 
 namespace RentACarPortal.Controllers
 {

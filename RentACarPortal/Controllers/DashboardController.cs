@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using RentACarPortal.Models;
 using RentACarPortal.Services;
 using Microsoft.AspNetCore.Authorization;
 

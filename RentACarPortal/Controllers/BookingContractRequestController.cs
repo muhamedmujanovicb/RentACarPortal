@@ -23,7 +23,6 @@ namespace RentACarPortal.Controllers
             var loggedInUser = User.Identity!.Name!;
             ViewBag.Username = loggedInUser;
             ViewBag.SelectedCompany = selectedCompany;
-            ViewBag.VehicleId = vehicleId;
 
             //calls for fleetService to get the vehicle the user wants to book by it's id
             var vehicle = _fleetService.GetVehicleById(vehicleId);
@@ -93,7 +92,7 @@ namespace RentACarPortal.Controllers
             }
                 
 
-            return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = loggedInUser });
+            return RedirectToAction("UserDashboard", "UserDashboard");
         }
     }
 }

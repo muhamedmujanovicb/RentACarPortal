@@ -30,7 +30,7 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult NewVehicle([Bind("Make,Model,Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,TypeOfVehicle,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle,VehicleMakeId,VehicleModelId,VehicleTypeId")] Vehicle newVehicle)
+        public IActionResult NewVehicle([Bind("Year,NumberOfSeats,IsDiesel,FuelEfficiency,FuelTankSize,HasChildrenSafety,DriveTerrain,BootSpace,ACtype,HasNavigation,DailyRate,HasInsurance,RegisterNumberOfVehicle,VehicleMakeId,VehicleModelId,VehicleTypeId")] Vehicle newVehicle)
         {
             var loggedInUser = User.Identity!.Name!;
             //checks for errors when calling fleetservice to add a vehicle to the company fleet

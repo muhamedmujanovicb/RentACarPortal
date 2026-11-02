@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RentACarPortal.Models;
 using RentACarPortal.Data;
-using System.Linq;
 using RentACarPortal.Services;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
@@ -29,8 +27,6 @@ namespace RentACarPortal.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessLogin(string username, string password)
         {
-            var loggedInUser = User.Identity!.Name!;
-
             //checks for companies which match the username
             var matchingCompany = _context.Companies.FirstOrDefault(c => c.Username == username);
 
@@ -38,7 +34,7 @@ namespace RentACarPortal.Controllers
             if (matchingCompany != null && _passwords.Verify(matchingCompany.Password, password))
             {
                 await SignInUser(matchingCompany.Id, matchingCompany.Username, "Company");
-                return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = matchingCompany.Username });
+                return RedirectToAction("Dashboard", "Dashboard");
             }
 
             //same as for company
@@ -46,7 +42,7 @@ namespace RentACarPortal.Controllers
             if (matchingClient != null && _passwords.Verify(matchingClient.Password, password))
             {
                 await SignInUser(matchingClient.Id, matchingClient.Username, "Client");
-                return RedirectToAction("UserDashboard", "UserDashboard", new { loggedInUser = matchingClient.Username });
+                return RedirectToAction("UserDashboard", "UserDashboard");
             }
 
             ViewBag.ErrorMessage = "Invalid username or password";

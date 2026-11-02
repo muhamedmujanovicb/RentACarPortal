@@ -30,7 +30,7 @@ namespace RentACarPortal.Controllers
             var loggedInUser = User.Identity!.Name!;
             //calls for dashboard service createContract method
             _dashboardService.CreateContract(newContract, loggedInUser);
-            return RedirectToAction("Dashboard", "Dashboard", new { loggedInUser = loggedInUser });
+            return RedirectToAction("Dashboard", "Dashboard");
         }
     }
 }

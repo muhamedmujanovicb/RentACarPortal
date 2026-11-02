@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RentACarPortal.Data;
-using RentACarPortal.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace RentACarPortal.Controllers

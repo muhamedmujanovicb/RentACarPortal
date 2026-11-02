@@ -80,6 +80,5 @@ namespace RentACarPortal.Services
         public List<VehicleType> GetAllVehicleTypes() => _context.VehicleType.ToList();
         public List<Company> GetAllCompanies() => _context.Companies.ToList();
         public Vehicle? GetVehicleById(int id) => _context.Vehicles.Find(id);
-        public List<string> GetAllClientUsernames() => _context.Clients.Select(c => c.Username).ToList();
     }
 }

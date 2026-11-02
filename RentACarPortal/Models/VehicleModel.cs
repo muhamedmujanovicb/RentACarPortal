@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices.Marshalling;
-
+﻿
 namespace RentACarPortal.Models
 {
     public class VehicleModel

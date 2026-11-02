@@ -17,7 +17,6 @@ namespace RentACarPortal.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var loggedInUser = User.Identity!.Name!;
             string currentUsername = User.Identity!.Name!;
             ViewBag.Username = currentUsername;
 
