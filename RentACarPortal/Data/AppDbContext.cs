@@ -24,6 +24,8 @@ namespace RentACarPortal.Data
 
             modelBuilder.Entity<Company>().HasIndex(c => c.Username).IsUnique();
             modelBuilder.Entity<Client>().HasIndex(c => c.Username).IsUnique();
+            modelBuilder.Entity<Company>().HasIndex(c => c.Email).IsUnique();
+            modelBuilder.Entity<Client>().HasIndex(c => c.Email).IsUnique();
             modelBuilder.Entity<Vehicle>().HasIndex(v => v.RegisterNumberOfVehicle).IsUnique();
 
             VehicleMakeSeed.SeedMakes(modelBuilder);

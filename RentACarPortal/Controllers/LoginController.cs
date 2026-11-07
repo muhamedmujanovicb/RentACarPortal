@@ -33,6 +33,12 @@ namespace RentACarPortal.Controllers
             //if a company is found and the inputed password matches the existing company's password the user gets logged in
             if (matchingCompany != null && _passwords.Verify(matchingCompany.Password, password))
             {
+                if (!matchingCompany.IsEmailVerified)
+                {
+                    ViewBag.ErrorMessage = "Please verify your email before logging in. Check your inbox for the verification link.";
+                    return View("LoginForm");
+                }
+
                 await SignInUser(matchingCompany.Id, matchingCompany.Username, "Company");
                 return RedirectToAction("Dashboard", "Dashboard");
             }
@@ -41,6 +47,12 @@ namespace RentACarPortal.Controllers
             var matchingClient = _context.Clients.FirstOrDefault(cl => cl.Username == username);
             if (matchingClient != null && _passwords.Verify(matchingClient.Password, password))
             {
+                if (!matchingClient.IsEmailVerified)
+                {
+                    ViewBag.ErrorMessage = "Please verify your email before logging in. Check your inbox for the verification link.";
+                    return View("LoginForm");
+                }
+
                 await SignInUser(matchingClient.Id, matchingClient.Username, "Client");
                 return RedirectToAction("UserDashboard", "UserDashboard");
             }
