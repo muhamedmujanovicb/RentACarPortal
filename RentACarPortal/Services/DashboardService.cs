@@ -152,7 +152,7 @@ namespace RentACarPortal.Services
             return true;
         }
 
-        public bool AcceptContractRequest(int id, string loggedInUser)
+        public bool AcceptContractRequest(int id, string loggedInUser, string? remarks)
         {
             //gets the company by the provided username
             var companyUser = GetCompany(loggedInUser);
@@ -164,9 +164,17 @@ namespace RentACarPortal.Services
                 .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
             if (contract == null) return false;//if none match the query, fail fast
 
+            //remarks adjustment
+            const int MaxRemarksLength = 500;
+            var cleanedRemarks = remarks?.Trim() ?? string.Empty;
+            if (cleanedRemarks.Length > MaxRemarksLength)
+            {
+                cleanedRemarks = cleanedRemarks.Substring(0, MaxRemarksLength);
+            }
+            contract.Remarks = cleanedRemarks;
+
             contract.Status = ContractStatus.Active;
             contract.RentalStation = loggedInUser;
-            contract.Remarks = "Created from approved contract request.";
             contract.CompanyId = companyUser.Id;
 
             if (contract.Vehicle != null)

@@ -32,11 +32,11 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AcceptRequest(int id)
+        public IActionResult AcceptRequest(int id, string? remarks)
         {
             var loggedInUser = User.Identity!.Name!;
             //calls dashboard service to accept contract request
-            bool success = _dashboardService.AcceptContractRequest(id, loggedInUser);
+            bool success = _dashboardService.AcceptContractRequest(id, loggedInUser, remarks);
             if (!success)
             {
                 return NotFound();

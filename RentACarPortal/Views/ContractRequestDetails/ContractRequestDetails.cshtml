@@ -188,21 +188,34 @@
             </div>
 
             <!-- Action Buttons -->
-            <div class="d-flex align-items-center justify-content-end gap-3 mt-2 mb-5">
-                <form method="post" asp-controller="ContractRequestDetails" asp-action="DeclineRequest">
-                    <input type="hidden" name="id" value="@Model.Id" />
-                    <button type="submit" class="btn btn-danger btn-lg px-5 fw-bold rounded-3 shadow-sm">
+            <form method="post" asp-controller="ContractRequestDetails">
+                <input type="hidden" name="id" value="@Model.Id" />
+
+                <!-- Company reply -->
+                <div class="form-section-card">
+                    <div class="form-section-header">
+                        <div class="form-section-icon icon-notes-detail">
+                            <i class="bi bi-chat-left-text"></i>
+                        </div>
+                        <div>
+                            <h2>Your Reply</h2>
+                            <p>Optional message to the client. It is included in the acceptance email.</p>
+                        </div>
+                    </div>
+                    <textarea name="remarks" class="form-control" rows="3" maxlength="500"
+                              placeholder="e.g. Pick-up is at the main office, please bring your license."></textarea>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex align-items-center justify-content-end gap-3 mt-2 mb-5">
+                    <button type="submit" asp-action="DeclineRequest" class="btn btn-danger btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-x-circle me-2"></i> Decline
                     </button>
-                </form>
-
-                <form method="post" asp-controller="ContractRequestDetails" asp-action="AcceptRequest">
-                    <input type="hidden" name="id" value="@Model.Id" />
-                    <button type="submit" class="btn btn-success btn-lg px-5 fw-bold rounded-3 shadow-sm">
+                    <button type="submit" asp-action="AcceptRequest" class="btn btn-success btn-lg px-5 fw-bold rounded-3 shadow-sm">
                         <i class="bi bi-check-circle me-2"></i> Accept
                     </button>
-                </form>
-            </div>
+                </div>
+            </form>
 
         </div>
     </main>
