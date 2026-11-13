@@ -35,7 +35,7 @@ namespace RentACarPortal.Services
             return true;
         }
 
-        public bool CreateContractRequest(
+        public ContractEmailData? CreateContractRequest(
             int vehicleId,
             string loggedInUser,
             string selectedCompany,
@@ -55,11 +55,12 @@ namespace RentACarPortal.Services
         )
         {
             var user = _context.Clients.FirstOrDefault(u => u.Username == loggedInUser);
-            if (user == null) return false;
+            if (user == null) return null;
 
             // Eager loads the VehicleModel to quickly access it's name string
             var vehicle = _context.Vehicles
                 .Include(v => v.VehicleModel)
+                .Include(v => v.Company)
                 .FirstOrDefault(v => v.Id == vehicleId);
 
             var newContract = new Contract
@@ -88,7 +89,20 @@ namespace RentACarPortal.Services
 
             _context.Contracts.Add(newContract);
             _context.SaveChanges();
-            return true;
+
+            return new ContractEmailData(
+                ClientEmail: user.Email,
+                ClientUsername: user.Username,
+                CompanyEmail: vehicle?.Company?.Email ?? string.Empty,
+                CompanyName: vehicle?.Company?.Username ?? string.Empty,
+                VehicleName: newContract.TypeOfVehicle,
+                RegisterNumber: newContract.RegisterNumberOfVehicle,
+                StartDate: newContract.RentalStartDate,
+                EndDate: newContract.RentalEndDate,
+                TotalPrice: newContract.TotalPrice,
+                DriverName: newContract.RentDriver,
+                Comment: newContract.Comment,
+                Remarks: string.Empty);
         }
     }
 }

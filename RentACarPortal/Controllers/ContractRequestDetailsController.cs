@@ -9,10 +9,12 @@ namespace RentACarPortal.Controllers
     public class ContractRequestDetailsController : Controller
     {
         private readonly DashboardService _dashboardService;
+        private readonly NotificationManager _notificationManager;
 
-        public ContractRequestDetailsController(DashboardService dashboardService)
+        public ContractRequestDetailsController(DashboardService dashboardService, NotificationManager notificationManager)
         {
             _dashboardService = dashboardService;
+            _notificationManager = notificationManager;
         }
 
         [HttpGet]
@@ -32,29 +34,31 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult AcceptRequest(int id, string? remarks)
+        public async Task<IActionResult> AcceptRequest(int id, string? remarks)
         {
             var loggedInUser = User.Identity!.Name!;
-            //calls dashboard service to accept contract request
-            bool success = _dashboardService.AcceptContractRequest(id, loggedInUser, remarks);
-            if (!success)
+            var emailData = _dashboardService.AcceptContractRequest(id, loggedInUser, remarks);
+            if (emailData == null)
             {
                 return NotFound();
             }
+
+            await _notificationManager.SendRequestAcceptedAsync(emailData);
 
             return RedirectToAction("Dashboard", "Dashboard");
         }
 
         [HttpPost]
-        public IActionResult DeclineRequest(int id)
+        public async Task<IActionResult> DeclineRequest(int id, string? remarks)
         {
             var loggedInUser = User.Identity!.Name!;
-            //calls dashboard service to decline contract request
-            bool success = _dashboardService.DeclineContractRequest(id, loggedInUser);
-            if (!success)
+            var emailData = _dashboardService.DeclineContractRequest(id, loggedInUser, remarks);
+            if (emailData == null)
             {
                 return NotFound();
             }
+
+            await _notificationManager.SendRequestDeclinedAsync(emailData);
 
             return RedirectToAction("Dashboard", "Dashboard");
         }

@@ -10,11 +10,13 @@ namespace RentACarPortal.Controllers
     {
         private readonly BookingManager _bookingManager;
         private readonly FleetService _fleetService;
+        private readonly NotificationManager _notificationManager;
 
-        public BookingContractRequestController(BookingManager bookingManager, FleetService fleetService)
+        public BookingContractRequestController(BookingManager bookingManager, FleetService fleetService, NotificationManager notificationManager)
         {
             _bookingManager = bookingManager;
             _fleetService = fleetService;
+            _notificationManager = notificationManager;
         }
 
         [HttpGet]
@@ -33,7 +35,7 @@ namespace RentACarPortal.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubmitRequest(
+        public async Task<IActionResult> SubmitRequest(
             int vehicleId,
             string selectedCompany,
             string driverFullName,
@@ -68,7 +70,7 @@ namespace RentACarPortal.Controllers
                 TempData["BookingError"] = "Sorry, that vehicle is no longer available.";
                 return RedirectToAction("BookingCompanies", "UserDashboard");
             }
-            if (!_bookingManager.CreateContractRequest( //creates the contract request
+            var emailData = _bookingManager.CreateContractRequest( //creates the contract request
                 vehicleId,
                 loggedInUser,
                 selectedCompany,
@@ -85,12 +87,15 @@ namespace RentACarPortal.Controllers
                 rentStartDate,
                 rentLength,
                 totalPrice
-            ))
+            );
+            if (emailData == null)
             {
                 TempData["BookingError"] = "Your account could not be found. Please log in again.";
                 return RedirectToAction("BookingCompanies", "UserDashboard");
             }
-                
+
+            await _notificationManager.SendRequestSentToClientAsync(emailData);
+            await _notificationManager.SendNewRequestToCompanyAsync(emailData);
 
             return RedirectToAction("UserDashboard", "UserDashboard");
         }

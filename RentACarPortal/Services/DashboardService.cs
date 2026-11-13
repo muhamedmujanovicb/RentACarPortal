@@ -152,26 +152,21 @@ namespace RentACarPortal.Services
             return true;
         }
 
-        public bool AcceptContractRequest(int id, string loggedInUser, string? remarks)
+        public ContractEmailData? AcceptContractRequest(int id, string loggedInUser, string? remarks)
         {
             //gets the company by the provided username
             var companyUser = GetCompany(loggedInUser);
-            if (companyUser == null) return false; //if there is none fail fast
+            if (companyUser == null) return null; //if there is none fail fast
 
             //gets all contracts owned by the company by id which include the vehicle by it's id and if it's status is pending
             var contract = ContractsOwnedBy(companyUser.Id)
-                .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
-            if (contract == null) return false;//if none match the query, fail fast
+                    .Include(c => c.Vehicle)
+                    .Include(c => c.Client)
+                    .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
+            if (contract == null) return null;//if none match the query, fail fast
 
             //remarks adjustment
-            const int MaxRemarksLength = 500;
-            var cleanedRemarks = remarks?.Trim() ?? string.Empty;
-            if (cleanedRemarks.Length > MaxRemarksLength)
-            {
-                cleanedRemarks = cleanedRemarks.Substring(0, MaxRemarksLength);
-            }
-            contract.Remarks = cleanedRemarks;
+            contract.Remarks = CleanRemarks(remarks);
 
             contract.Status = ContractStatus.Active;
             contract.RentalStation = loggedInUser;
@@ -185,19 +180,22 @@ namespace RentACarPortal.Services
             }
 
             _context.SaveChanges();
-            return true;
+            return BuildEmailData(contract, companyUser, contract.Remarks);
         }
 
         //ENTIRE METHOD IS LIKE ACCEPT CONTRACT REQUEST IN THIS SERVICE
-        public bool DeclineContractRequest(int id, string loggedInUser)
+        public ContractEmailData? DeclineContractRequest(int id, string loggedInUser, string? remarks)
         {
             var companyUser = GetCompany(loggedInUser);
-            if (companyUser == null) return false;
+            if (companyUser == null) return null;
 
             var contract = ContractsOwnedBy(companyUser.Id)
-                .Include(c => c.Vehicle)
-                .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
-            if (contract == null) return false;
+                    .Include(c => c.Vehicle)
+                    .Include(c => c.Client)
+                    .FirstOrDefault(c => c.Id == id && c.Status == ContractStatus.Pending);
+            if (contract == null) return null;
+
+            var emailData = BuildEmailData(contract, companyUser, CleanRemarks(remarks)); // BEFORE the delete
 
             if (contract.Vehicle != null)
             {
@@ -208,7 +206,7 @@ namespace RentACarPortal.Services
 
             _context.Contracts.Remove(contract);
             _context.SaveChanges();
-            return true;
+            return emailData;
         }
 
         public void CreateContract(Contract newContract, string loggedInUser)
@@ -225,6 +223,27 @@ namespace RentACarPortal.Services
             }
         }
 
+        private const int MaxRemarksLength = 500;
 
+        private static string CleanRemarks(string? remarks)
+        {
+            var cleaned = remarks?.Trim() ?? string.Empty;
+            return cleaned.Length > MaxRemarksLength ? cleaned.Substring(0, MaxRemarksLength) : cleaned;
+        }
+
+        private static ContractEmailData BuildEmailData(Contract contract, Company company, string remarks) =>
+            new ContractEmailData(
+                ClientEmail: contract.Client?.Email ?? string.Empty,
+                ClientUsername: contract.Client?.Username ?? string.Empty,
+                CompanyEmail: company.Email,
+                CompanyName: company.Username,
+                VehicleName: contract.TypeOfVehicle,
+                RegisterNumber: contract.RegisterNumberOfVehicle,
+                StartDate: contract.RentalStartDate,
+                EndDate: contract.RentalEndDate,
+                TotalPrice: contract.TotalPrice,
+                DriverName: contract.RentDriver,
+                Comment: contract.Comment,
+                Remarks: remarks);
     }
 }

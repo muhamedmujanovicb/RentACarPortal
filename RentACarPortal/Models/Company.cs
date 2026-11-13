@@ -14,6 +14,8 @@
         public bool IsEmailVerified { get; set; }
         public string? VerificationTokenHash { get; set; }
         public DateTime? VerificationTokenExpiresAt { get; set; }
+        public string? ResetTokenHash { get; set; }
+        public DateTime? ResetTokenExpiresAt { get; set; }
 
         //CONSTRUCTOR
         public Company() { }

@@ -34,6 +34,12 @@ namespace RentACarPortal.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime?>("ResetTokenExpiresAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResetTokenHash")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -70,6 +76,12 @@ namespace RentACarPortal.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ResetTokenExpiresAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ResetTokenHash")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
+
 namespace RentACarPortal.Services
 {
     public class PasswordService
