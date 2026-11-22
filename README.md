@@ -41,7 +41,6 @@ The project's goal is to show the contributor's skills and knowledge of the ASP.
 * **AI assistants**
   - Claude AI, Gemini AI, Cursor AI
 
-<img width="6545" height="5640" alt="CANVAS" src="https://github.com/user-attachments/assets/1f0a97ce-00b9-4876-9461-41500b8d7af9" />
 
 ---
 
